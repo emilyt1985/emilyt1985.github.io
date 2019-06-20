@@ -14,4 +14,4 @@ The frontend dashboard shows the comparison graphs with analysis and was created
 
 ## [View the full site here](emilyt1985.github.io)
 
-!(https://github.com/emilyt1985/emilyt1985.github.io/blob/master/Assets/full.gif)
+![weather](https://github.com/emilyt1985/emilyt1985.github.io/blob/master/Assets/full.gif)
