@@ -12,6 +12,6 @@ Download and create an 'api_keys.py' file in the 'weather_pull' folder with your
 
 The frontend dashboard shows the comparison graphs with analysis and was created using Bootstrap. 
 
-## [View the full site here](emilyt1985.github.io)
+## [View the full site here](https://emilyt1985.github.io/)
 
 ![weather](https://github.com/emilyt1985/emilyt1985.github.io/blob/master/Assets/full.gif)
