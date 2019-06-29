@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Exploring the Weather</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="new_style.css"> 
+
+</head>
+
+<body class="backg">
+
+    <!--Navigation Bar-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" id="latitude" href="index.html">LATITUDE</a>
+            </div>
+        
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
+            <ul class="nav navbar-nav navbar-right">
+                
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Visualizations <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="max-temp.html">Max Temperature</a></li>
+                    <li><a href="humidity.html">Humidity</a></li>
+                    <li><a href="cloudieness.html">Cloudieness</a></li>
+                    <li><a href="wind.html">Wind Speed</a></li>
+                </ul>
+                <li><a href="Comparison_test.html">Comparison</a></li>
+                <li><a href="data.html">Data</a></li>
+                </li>
+            </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <!--Main Title-->
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-med-12 col-lg-8">
+                <div class="container-fluid" style="background-color: white; min-height: 600px">
+            <h1 style="color:#7dd4b6; margin: 35px 25px 10px">Summary: Latitude vs. X</h1>
+                <hr id="hr" style="width: 90%; color: #e9e9e9; height: 1px; background-color:#e9e9e9; margin: 20px 25px 20px;"/>
+                <img class="img-responsive" id="float" src="Assets/Fig1.png" alt="Temperature" style="width:70%; padding: 20px 20px 0px">
+                <p style="text-align: justify; margin:15px; padding: 40px 40px 40px">
+                    <medium style="font-size:18px; color: darkgray; font-family: Arial, Helvetica, sans-serif; line-height: 2;">The purpose of this project was to analize how weather changes as you get closer to the equator. To accomplish this analysis, we first pulled data from the OpenWeatherMap API to assemble a dataset on over 500 cities. <br> <br> After assembling the dataset, we used MatPlotLib to plot various asspects of the weather vs latitude. Factors we looked at included: temperature, cloudieness, wind speed and humidity. This site provides the soure data and visualizations created as a part of the analysis, as well as the explanations and descriptions of any trends and correlations witnessed. </medium> 
+                    <br> 
+                    <br>
+                    <small style="font-size:12px; color: darkgray; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">The collection data relies heavily on cities in the northern hemisphere. The OpenWeatherMap API seems to fall slightly short on data collection in the southern hemisphere. This is important to note as we review the findings.</small>
+                </p>
+                </div>
+            </div>
+            <div class="col-sm-12 col-med-12 col-lg-4">
+                <div class="container-fluid" style="background-color: white; margin-top:15px">
+                <h3 id="summary-visual" style="text-align: left">Visualizations</h3>
+                <hr id="hr" style="width: 90%; color: #e9e9e9; height: 1px; background-color:#e9e9e9; margin-top: 10px; margin-left:20px;"/>
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-med-3 col-lg-6">
+                        <a href="max-temp.html">
+                            <img  alt="Temp" src="Assets/Fig1.png" class="img-responsive" id=img-size>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-med-3 col-lg-6">
+                        <a href="humidity.html">
+                            <img  alt="humidity" src="Assets/Fig2.png" class="img-responsive" id=img-size>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-med-3 col-lg-6">
+                        <a href="cloudieness.html">
+                            <img  alt="cloudieness" src="Assets/Fig3.png" class="img-responsive" id=img-size>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-med-3 col-lg-6">
+                        <a href="wind.html">
+                            <img  alt="wind speed" src="Assets/Fig4.png" class="img-responsive" id=img-size>
+                        </a>
+                    </div>  
+                </div>
+                </div>
+            </div>
+        </div>    
+        </div>
+    <!-- Footer -->
+
+    <footer class="page-footer teal fixed-bottom"></footer>
+    <footer class="page-footer gray fixed-bottom"></footer>
+    
+    <!-- Footer -->
+
+</body>
+
+</html>
+
