@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SCOTUS Votes</title>
+    <title>How to Train Your Model</title>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -52,3 +52,78 @@
 
     </nav>
     <!--/.Navbar-->
+
+    <div class="container-fluid" style="margin: auto; width: 70%;">
+        <div id="image" style="display:inline;">
+            <img src='images/giphy.gif' alt="gif" style="width: 10%; margin-top: 10px;">
+        </div>
+        <div id="texts" style="display: inline; white-space: nowrap;">
+            How to Train Your Model
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="text">After we selected the useful columns and cleaned up the NAN values in the original data, <br>we did one-hot encoding to all the factors we used to predict a justice's ruling behavior:</div>
+        <br>
+        <div>
+            <img src='images/1.png' alt="one" style="width: 70%; margin: 20px 10%;">
+        </div>
+
+        <br>
+        <br>
+        <div id="text">In our ML model, first we did data pre-processing, focusing on the direction of the individual justice's ruling:</div>
+        <br>
+        <div>
+            <img src='images/2.png' alt="two" style="width: 70%; margin: 20px 10%;">
+        </div>
+
+        <br>
+        <br>
+        <div>
+            <img src='images/3.png' alt="three" style="width: 70%; margin: 20px 10%;">
+        </div>
+
+        <br>
+        <br>
+        <div id="text">We chose some machine learning models that can work with our data set,<br>and tested the accuracy to see which would work best:</div>
+        <br>
+        <div>
+            <img src='images/4.png' alt="four" style="width: 70%; margin: 20px 10%;">
+        </div>
+
+        <br>
+        <br>
+        <div id="text">We then did further testing with hard and soft voting classifiers:</div>
+        <br>
+        <div>
+            <img src='images/5.png' alt="five" style="width: 70%; margin: 20px 10%;">
+        </div>
+
+        <br>
+        <br>
+        <div id="text">Since no one model was the best predictor for all the justices, we decided to test the linear SVM on all of them.</div>
+        <br>
+        <div>
+            <img src='images/6.png' alt="six" style="width: 70%; margin: 20px 10%;">
+        </div>
+
+        <br>
+        <br>
+        <div id="text">This is how our model tested against the data.<br>We also used a confusion matrix to compare the number of true and false negatives and positives to the data.</div>
+        <br>
+        <div>
+            <img src='images/7.png' alt="seven" style="width: 70%; margin: 20px 10%;">
+        </div>
+
+        <br>
+        <br>
+        <div id="text">Lastly, we saved the model:</div>
+        <br>
+        <div>
+            <img src='images/8.png' alt="eight" sstyle="width: 70%; margin: 20px 10%;">
+        </div>
+        <br>
+        <br>
+    </div>

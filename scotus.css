@@ -20,3 +20,15 @@
 .navbar-toggler-icon {
     background-image: url('https://mdbootstrap.com/img/svg/hamburger2.svg?color=fff');
     }
+
+#texts {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 85px;
+    vertical-align: bottom;
+}
+
+#text {
+    text-align:center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px; 
+}
