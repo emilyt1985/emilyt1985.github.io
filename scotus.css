@@ -28,9 +28,10 @@
 }
 
 #text {
-    text-align:center;
+    text-align: center;
+    /* padding-left: 5%; */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 18px; 
+    font-size: 17px; 
 }
 
 #footer {
@@ -39,4 +40,33 @@
     text-align: center;
     height: 8%;
     width: 100%;
+}
+
+@media screen and (max-width: 992px) {
+    h1 {
+
+        font-size: 30px;
+    }
+
+    h5 {
+
+        font-size: 25px;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    h1 {
+
+        font-size: 24px;
+    }
+    h5 {
+
+        font-size: 20px;
+    }
+    .jumbotron jumbotron-fluid {
+
+        width: 500px;   
+    }
+
 }
