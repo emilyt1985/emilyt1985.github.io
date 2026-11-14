@@ -16,7 +16,7 @@ const FAMILY = [
   { name: 'Valerie',  age: 'older', face: 'round', skin: 0, hair: 'strawberry', style: 'bangs', glasses: true, glassesColor: '#d6452f', shirt: 'white', fact: '' },
   { name: 'Bobby',    age: 'older', face: 'round', skin: 1, hair: 'white', style: 'bald', glasses: true, facial: 'goatee', eyes: 'blue', shirt: 'white', fact: '' },
   { name: 'Fletcher', age: 'baby', skin: 0, hair: 'blonde', style: 'tuft', eyes: 'blue', shirt: 'red', fact: '', photo: 'memoji/fletcher.webp' },
-  { name: 'Sonny',    age: 'kid', skin: 0, hair: 'blonde', style: 'short', eyes: 'blue', smile: 'closed', shirt: 'teal', fact: '' },
+  { name: 'Sonny',    age: 'kid', skin: 0, hair: 'blonde', style: 'short', eyes: 'blue', smile: 'closed', shirt: 'teal', fact: '', photo: 'memoji/sonny.webp' },
   { name: 'Emily',    face: 'oval', skin: 0, hair: 'darkbrown', style: 'long', noseRing: true, earrings: true, smile: 'grin', shirt: 'white', fact: '', photo: 'memoji/emily.webp' },
   { name: 'Nick',     face: 'long', skin: 1, hair: 'darkbrown', style: 'short', hat: 'cap', hatColor: '#5e6b3e', facial: 'stubble', smile: 'closed', shirt: 'red', fact: '' },
   { name: 'Chelsea',  face: 'round', skin: 0, hair: 'brown', style: 'bun', headband: true, shirt: 'maroon', fact: '', photo: 'memoji/chelsea.webp' },
