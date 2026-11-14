@@ -28,7 +28,7 @@ const FAMILY = [
   { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '', photo: 'memoji/jennifer.webp' },
   { name: 'Elizabeth', hair: 'blonde', style: 'long', photo: 'memoji/elizabeth.webp', fact: '' },
   { name: 'Auntie',    hair: 'gray', style: 'curly', glasses: true, earrings: true, photo: 'memoji/auntie.webp', fact: '' },
-  { name: 'Mamaw',     hair: 'brown', style: 'curly', glasses: true, earrings: true, photo: 'memoji/mamaw.webp', fact: '' },
+  { name: 'Mamaw',     hair: 'brown', style: 'curly', earrings: true, photo: 'memoji/mamaw.webp', fact: '' },
   { name: 'Uncle Don', hair: 'gray', style: 'short', glasses: true, photo: 'memoji/uncle-don.webp', fact: '' },
   { name: 'Christine', hair: 'brown', style: 'bangs', glasses: true, photo: 'memoji/christine.webp', fact: '' },
   { name: 'Sophie',    photo: 'memoji/sophie.webp', fact: '' },
