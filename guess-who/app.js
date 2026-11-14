@@ -2,6 +2,35 @@ import { CONFIG } from './config.js';
 import { faceSVG } from './faces.js';
 import { connectStore } from './store.js';
 
+// ---------- holiday theme ----------
+const HOL = CONFIG.holiday;
+const holidayOn = (() => {
+  if (!HOL || !HOL.on) return false;
+  if (HOL.on !== 'auto') return true;
+  const d = new Date(), m = d.getMonth() + 1, day = d.getDate();
+  return (m === 11 && day >= 20) || m === 12 || (m === 1 && day <= 6);
+})();
+if (holidayOn) {
+  for (const k of ['subtitle', 'stakesIdeas', 'taunts', 'winMessages']) if (HOL[k]) CONFIG[k] = HOL[k];
+  document.documentElement.classList.add('theme-' + (HOL.theme || 'holiday'));
+}
+const LOGO = (holidayOn && HOL.logo) || '❓';
+const CONFETTI = (holidayOn && HOL.confetti) || ['🎉', '🎊', '⭐️', '🏆', '🎉', '🎊', '⭐️', '🎉'];
+
+function letItSnow() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const box = document.createElement('div');
+  box.className = 'snow'; box.setAttribute('aria-hidden', 'true');
+  for (let i = 0; i < 28; i++) {
+    const f = document.createElement('i');
+    f.textContent = i % 3 ? '•' : '❄';
+    f.style.cssText = `left:${Math.random() * 100}%;font-size:${8 + Math.random() * 12}px;animation-duration:${9 + Math.random() * 12}s;animation-delay:-${Math.random() * 20}s;opacity:${0.35 + Math.random() * 0.5}`;
+    box.appendChild(f);
+  }
+  document.body.appendChild(box);
+}
+if (holidayOn && HOL.theme === 'christmas') letItSnow();
+
 // ---------- setup & helpers ----------
 const app = document.getElementById('app');
 const PLAYERS = CONFIG.players;
@@ -171,7 +200,7 @@ const avatar = (id, cls = '') => `<span class="av ${cls}" style="--pc:${P(id).co
 
 function renderWho() {
   return `<div class="screen center who">
-    <div class="logo">❓</div>
+    <div class="logo">${LOGO}</div>
     <h1>${esc(CONFIG.appTitle)}</h1><p class="muted">${esc(CONFIG.subtitle)}</p>
     <h2>Who’s playing on this phone?</h2>
     <div class="who-btns">${PLAYERS.map((p) => `
@@ -210,7 +239,7 @@ function renderHome() {
   const nm = needsMe(g);
   return `<div class="screen">
     <header class="hero">
-      <div class="hero-title"><span class="logo sm">❓</span><div><h1>${esc(CONFIG.appTitle)}</h1><p>${esc(CONFIG.subtitle)}</p></div></div>
+      <div class="hero-title"><span class="logo sm">${LOGO}</span><div><h1>${esc(CONFIG.appTitle)}</h1><p>${esc(CONFIG.subtitle)}</p></div></div>
       <p class="hi">Hi ${esc(P(me).name)} ${P(me).emoji}</p>
     </header>
     ${special ? `<div class="special">${esc(special.message)}</div>` : ''}
@@ -330,7 +359,7 @@ function renderOver(g) {
   const card = (id) => { const p = person(g, g.secret[id]); return `<div class="reveal-card" style="--pc:${P(id).color}">
       <small>${esc(P(id).name)}’s person</small><span class="pic">${portrait(p)}</span><b>${esc(p.name)}</b>${p.fact ? `<p>${esc(p.fact)}</p>` : ''}</div>`; };
   return `<section class="banner over ${won ? 'won' : 'lost'}">
-    ${won ? '<div class="confetti" aria-hidden="true">' + '🎉🎊⭐️🏆🎉🎊⭐️🎉'.split('').filter((c) => c.trim()).map((c, i) => `<i style="--i:${i}">${c}</i>`).join('') + '</div>' : ''}
+    ${won ? '<div class="confetti" aria-hidden="true">' + CONFETTI.map((c, i) => `<i style="--i:${i}">${c}</i>`).join('') + '</div>' : ''}
     <h2>${won ? 'You win! 🏆' : `${esc(w.name)} wins!`}</h2>
     <p class="msg">${esc(msg)}</p>
     ${how === 'wrong-guess' ? `<p class="muted">(${esc(P(opp(g.winner)).name)} made a wrong guess)</p>` : ''}
@@ -436,7 +465,15 @@ function render() {
   // theme the whole app in the phone owner's color
   if (me) document.documentElement.style.setProperty('--primary', P(me).color);
   if (!me) { app.innerHTML = renderWho(); return; }
-  if (!state) { app.innerHTML = `<div class="screen center"><div class="logo spin">❓</div><p class="muted">Shuffling the cards…</p></div>`; return; }
+  if (!state) { app.innerHTML = `<div class="screen center"><div class="logo spin">${LOGO}</div><p class="muted">Shuffling the cards…</p></div>`; return; }
+  // one-time holiday gift card on each phone
+  const gm = holidayOn && HOL.giftMessage;
+  if (gm && !modal && !ls.get('gw.gift.' + me)) {
+    ls.set('gw.gift.' + me, true);
+    modal = `<div class="gift"><div class="gift-icon">🎁</div><h2>${esc(gm.title)}</h2>
+      <p class="gift-to">${esc(P(me).name)},</p><p>${esc(gm.body)}</p><p class="gift-from">${esc(gm.from)}</p>
+      <button class="btn primary wide" data-act="close">Let’s play! 🎄</button></div>`;
+  }
   const body = { home: renderHome, game: renderGame, leaders: renderLeaders, settings: renderSettings }[view]();
   app.innerHTML = body + nav() + (modal ? `<div class="modal-bg" data-act="close"><div class="modal" role="dialog" aria-modal="true">${modal}</div></div>` : '');
 

@@ -70,6 +70,29 @@ export const CONFIG = {
   // Both phones must use the same room code. Make it hard to guess.
   roomCode: 'family-room-change-me-7k2q',
 
+  // ---- Holiday theme -----------------------------------------
+  // on: true (always), 'auto' (Nov 20 - Jan 6 only) or false (off).
+  // Anything set here replaces the normal value while it's on.
+  holiday: {
+    on: true,
+    theme: 'christmas',
+    subtitle: 'Christmas Edition',
+    logo: '🎄',
+    confetti: ['❄️', '🎁', '⭐️', '🎄', '❄️', '🔔', '🎁', '⭐️'],
+    // Shown once on each phone the first time it's opened.
+    giftMessage: {
+      title: 'Merry Christmas!',
+      body: 'A game made just for you two, starring the whole family. Play from anywhere, any time. Loser wraps the presents.',
+      from: 'Love, your family',
+    },
+    stakesIdeas: ['Loser wraps the presents', 'Winner gets the first cookie', 'Loser makes the hot cocoa', 'Winner picks the Christmas movie', 'Loser does the dishes after dinner'],
+    taunts: ['🎄', '🎅', '❄️', '😏', '🤔', '😂', 'Ho ho NO 🎅', 'Someone’s on the naughty list…', 'Getting warmer… like cocoa ☕️', 'Lucky guess, Scrooge'],
+    winMessages: {
+      valerie: ['Valerie sleighs it again! 🛷', 'All I want for Christmas is… another win. 🎄', 'Valerie: 1, Bobby: coal.'],
+      bobby: ['Bobby sleighs it! 🛷', 'Ho ho ho, the Closer strikes again! 🎅', 'Bobby unwraps another win. 🎁'],
+    },
+  },
+
   // ---- Online play (two phones, two places) -----------------
   // Paste your Firebase web config here (see guess-who/README.md).
   // Leave as null to run in "local test mode" (one device only).
