@@ -25,7 +25,7 @@ const FAMILY = [
   { name: 'Seth',     age: 'teen', face: 'long', skin: 1, hair: 'darkbrown', style: 'crew', eyes: 'blue', brows: 'thick', smile: 'closed', shirt: 'gray', fact: '' },
   { name: 'Sadie',    age: 'teen', skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '', photo: 'memoji/sadie.webp' },
   { name: 'Lara',     face: 'oval', skin: 0, hair: 'blonde', style: 'wavy', noseRing: true, lipstick: true, smile: 'closed', shirt: 'red', collar: 'v', fact: '' },
-  { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '' },
+  { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '', photo: 'memoji/jennifer.webp' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
