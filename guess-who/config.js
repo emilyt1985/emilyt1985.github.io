@@ -13,8 +13,8 @@
 // "fact" is revealed at the end of the game when that person was
 // the mystery person: a great spot for a memory or inside joke.
 const FAMILY = [
-  { name: 'Valerie',  age: 'older', face: 'round', skin: 0, hair: 'strawberry', style: 'bangs', glasses: true, glassesColor: '#d6452f', shirt: 'white', fact: '' },
-  { name: 'Bobby',    age: 'older', face: 'round', skin: 1, hair: 'white', style: 'bald', glasses: true, facial: 'goatee', eyes: 'blue', shirt: 'white', fact: '' },
+  { name: 'Valerie',  age: 'older', face: 'round', skin: 0, hair: 'strawberry', style: 'bangs', glasses: true, glassesColor: '#d6452f', shirt: 'white', fact: '', photo: 'memoji/valerie.webp' },
+  { name: 'Bobby',    age: 'older', face: 'round', skin: 1, hair: 'white', style: 'bald', glasses: true, facial: 'goatee', eyes: 'blue', shirt: 'white', fact: '', photo: 'memoji/bobby.webp' },
   { name: 'Fletcher', age: 'baby', skin: 0, hair: 'blonde', style: 'tuft', eyes: 'blue', shirt: 'red', fact: '', photo: 'memoji/fletcher.webp' },
   { name: 'Sonny',    age: 'kid', skin: 0, hair: 'blonde', style: 'short', eyes: 'blue', smile: 'closed', shirt: 'teal', fact: '', photo: 'memoji/sonny.webp' },
   { name: 'Emily',    face: 'oval', skin: 0, hair: 'darkbrown', style: 'long', noseRing: true, earrings: true, smile: 'grin', shirt: 'white', fact: '', photo: 'memoji/emily.webp' },
