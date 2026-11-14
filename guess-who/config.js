@@ -35,6 +35,9 @@ const FAMILY = [
   { name: 'Christine', photo: 'memoji/christine.webp', tags: 'glasses long', fact: '' },
   { name: 'Sophie',    photo: 'memoji/sophie.webp',    tags: 'dog', fact: '' },
   { name: 'Baby',      photo: 'memoji/baby.webp',      tags: 'dog', fact: '' },
+  { name: 'Joan',      photo: 'memoji/joan.webp',      tags: 'gray', fact: '' },
+  { name: 'Suzanne',   photo: 'memoji/suzanne.webp',   tags: 'glasses long', fact: '' },
+  { name: 'Ron',       photo: 'memoji/ron.webp',       tags: '', fact: '' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
