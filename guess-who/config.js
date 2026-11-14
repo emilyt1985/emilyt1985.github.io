@@ -22,7 +22,7 @@ const FAMILY = [
   { name: 'Chelsea',  face: 'round', skin: 0, hair: 'brown', style: 'bun', headband: true, shirt: 'maroon', fact: '', photo: 'memoji/chelsea.webp' },
   { name: 'Bill',     age: 'older', face: 'long', skin: 1, hair: 'gray', style: 'short', glasses: true, glassesColor: '#8d939a', smile: 'closed', shirt: 'lightblue', collar: 'shirt', fact: '', photo: 'memoji/bill.webp' },
   { name: 'Aydee',    face: 'oval', skin: 2, hair: 'darkbrown', style: 'bob', glasses: true, earrings: true, smile: 'closed', shirt: 'navy', collar: 'v', fact: '', photo: 'memoji/aydee.webp' },
-  { name: 'Seth',     age: 'teen', face: 'long', skin: 1, hair: 'darkbrown', style: 'crew', eyes: 'blue', brows: 'thick', smile: 'closed', shirt: 'gray', fact: '' },
+  { name: 'Seth',     age: 'teen', face: 'long', skin: 1, hair: 'darkbrown', style: 'crew', eyes: 'blue', brows: 'thick', smile: 'closed', shirt: 'gray', fact: '', photo: 'memoji/seth.webp' },
   { name: 'Sadie',    age: 'teen', skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '', photo: 'memoji/sadie.webp' },
   { name: 'Lara',     face: 'oval', skin: 0, hair: 'blonde', style: 'wavy', noseRing: true, lipstick: true, smile: 'closed', shirt: 'red', collar: 'v', fact: '', photo: 'memoji/lara.webp' },
   { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '', photo: 'memoji/jennifer.webp' },
