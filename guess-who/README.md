@@ -73,6 +73,21 @@ All the options (hair colors and styles, glasses, caps, beards, earrings, kids..
 
 To use a picture instead of a drawing (a Memoji, say), save it in `guess-who/memoji/` and add `photo: 'memoji/name.webp'` to that person. Cartoons and Memoji are fine on a public site. Real photos of family (especially kids) shouldn't go in this public repository.
 
+## Family Quiz question box
+
+Relatives send questions for the upcoming Family Quiz game from **ask.html**, no account needed:
+
+- **Send this link to the family:** https://emilyt1985.github.io/guess-who/ask.html
+- Each person taps their Memoji (or "Someone else"), picks a kind of question, and writes it:
+  - **About me:** a question about themselves, with the right answer and 1–3 wrong ones.
+  - **About the family:** the same, about someone or something else.
+  - **About each other:** for Valerie and Bobby to answer about each other; no answer key, points if they match.
+- An optional note is shown after the question is answered (a memory, "Love you!").
+
+**Review:** https://emilyt1985.github.io/guess-who/review.html shows every question with its answers. Hide anything you don't want used. Don't send this one to Valerie or Bobby: it shows the answers.
+
+Questions are stored in their own Firebase document (`questionsCode` in `config.js`), separate from the game, so the family link can't touch the game. Until Firebase is set up, questions are only saved in the browser that sent them.
+
 ## Files
 
 - `index.html`: page shell (installable as a home-screen app via `manifest.json` and `sw.js`)
@@ -80,3 +95,5 @@ To use a picture instead of a drawing (a Memoji, say), save it in `guess-who/mem
 - `store.js`: syncing (Firebase online, localStorage offline)
 - `faces.js`: draws the cartoon faces (family and placeholders)
 - `config.js`: everything personal
+- `ask.html`, `ask.js`: the family question box
+- `review.html`, `review.js`: your private review page for submitted questions

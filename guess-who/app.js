@@ -593,6 +593,11 @@ function renderSettings() {
       ${PLAYERS.map((p) => `<button class="row-btn" data-act="copy" data-v="${esc(base + '?me=' + p.id)}">${avatar(p.id, 'sm')}<span class="row-text"><b>${esc(p.name)}’s link</b><small>Opens the game signed in as ${esc(p.name)}</small></span><span class="row-action">${I.link} Copy</span></button>`).join('')}
     </section>
 
+    <p class="group-h">Family quiz</p>
+    <section class="group">
+      <button class="row-btn" data-act="copy" data-v="${esc(base.replace(/[^/]*$/, '') + 'ask.html')}"><span class="type-ico">💌</span><span class="row-text"><b>Invite the Family</b><small>Copy the link where they send quiz questions</small></span><span class="row-action">${I.link} Copy</span></button>
+    </section>
+
     <p class="group-h">Notifications</p>
     <section class="group">
       <button class="row-btn" data-act="notify">${I.bell}<span class="row-text"><b>Turn Alerts</b><small>A pop-up when it’s your turn while the game is open</small></span>${I.chev}</button>

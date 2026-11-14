@@ -323,6 +323,51 @@ code { background: var(--fill); padding: 1px 5px; border-radius: 5px; }
   .board { grid-template-columns: repeat(6, 1fr); max-width: calc(134dvh - 380px); margin: 0 auto; }
 }
 
+/* ---------- family question box ---------- */
+.ask { padding-bottom: calc(env(safe-area-inset-bottom) + 40px); }
+.ask .nav-back { margin: 4px 0 -4px; }
+.intro { margin: -4px 4px 18px; color: var(--ink); }
+.ask-av { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; overflow: hidden; background: var(--pic-bg); flex: none; font-size: 28px; }
+.ask-av img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
+.ask-av.xs { width: 22px; height: 22px; font-size: 12px; }
+.ask-av.other { color: var(--primary); font-weight: 300; }
+.who-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.who-tile { display: grid; justify-items: center; gap: 6px; padding: 12px 4px 10px; border: 0; border-radius: 16px; background: var(--panel); font-size: 14px; font-weight: 600; transition: transform .12s var(--ease); }
+.who-tile:active { transform: scale(.95); }
+.type-row { align-items: flex-start; padding-top: 14px; padding-bottom: 14px; }
+.type-ico { font-size: 26px; line-height: 1; margin-top: 2px; }
+.row-text small.wrap { white-space: normal; }
+.chev { color: var(--faint); font-size: 22px; align-self: center; }
+textarea.field { resize: none; font: inherit; line-height: 1.35; }
+.lbl.top { margin-top: 14px; }
+.stack { display: grid; gap: 8px; }
+.wrap-chips { flex-wrap: wrap; overflow: visible; margin: 0; padding: 0; }
+.chip.on { background: var(--primary); color: var(--primary-ink); }
+.chip.about { display: inline-flex; align-items: center; gap: 6px; padding-left: 6px; }
+.seg3 { grid-template-columns: repeat(3, 1fr); }
+.seg5 { grid-template-columns: repeat(5, 1fr); margin: 18px 0 14px; }
+.seg5 button { font-size: 13px; padding: 7px 2px; }
+.send { margin-top: 24px; }
+.done { min-height: 80dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px; }
+.done-check { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; font-size: 44px; color: #fff; background: var(--yes); margin-bottom: 8px; animation: pop .35s var(--ease); }
+.done .body { font-size: 19px; font-weight: 600; margin: 6px 8px 0; }
+.done .btn { max-width: 340px; margin-top: 22px; }
+.stats3 { grid-template-columns: repeat(3, 1fr); text-align: center; margin: 4px 0 0; }
+.stats3 div { display: grid; gap: 2px; }
+.stats3 b { font-size: 30px; font-weight: 700; }
+.stats3 small { font-size: 12px; color: var(--muted); }
+.q-card { padding: 14px 16px; margin-bottom: 10px; }
+.q-card.is-hidden { opacity: .55; }
+.q-top { display: flex; align-items: center; gap: 8px; }
+.q-top small { font-size: 13px; color: var(--muted); }
+.q-text { font-size: 18px; font-weight: 600; margin: 8px 0 6px; }
+.q-opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 15px; color: var(--muted); }
+.q-opts .right { color: var(--yes); font-weight: 600; }
+.q-card .row { margin-top: 10px; }
+.q-card .row .btn { min-height: 38px; padding: 6px 12px; font-size: 15px; flex: 0 1 auto; }
+.btn.danger { color: var(--no); background: color-mix(in srgb, var(--no) 12%, transparent); }
+.empty { margin-top: 30px; }
+
 /* ===========================================================
    Christmas theme (html.theme-christmas)
    =========================================================== */

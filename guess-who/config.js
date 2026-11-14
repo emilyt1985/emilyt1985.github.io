@@ -72,6 +72,10 @@ export const CONFIG = {
   // Both phones must use the same room code. Make it hard to guess.
   roomCode: 'family-room-change-me-7k2q',
 
+  // The family question box (ask.html) uses its own code, so relatives
+  // who get that link can't reach your parents' game. Make it long too.
+  questionsCode: 'family-questions-change-me-4mx8',
+
   // ---- Holiday theme -----------------------------------------
   // on: true (always), 'auto' (Nov 20 - Jan 6 only) or false (off).
   // Anything set here replaces the normal value while it's on.

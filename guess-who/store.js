@@ -7,25 +7,26 @@ export const emptyState = () => ({ v: 1, game: null, history: [] });
 
 const clean = (o) => JSON.parse(JSON.stringify(o)); // drops undefined (Firestore rejects it)
 
-export async function connectStore(cfg, onChange) {
+// docId/empty let other pages (the family question box) use their own document.
+export async function connectStore(cfg, onChange, docId = cfg.roomCode, empty = emptyState) {
   if (cfg.firebase && cfg.firebase.apiKey) {
-    try { return await firebaseStore(cfg, onChange); }
+    try { return await firebaseStore(cfg, onChange, docId, empty); }
     catch (e) { console.error('Firebase failed, falling back to local mode', e); }
   }
-  return localStore(cfg, onChange);
+  return localStore(cfg, onChange, docId, empty);
 }
 
-async function firebaseStore(cfg, onChange) {
+async function firebaseStore(cfg, onChange, docId, empty) {
   const V = '10.12.2';
   const { initializeApp } = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
   const fs = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`);
   const app = initializeApp(cfg.firebase);
   const db = fs.getFirestore(app);
-  const ref = fs.doc(db, 'guesswho', cfg.roomCode);
+  const ref = fs.doc(db, 'guesswho', docId);
 
   let status = 'connecting';
   fs.onSnapshot(ref, { includeMetadataChanges: false },
-    (snap) => { status = 'online'; onChange(snap.exists() ? snap.data() : emptyState()); },
+    (snap) => { status = 'online'; onChange(snap.exists() ? snap.data() : empty()); },
     (err) => { status = 'error'; console.error(err); onChange(null, err); });
 
   return {
@@ -35,7 +36,7 @@ async function firebaseStore(cfg, onChange) {
     async update(fn) {
       return fs.runTransaction(db, async (tx) => {
         const snap = await tx.get(ref);
-        const cur = snap.exists() ? snap.data() : emptyState();
+        const cur = snap.exists() ? snap.data() : empty();
         const draft = clean(cur);
         if (fn(draft) === false) return false;
         tx.set(ref, clean(draft));
@@ -45,9 +46,9 @@ async function firebaseStore(cfg, onChange) {
   };
 }
 
-function localStore(cfg, onChange) {
-  const KEY = 'gw.room.' + cfg.roomCode;
-  const read = () => { try { return JSON.parse(localStorage.getItem(KEY)) || emptyState(); } catch { return emptyState(); } };
+function localStore(cfg, onChange, docId, empty) {
+  const KEY = 'gw.room.' + docId;
+  const read = () => { try { return JSON.parse(localStorage.getItem(KEY)) || empty(); } catch { return empty(); } };
   window.addEventListener('storage', (e) => { if (e.key === KEY) onChange(read()); });
   setTimeout(() => onChange(read()), 0);
   return {
