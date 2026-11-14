@@ -26,6 +26,7 @@ const FAMILY = [
   { name: 'Sadie',    age: 'teen', skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '', photo: 'memoji/sadie.webp' },
   { name: 'Lara',     face: 'oval', skin: 0, hair: 'blonde', style: 'wavy', noseRing: true, lipstick: true, smile: 'closed', shirt: 'red', collar: 'v', fact: '' },
   { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '', photo: 'memoji/jennifer.webp' },
+  { name: 'Elizabeth', hair: 'blonde', style: 'long', photo: 'memoji/elizabeth.webp', fact: '' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
