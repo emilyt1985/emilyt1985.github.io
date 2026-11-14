@@ -18,7 +18,7 @@ const FAMILY = [
   { name: 'Fletcher', age: 'baby', skin: 0, hair: 'blonde', style: 'tuft', eyes: 'blue', shirt: 'red', fact: '', photo: 'memoji/fletcher.webp' },
   { name: 'Sonny',    age: 'kid', skin: 0, hair: 'blonde', style: 'short', eyes: 'blue', smile: 'closed', shirt: 'teal', fact: '', photo: 'memoji/sonny.webp' },
   { name: 'Emily',    face: 'oval', skin: 0, hair: 'darkbrown', style: 'long', noseRing: true, earrings: true, smile: 'grin', shirt: 'white', fact: '', photo: 'memoji/emily.webp' },
-  { name: 'Nick',     face: 'long', skin: 1, hair: 'darkbrown', style: 'short', hat: 'cap', hatColor: '#5e6b3e', facial: 'stubble', smile: 'closed', shirt: 'red', fact: '' },
+  { name: 'Nick',     face: 'long', skin: 1, hair: 'darkbrown', style: 'short', hat: 'cap', hatColor: '#5e6b3e', facial: 'stubble', smile: 'closed', shirt: 'red', fact: '', photo: 'memoji/nick.webp' },
   { name: 'Chelsea',  face: 'round', skin: 0, hair: 'brown', style: 'bun', headband: true, shirt: 'maroon', fact: '', photo: 'memoji/chelsea.webp' },
   { name: 'Bill',     age: 'older', face: 'long', skin: 1, hair: 'gray', style: 'short', glasses: true, glassesColor: '#8d939a', smile: 'closed', shirt: 'lightblue', collar: 'shirt', fact: '', photo: 'memoji/bill.webp' },
   { name: 'Aydee',    face: 'oval', skin: 2, hair: 'darkbrown', style: 'bob', glasses: true, earrings: true, smile: 'closed', shirt: 'navy', collar: 'v', fact: '', photo: 'memoji/aydee.webp' },
@@ -27,6 +27,9 @@ const FAMILY = [
   { name: 'Lara',     face: 'oval', skin: 0, hair: 'blonde', style: 'wavy', noseRing: true, lipstick: true, smile: 'closed', shirt: 'red', collar: 'v', fact: '', photo: 'memoji/lara.webp' },
   { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '', photo: 'memoji/jennifer.webp' },
   { name: 'Elizabeth', hair: 'blonde', style: 'long', photo: 'memoji/elizabeth.webp', fact: '' },
+  { name: 'Auntie',    hair: 'gray', style: 'curly', glasses: true, earrings: true, photo: 'memoji/auntie.webp', fact: '' },
+  { name: 'Mamaw',     hair: 'brown', style: 'curly', glasses: true, earrings: true, photo: 'memoji/mamaw.webp', fact: '' },
+  { name: 'Uncle Don', hair: 'gray', style: 'short', glasses: true, photo: 'memoji/uncle-don.webp', fact: '' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
