@@ -67,7 +67,7 @@ let lastNeedsMe = null;
 let patchOnly = false; // my own flip: update card classes instead of a full re-render
 
 // ---------- card tags (for one-tap flipping) ----------
-const TAGS = ['glasses', 'hat', 'facial', 'bald', 'blonde', 'gray', 'long', 'freckles', 'earrings', 'nosering', 'dog'];
+const TAGS = ['glasses', 'hat', 'facial', 'bald', 'blonde', 'gray', 'long', 'freckles', 'earrings', 'nosering', 'gap', 'dog'];
 function tagsOf(p) {
   if (typeof p.tags === 'string') return new Set(p.tags.split(/\s+/).filter(Boolean));
   const t = new Set();                       // cartoon people: read their drawing traits

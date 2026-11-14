@@ -11,7 +11,7 @@
 // tags:  what you can see on their card. These power the one-tap
 //        "flip everyone who doesn't fit" button, so keep them true
 //        to the Memoji. Options: glasses hat facial bald blonde gray
-//        long freckles earrings nosering dog
+//        long freckles earrings nosering gap dog
 // fact:  revealed at the end of a game when they were the mystery
 //        person. A memory or inside joke is perfect.
 const FAMILY = [
@@ -20,10 +20,10 @@ const FAMILY = [
   { name: 'Fletcher',  photo: 'memoji/fletcher.webp',  tags: 'blonde', fact: '' },
   { name: 'Sonny',     photo: 'memoji/sonny.webp',     tags: 'blonde', fact: '' },
   { name: 'Emily',     photo: 'memoji/emily.webp',     tags: 'long', fact: '' },
-  { name: 'Nick',      photo: 'memoji/nick.webp',      tags: 'facial', fact: '' },
+  { name: 'Nick',      photo: 'memoji/nick.webp',      tags: 'facial gap', fact: '' },
   { name: 'Chelsea',   photo: 'memoji/chelsea.webp',   tags: 'hat long', fact: '' },
   { name: 'Bill',      photo: 'memoji/bill.webp',      tags: 'glasses facial', fact: '' },
-  { name: 'Aydee',     photo: 'memoji/aydee.webp',     tags: 'glasses long', fact: '' },
+  { name: 'Aydee',     photo: 'memoji/aydee.webp',     tags: 'glasses long gap', fact: '' },
   { name: 'Seth',      photo: 'memoji/seth.webp',      tags: '', fact: '' },
   { name: 'Sadie',     photo: 'memoji/sadie.webp',     tags: 'freckles long', fact: '' },
   { name: 'Lara',      photo: 'memoji/lara.webp',      tags: 'blonde nosering earrings', fact: '' },
@@ -141,6 +141,7 @@ export const CONFIG = {
     { q: 'Do they have freckles?', tag: 'freckles' },
     { q: 'Are they wearing earrings?', tag: 'earrings' },
     { q: 'Do they have a nose ring?', tag: 'nosering' },
+    { q: 'Do they have a gap in their teeth?', tag: 'gap' },
     { q: 'Is it a dog?', tag: 'dog' },
   ],
 
