@@ -52,16 +52,22 @@ Everything lives in `config.js`:
 | What | Where |
 |---|---|
 | Names, nicknames, emoji, colors, phone numbers | `players` |
-| Real photos of family and friends | put images in `guess-who/photos/`, then `photo: 'photos/aunt-linda.jpg'` on a person |
+| Family members on the cards | save their Memoji in `guess-who/memoji/`, then add or uncomment their line in `FAMILY` |
 | Memory or inside joke shown at the reveal | `fact` on each person |
-| More than 24 people (each game draws a fresh 24) | add more entries to a deck |
+| Player avatars (Valerie and Bobby) | `photo:` on each player, currently their Memoji in `guess-who/avatars/` |
 | Family inside-joke questions | `quickQuestions` |
 | Trash talk buttons | `taunts` |
 | Win messages in each parent's voice | `winMessages` |
 | Anniversary and birthday banners | `specialDates` |
 | Stakes suggestions | `stakesIdeas` |
 
-Square-ish photos work best, cropped to head and shoulders, about 400 px wide.
+### Making a Memoji card
+
+1. On an iPhone, open Messages → a conversation → the Memoji (sticker) button → **+**, and style it after the person. Keep the expression neutral and give them their real glasses, hats and hairstyles: those are what players ask about.
+2. Send it as a sticker (to yourself is fine), then press and hold it → **Save**.
+3. Every family member is dealt in every game. Cartoon people fill the remaining spots up to 24.
+
+Memoji are cartoons, so they're fine on a public site. Real photos of family (especially kids) shouldn't go in this public repository.
 
 ## Files
 

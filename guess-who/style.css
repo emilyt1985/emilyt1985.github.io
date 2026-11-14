@@ -133,7 +133,8 @@ input:focus { outline: none; border-color: var(--primary); }
 
 .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; perspective: 800px; }
 .card { position: relative; border: 0; padding: 0; background: var(--card); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.14); cursor: pointer; display: flex; flex-direction: column; transition: transform .35s cubic-bezier(.3,1.4,.6,1), opacity .25s, filter .25s; transform-origin: bottom; }
-.card .pic { display: block; aspect-ratio: 100 / 112; overflow: hidden; }
+.card .pic { display: block; aspect-ratio: 100 / 112; overflow: hidden; background: color-mix(in srgb, var(--accent) 22%, var(--card)); }
+.card .pic img[src$=".webp"], .card .pic img[src$=".png"] { object-fit: contain; object-position: bottom; }
 .card .nm { font-size: .78rem; font-weight: 700; padding: 3px 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card.down { opacity: .28; filter: grayscale(1); transform: rotateX(28deg) scale(.94); }
 .card.down::after { content: "✕"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 2.2rem; font-weight: 900; color: var(--ink); opacity: .6; }
@@ -155,7 +156,7 @@ input:focus { outline: none; border-color: var(--primary); }
 .stakes { background: rgba(255,255,255,.6); color: #3a2140; border-radius: 10px; padding: 6px 10px; display: inline-block; }
 .reveals { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
 .reveal-card { background: var(--panel); color: var(--ink); border-radius: 14px; padding: 8px; border: 3px solid var(--pc); display: grid; justify-items: center; gap: 4px; }
-.reveal-card .pic { width: 84px; height: 100px; border-radius: 10px; overflow: hidden; }
+.reveal-card .pic { width: 84px; height: 100px; border-radius: 10px; overflow: hidden; background: color-mix(in srgb, var(--accent) 22%, var(--card)); }
 .reveal-card p { font-size: .8rem; margin: 0; color: var(--muted); }
 .confetti { position: absolute; inset: 0; pointer-events: none; }
 .confetti i { position: absolute; top: -30px; left: calc(var(--i) * 13% + 2%); font-style: normal; font-size: 22px; animation: fall 2.6s ease-in calc(var(--i) * .18s) 2 both; }
