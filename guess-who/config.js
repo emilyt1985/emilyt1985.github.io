@@ -30,6 +30,7 @@ const FAMILY = [
   { name: 'Auntie',    hair: 'gray', style: 'curly', glasses: true, earrings: true, photo: 'memoji/auntie.webp', fact: '' },
   { name: 'Mamaw',     hair: 'brown', style: 'curly', glasses: true, earrings: true, photo: 'memoji/mamaw.webp', fact: '' },
   { name: 'Uncle Don', hair: 'gray', style: 'short', glasses: true, photo: 'memoji/uncle-don.webp', fact: '' },
+  { name: 'Christine', hair: 'brown', style: 'bangs', glasses: true, photo: 'memoji/christine.webp', fact: '' },
   { name: 'Sophie',    photo: 'memoji/sophie.webp', fact: '' },
   { name: 'Baby',      photo: 'memoji/baby.webp', fact: '' },
 ];
