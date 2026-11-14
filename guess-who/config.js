@@ -28,8 +28,8 @@ export const CONFIG = {
   // phone is optional: if set, "Nudge" opens a text to that number.
   // photo is optional: shown instead of the emoji (a square face crop).
   players: [
-    { id: 'valerie', name: 'Valerie', nickname: 'The Detective', emoji: '🌸', color: '#d9467a', phone: '' },
-    { id: 'bobby',   name: 'Bobby',   nickname: 'The Closer',    emoji: '🎣', color: '#2f74c9', phone: '' },
+    { id: 'valerie', name: 'Valerie', nickname: 'The Detective', emoji: '🌸', color: '#d9467a', phone: '', photo: 'avatars/valerie.png' },
+    { id: 'bobby',   name: 'Bobby',   nickname: 'The Closer',    emoji: '🎣', color: '#2f74c9', phone: '', photo: 'avatars/bobby.png' },
   ],
 
   rules: {
