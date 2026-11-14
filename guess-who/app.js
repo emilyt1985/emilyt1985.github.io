@@ -198,11 +198,28 @@ function announce(prev, next) {
 // ---------- views ----------
 const avatar = (id, cls = '') => `<span class="av ${cls}" style="--pc:${P(id).color}">${P(id).photo ? `<img src="${esc(P(id).photo)}" alt="">` : P(id).emoji}</span>`;
 
+// SF Symbols-style icons
+const ic = (d, extra = '') => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"${extra}>${d}</svg>`;
+const I = {
+  home: ic('<path fill="currentColor" d="M12.7 2.9a1 1 0 0 0-1.4 0L2.6 10.8a1 1 0 0 0 1.3 1.5l.6-.5V20a1.5 1.5 0 0 0 1.5 1.5h3.8V15a1 1 0 0 1 1-1h2.4a1 1 0 0 1 1 1v6.5H18A1.5 1.5 0 0 0 19.5 20v-8.2l.6.5a1 1 0 0 0 1.3-1.5Z"/>'),
+  trophy: ic('<path fill="currentColor" d="M7 2.5h10a1 1 0 0 1 1 1V5h2.5a1 1 0 0 1 1 1v1.5a4.5 4.5 0 0 1-4.3 4.5A6 6 0 0 1 13 15.4V18h2.5a1.5 1.5 0 0 1 1.5 1.5v2H7v-2A1.5 1.5 0 0 1 8.5 18H11v-2.6A6 6 0 0 1 6.8 12 4.5 4.5 0 0 1 2.5 7.5V6a1 1 0 0 1 1-1H6V3.5a1 1 0 0 1 1-1ZM18 7v3a2.5 2.5 0 0 0 1.5-2.3V7ZM4.5 7v.7A2.5 2.5 0 0 0 6 10V7Z"/>'),
+  gear: ic('<circle cx="12" cy="12" r="8.3" fill="none" stroke="currentColor" stroke-width="3.6" stroke-dasharray="3.25 3.27"/><circle cx="12" cy="12" r="5.6" fill="none" stroke="currentColor" stroke-width="3.4"/>'),
+  back: ic('<path d="M15 4.5 7.5 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'),
+  chev: ic('<path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'),
+  lock: ic('<path fill="currentColor" d="M12 2.5A4.5 4.5 0 0 0 7.5 7v3H7a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2h-.5V7A4.5 4.5 0 0 0 12 2.5Zm-2.5 7.5V7a2.5 2.5 0 0 1 5 0v3Z"/>'),
+  eye: ic('<path fill="currentColor" d="M12 5C6.5 5 2.7 9.6 1.8 11.4a1.3 1.3 0 0 0 0 1.2C2.7 14.4 6.5 19 12 19s9.3-4.6 10.2-6.4a1.3 1.3 0 0 0 0-1.2C21.3 9.6 17.5 5 12 5Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-2.2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z"/>'),
+  bell: ic('<path fill="currentColor" d="M12 2.5a6 6 0 0 0-6 6v4.2l-1.6 2.7a1 1 0 0 0 .9 1.6h13.4a1 1 0 0 0 .9-1.6L18 12.7V8.5a6 6 0 0 0-6-6Zm-2.6 15.5a2.7 2.7 0 0 0 5.2 0Z"/>'),
+  target: ic('<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/>'),
+  shuffle: ic('<path d="M3 7h3.5c2 0 3 1 4 2.5l3 5c1 1.5 2 2.5 4 2.5H21M3 17h3.5c2 0 3-1 4-2.5M13.5 9.5c1-1.5 2-2.5 4-2.5H21m-2.5-2.5L21 7l-2.5 2.5m0 5L21 17l-2.5 2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'),
+  link: ic('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'),
+};
+
 function renderWho() {
   return `<div class="screen center who">
-    <div class="logo">${LOGO}</div>
-    <h1>${esc(CONFIG.appTitle)}</h1><p class="muted">${esc(CONFIG.subtitle)}</p>
-    <h2>Who’s playing on this phone?</h2>
+    <div class="app-icon">${LOGO}</div>
+    <p class="eyebrow">${esc(CONFIG.subtitle)}</p>
+    <h1 class="title-xl">${esc(CONFIG.appTitle)}</h1>
+    <p class="muted who-q">Who’s playing on this phone?</p>
     <div class="who-btns">${PLAYERS.map((p) => `
       <button class="who-btn" data-act="be" data-id="${p.id}" style="--pc:${p.color}">
         ${avatar(p.id, 'xl')}<b>${esc(p.name)}</b><small>${esc(p.nickname)}</small></button>`).join('')}
@@ -229,6 +246,9 @@ function record() {
   return { r, total: h.length };
 }
 
+const largeTitle = (title, right = '') => `<header class="large-title">
+    <div><p class="eyebrow">${esc(CONFIG.subtitle)}</p><h1>${esc(title)}</h1></div>${right}</header>`;
+
 function renderHome() {
   const g = state?.game;
   const { r } = record();
@@ -237,42 +257,43 @@ function renderHome() {
   const mmdd = String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
   const special = CONFIG.specialDates.find((s) => s.date === mmdd);
   const nm = needsMe(g);
+  const o = opp(me);
   return `<div class="screen">
-    <header class="hero">
-      <div class="hero-title"><span class="logo sm">${LOGO}</span><div><h1>${esc(CONFIG.appTitle)}</h1><p>${esc(CONFIG.subtitle)}</p></div></div>
-      <p class="hi">Hi ${esc(P(me).name)} ${P(me).emoji}</p>
-    </header>
-    ${special ? `<div class="special">${esc(special.message)}</div>` : ''}
-    ${store?.mode === 'local' ? `<div class="note">🧪 Local test mode: games only live on this device. Add Firebase in <code>config.js</code> to play from two phones.</div>` : ''}
-    ${connErr ? `<div class="note err">⚠️ Can’t reach the game server. Check your connection.</div>` : ''}
+    ${largeTitle(CONFIG.appTitle, `<button class="me-btn" data-act="go" data-view="settings" aria-label="Settings">${avatar(me, 'md')}</button>`)}
+    ${special ? `<div class="callout special">${esc(special.message)}</div>` : ''}
+    ${store?.mode === 'local' ? `<div class="callout note"><b>Test mode.</b> Games only live on this device until Firebase is added in <code>config.js</code>.</div>` : ''}
+    ${connErr ? `<div class="callout err"><b>Offline.</b> Can’t reach the game server. Check your connection.</div>` : ''}
 
-    <section class="scoreline">
-      <div class="side">${avatar(a.id, 'lg')}<b>${esc(a.name)}</b></div>
-      <div class="score"><span style="color:${a.color}">${r[a.id].wins}</span><i>–</i><span style="color:${b.color}">${r[b.id].wins}</span></div>
-      <div class="side">${avatar(b.id, 'lg')}<b>${esc(b.name)}</b></div>
+    <section class="scorecard">
+      <div class="side">${avatar(a.id, 'lg')}<span>${esc(a.name)}</span></div>
+      <div class="score"><b style="color:${a.color}">${r[a.id].wins}</b><i>:</i><b style="color:${b.color}">${r[b.id].wins}</b></div>
+      <div class="side">${avatar(b.id, 'lg')}<span>${esc(b.name)}</span></div>
     </section>
 
     ${g && g.phase !== 'over' ? `
-      <section class="panel game-card ${nm ? 'pulse' : ''}" data-act="go" data-view="game">
-        <div><small class="muted">Current game${g.stakes ? ` · ${esc(g.stakes)}` : ''}</small>
-        <h3>${esc(statusLine(g))}</h3>
-        <small class="muted">${24 - g.flipped[me].length} cards left for you · ${24 - g.flipped[opp(me)].length} for ${esc(P(opp(me)).name)}</small></div>
-        <button class="btn primary">${nm ? 'Play' : 'Open'}</button>
+      <p class="group-h">Current game</p>
+      <section class="group">
+        <button class="row-btn game-card ${nm ? 'your-move' : ''}" data-act="go" data-view="game">
+          ${avatar(o, 'md')}
+          <span class="row-text"><b>${esc(statusLine(g))}</b>
+            <small>${24 - g.flipped[me].length} left for you · ${24 - g.flipped[o].length} for ${esc(P(o).name)}${g.stakes ? ` · ${esc(g.stakes)}` : ''}</small></span>
+          ${nm ? '<span class="badge">Your move</span>' : ''}${I.chev}
+        </button>
+        ${nm ? '' : `<button class="row-btn tint" data-act="nudge">${I.bell}<span class="row-text"><b>Nudge ${esc(P(o).name)}</b></span></button>`}
       </section>` : newGamePanel(g)}
-
-    ${nm || !g || g.phase === 'over' ? '' : `<button class="btn ghost wide" data-act="nudge">📣 Nudge ${esc(P(opp(me)).name)}</button>`}
   </div>`;
 }
 
 function newGamePanel(g) {
-  return `<section class="panel">
-    ${g?.phase === 'over' ? `<p class="muted center-text">Last game: <b>${esc(P(g.winner).name)}</b> won. <a href="#" data-act="go" data-view="game">See reveal</a></p>` : ''}
-    <h3>Start a new game</h3>
-    <label class="lbl" for="stakes">What’s riding on it? (optional)</label>
-    <input id="stakes" maxlength="60" placeholder="e.g. Loser does the dishes">
-    <div class="chips">${CONFIG.stakesIdeas.map((s) => `<button class="chip" data-act="stake" data-v="${esc(s)}">${esc(s)}</button>`).join('')}</div>
-    <button class="btn primary wide" data-act="new">🎲 Deal the cards</button>
-  </section>`;
+  return `
+    ${g?.phase === 'over' ? `<button class="callout last-game" data-act="go" data-view="game">Last game: <b>${esc(P(g.winner).name)}</b> won · <span class="link">See reveal</span></button>` : ''}
+    <p class="group-h">New game</p>
+    <section class="group pad">
+      <label class="lbl" for="stakes">What’s riding on it?</label>
+      <input id="stakes" class="field" maxlength="60" placeholder="Optional, e.g. loser does the dishes">
+      <div class="chips">${CONFIG.stakesIdeas.map((s) => `<button class="chip" data-act="stake" data-v="${esc(s)}">${esc(s)}</button>`).join('')}</div>
+      <button class="btn primary wide" data-act="new">${I.shuffle} Deal the Cards</button>
+    </section>`;
 }
 
 function renderGame() {
@@ -283,15 +304,14 @@ function renderGame() {
   const flipped = new Set(g.flipped[me]);
   const over = g.phase === 'over';
 
-  return `<div class="screen game ${guessMode ? 'guessing' : ''}">
-    <header class="topbar">
-      <button class="icon" data-act="go" data-view="home" aria-label="Back">‹</button>
-      <div class="vs">${avatar(me)} <small>${24 - flipped.size}</small> <i>vs</i> ${avatar(o)} <small>${24 - g.flipped[o].length}</small></div>
-      <button class="secret-btn" data-act="secret" aria-label="Show my secret person">
-        ${showSecret ? `<span class="mini">${portrait(mySecret)}</span><b>${esc(mySecret.name)}</b>` : '🔒 My person'}
+  return `<header class="navbar">
+      <button class="nav-back" data-act="go" data-view="home">${I.back}<span>Home</span></button>
+      <div class="vs"><span>${avatar(me, 'xs')}<b>${24 - flipped.size}</b></span><span>${avatar(o, 'xs')}<b>${24 - g.flipped[o].length}</b></span></div>
+      <button class="secret-btn ${showSecret ? 'open' : ''}" data-act="secret" aria-label="Show my secret person">
+        ${showSecret ? `<span class="mini">${portrait(mySecret)}</span><b>${esc(mySecret.name)}</b>` : `${I.lock}<b>My Person</b>`}
       </button>
     </header>
-
+    <div class="screen game ${guessMode ? 'guessing' : ''}">
     ${over ? renderOver(g) : renderBanner(g)}
 
     <div class="board" role="grid" aria-label="Your board">
@@ -301,13 +321,13 @@ function renderGame() {
           <span class="pic">${portrait(p)}</span><span class="nm">${esc(p.name)}</span></button>`;
       }).join('')}
     </div>
-    <p class="hint muted">${guessMode ? 'Tap the person you think it is.' : 'Tap a card to flip it down (or back up).'}</p>
+    <p class="footnote center-text">${guessMode ? 'Tap the person you think it is.' : 'Tap a card to flip it down. Tap again to flip it back up.'}</p>
 
     ${renderLog(g)}
 
-    ${!over ? `<section class="panel taunts"><small class="muted">Send ${esc(P(o).name)} a little something</small>
-      <div class="chips">${CONFIG.taunts.map((t) => `<button class="chip" data-act="taunt" data-v="${esc(t)}">${esc(t)}</button>`).join('')}</div></section>
-      <button class="btn link" data-act="forfeit">Give up this game</button>` : ''}
+    ${!over ? `<p class="group-h">Send ${esc(P(o).name)} a little something</p>
+      <section class="group pad taunts"><div class="chips">${CONFIG.taunts.map((t) => `<button class="chip" data-act="taunt" data-v="${esc(t)}">${esc(t)}</button>`).join('')}</div></section>
+      <section class="group"><button class="row-btn destructive" data-act="forfeit"><span class="row-text"><b>Give Up This Game</b></span></button></section>` : ''}
   </div>`;
 }
 
@@ -315,39 +335,48 @@ function renderBanner(g) {
   const o = P(opp(me));
   const last = [...g.log].reverse().find((e) => e.kind === 'q');
   if (guessMode) return `<section class="banner guess">
-      <b>🎯 Make your guess</b><p>Tap who you think ${esc(o.name)}’s person is.${CONFIG.rules.wrongGuess === 'lose' ? ' Careful, a wrong guess loses!' : ''}</p>
-      <button class="btn ghost" data-act="guessmode">Cancel</button></section>`;
+      <p class="kicker">${I.target} Make your guess</p>
+      <h2>Who is ${esc(o.name)}’s person?</h2>
+      <p class="sub">Tap their card below.${CONFIG.rules.wrongGuess === 'lose' ? ' A wrong guess loses the game.' : ''}</p>
+      <button class="btn tinted wide" data-act="guessmode">Cancel</button></section>`;
 
   if (g.phase === 'answer' && g.turn !== me) {
     const sec = person(g, g.secret[me]);
     return `<section class="banner ask-you">
-      <small>${avatar(o.id)} ${esc(o.name)} asks:</small>
-      <p class="q">“${esc(g.pending.text)}”</p>
+      <p class="kicker">${avatar(o.id, 'xs')} ${esc(o.name)} asks</p>
+      <h2 class="q">${esc(g.pending.text)}</h2>
       <div class="answer-row">
         <span class="mini lg">${portrait(sec)}</span>
-        <div><small class="muted">Your person</small><b>${esc(sec.name)}</b></div>
+        <div><small>Your person</small><b>${esc(sec.name)}</b></div>
       </div>
       <div class="yn"><button class="btn yes" data-act="answer" data-v="yes">Yes</button><button class="btn no" data-act="answer" data-v="no">No</button></div>
-      <button class="btn link" data-act="answer" data-v="not sure">Not sure</button>
+      <button class="btn plain wide" data-act="answer" data-v="not sure">Not Sure</button>
     </section>`;
   }
   if (g.phase === 'answer') return `<section class="banner wait">
-      <p>Waiting for ${esc(o.name)} to answer:</p><p class="q">“${esc(g.pending.text)}”</p>
-      <button class="btn ghost" data-act="nudge">📣 Nudge ${esc(o.name)}</button></section>`;
+      <p class="kicker">Waiting for ${esc(o.name)}</p>
+      <h2 class="q">${esc(g.pending.text)}</h2>
+      <p class="sub">They’ll answer next time they open the game.</p>
+      <button class="btn tinted wide" data-act="nudge">${I.bell} Nudge ${esc(o.name)}</button></section>`;
 
   if (g.turn === me && g.phase === 'flip') return `<section class="banner flip">
-      <p>${esc(o.name)} said <b class="ans ${last.answer.replace(' ', '')}">${esc(last.answer.toUpperCase())}</b> to “${esc(last.text)}”</p>
-      <p class="muted">Flip down everyone who doesn’t fit, then end your turn.</p>
-      <div class="row"><button class="btn primary" data-act="end">End turn ✓</button><button class="btn ghost" data-act="guessmode">🎯 Guess</button></div></section>`;
+      <p class="kicker">${esc(o.name)} answered</p>
+      <h2><span class="ans big ${last.answer.replace(' ', '')}">${esc(last.answer)}</span></h2>
+      <p class="sub">“${esc(last.text)}” Flip down everyone who doesn’t fit, then end your turn.</p>
+      <div class="row"><button class="btn primary" data-act="end">End Turn</button><button class="btn tinted" data-act="guessmode">${I.target} Guess</button></div></section>`;
 
   if (g.turn === me) return `<section class="banner your">
-      <b>Your turn!</b> Ask ${esc(o.name)} a yes/no question.
-      <form class="ask" data-form="ask"><input id="q" maxlength="120" placeholder="Does your person…?" autocomplete="off" enterkeyhint="send"><button class="btn primary">Ask</button></form>
+      <p class="kicker">Your turn</p>
+      <h2>Ask ${esc(o.name)} a yes-or-no question</h2>
+      <form class="ask" data-form="ask"><input id="q" class="field" maxlength="120" placeholder="Does your person…" autocomplete="off" enterkeyhint="send"><button class="btn primary">Ask</button></form>
       <div class="chips">${CONFIG.quickQuestions.map((q) => `<button class="chip" data-act="quick" data-v="${esc(q)}">${esc(q)}</button>`).join('')}</div>
-      <button class="btn ghost wide" data-act="guessmode">🎯 I know who it is. Make a guess</button></section>`;
+      <button class="btn tinted wide" data-act="guessmode">${I.target} I Know Who It Is</button></section>`;
 
-  return `<section class="banner wait"><p>${esc(o.name)}’s turn. They’re thinking… 🤔</p>
-      <button class="btn ghost" data-act="nudge">📣 Nudge ${esc(o.name)}</button></section>`;
+  return `<section class="banner wait">
+      <p class="kicker">${esc(o.name)}’s turn</p>
+      <h2>They’re thinking…</h2>
+      <p class="sub">You’ll see their question here.</p>
+      <button class="btn tinted wide" data-act="nudge">${I.bell} Nudge ${esc(o.name)}</button></section>`;
 }
 
 function renderOver(g) {
@@ -360,23 +389,24 @@ function renderOver(g) {
       <small>${esc(P(id).name)}’s person</small><span class="pic">${portrait(p)}</span><b>${esc(p.name)}</b>${p.fact ? `<p>${esc(p.fact)}</p>` : ''}</div>`; };
   return `<section class="banner over ${won ? 'won' : 'lost'}">
     ${won ? '<div class="confetti" aria-hidden="true">' + CONFETTI.map((c, i) => `<i style="--i:${i}">${c}</i>`).join('') + '</div>' : ''}
-    <h2>${won ? 'You win! 🏆' : `${esc(w.name)} wins!`}</h2>
+    ${avatar(g.winner, 'lg')}
+    <h2>${won ? 'You Win!' : `${esc(w.name)} Wins`}</h2>
     <p class="msg">${esc(msg)}</p>
-    ${how === 'wrong-guess' ? `<p class="muted">(${esc(P(opp(g.winner)).name)} made a wrong guess)</p>` : ''}
-    ${how === 'forfeit' ? `<p class="muted">(${esc(P(opp(g.winner)).name)} gave up)</p>` : ''}
-    ${g.stakes ? `<p class="stakes">💸 ${esc(g.stakes)}: <b>${esc(P(opp(g.winner)).name)}</b> pays up!</p>` : ''}
+    ${how === 'wrong-guess' ? `<p class="sub">${esc(P(opp(g.winner)).name)} made a wrong guess.</p>` : ''}
+    ${how === 'forfeit' ? `<p class="sub">${esc(P(opp(g.winner)).name)} gave up.</p>` : ''}
+    ${g.stakes ? `<p class="stakes">${esc(g.stakes)} · <b>${esc(P(opp(g.winner)).name)}</b> pays up</p>` : ''}
     <div class="reveals">${card(me)}${card(o)}</div>
-    <div class="row"><button class="btn primary" data-act="rematch">🔁 Rematch</button><button class="btn ghost" data-act="go" data-view="leaders">🏆 Scores</button></div>
+    <div class="row"><button class="btn primary" data-act="rematch">Rematch</button><button class="btn tinted" data-act="go" data-view="leaders">Scores</button></div>
   </section>`;
 }
 
 function renderLog(g) {
   const qs = g.log.filter((e) => e.kind === 'q' || e.kind === 'guess');
   if (!qs.length) return '';
-  return `<details class="panel log"><summary>Questions so far (${qs.length})</summary><ol>
+  return `<p class="group-h">History</p><details class="group log"><summary>${qs.length} question${qs.length === 1 ? '' : 's'} so far</summary><ol>
     ${qs.map((e) => e.kind === 'q'
-      ? `<li>${avatar(e.by, 'xs')} ${esc(e.text)} <b class="ans ${e.answer.replace(' ', '')}">${esc(e.answer)}</b></li>`
-      : `<li>${avatar(e.by, 'xs')} Guessed ${esc(person(g, e.pid).name)} <b class="ans ${e.correct ? 'yes' : 'no'}">${e.correct ? 'correct!' : 'wrong'}</b></li>`).join('')}
+      ? `<li>${avatar(e.by, 'xs')}<span>${esc(e.text)}</span><b class="ans ${e.answer.replace(' ', '')}">${esc(e.answer)}</b></li>`
+      : `<li>${avatar(e.by, 'xs')}<span>Guessed ${esc(person(g, e.pid).name)}</span><b class="ans ${e.correct ? 'yes' : 'no'}">${e.correct ? 'right' : 'wrong'}</b></li>`).join('')}
   </ol></details>`;
 }
 
@@ -390,32 +420,33 @@ function renderLeaders() {
   const [a, b] = PLAYERS;
   const fmt = (t) => new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   return `<div class="screen">
-    <header class="page-h"><h1>🏆 Leaderboard</h1></header>
-    <section class="panel champ center-text">
-      ${total ? (tie ? `<div class="crown">🤝</div><h2>All square!</h2><p class="muted">${r[a.id].wins} wins each. Next game decides it.</p>`
-        : `<div class="crown">👑</div>${avatar(champ.id, 'xl')}<h2>${esc(champ.name)}</h2><p class="muted">“${esc(champ.nickname)}” · reigning champion</p>`)
-        : `<div class="crown">🃏</div><h2>No games yet</h2><p class="muted">Play a game to get on the board!</p>`}
+    ${largeTitle('Leaderboard')}
+    <section class="group champ center-text">
+      ${total ? (tie ? `<div class="crown">🤝</div><h2>All Square</h2><p class="sub">${r[a.id].wins} wins each. Next game decides it.</p>`
+        : `<div class="champ-av">${avatar(champ.id, 'xl')}<span class="crown">👑</span></div><h2>${esc(champ.name)}</h2><p class="sub">${esc(champ.nickname)} · Reigning Champion</p>`)
+        : `<div class="crown">🃏</div><h2>No Games Yet</h2><p class="sub">Play a game to get on the board.</p>`}
+      ${total ? `<div class="bar" aria-label="Win share"><span style="width:${pct(a.id)}%;background:${a.color}"></span><span style="width:${100 - pct(a.id)}%;background:${b.color}"></span></div>
+        <div class="bar-legend"><span>${esc(a.name)} ${pct(a.id)}%</span><span>${100 - pct(a.id)}% ${esc(b.name)}</span></div>` : ''}
     </section>
 
-    ${total ? `<div class="bar" aria-label="Win share"><span style="width:${pct(a.id)}%;background:${a.color}">${pct(a.id)}%</span><span style="width:${100 - pct(a.id)}%;background:${b.color}">${100 - pct(a.id)}%</span></div>` : ''}
-
-    <section class="stats">
-      <div class="th"></div>${PLAYERS.map((p) => `<div class="th">${avatar(p.id)} ${esc(p.name)}</div>`).join('')}
+    <p class="group-h">Stats</p>
+    <section class="group stats">
+      <div class="st-row st-head"><span></span>${PLAYERS.map((p) => `<span>${avatar(p.id, 'xs')}${esc(p.name)}</span>`).join('')}</div>
       ${[
         ['Wins', (id) => r[id].wins],
         ['This month', (id) => r[id].month],
         ['Current streak', (id) => (r[id].streak ? `🔥 ${r[id].streak}` : '0')],
         ['Best streak', (id) => r[id].best],
         ['Fewest questions to win', (id) => r[id].fewest ?? '–'],
-        ['Avg questions per win', (id) => (r[id].wins ? (r[id].qSum / r[id].wins).toFixed(1) : '–')],
-      ].map(([label, f]) => `<div class="td l">${label}</div>${PLAYERS.map((p) => `<div class="td">${f(p.id)}</div>`).join('')}`).join('')}
+        ['Avg. questions per win', (id) => (r[id].wins ? (r[id].qSum / r[id].wins).toFixed(1) : '–')],
+      ].map(([label, f]) => `<div class="st-row"><span class="st-l">${label}</span>${PLAYERS.map((p) => `<b>${f(p.id)}</b>`).join('')}</div>`).join('')}
     </section>
 
-    ${h.length ? `<section class="panel"><h3>Recent games</h3><ul class="recent">
+    ${h.length ? `<p class="group-h">Recent games</p><section class="group"><ul class="recent">
       ${h.slice(0, 15).map((x) => {
         const d = deckOf(x.deckId); const m = d.people.find((p) => p.id === x.mystery);
-        return `<li>${avatar(x.winner, 'sm')}<div><b>${esc(P(x.winner).name)}</b> won${x.how === 'guess' ? ` in ${x.questions} question${x.questions === 1 ? '' : 's'}` : x.how === 'forfeit' ? ' (forfeit)' : ' (wrong guess)'}
-          <small class="muted">${fmt(x.endedAt)}${m ? ` · mystery person: ${esc(m.name)}` : ''}${x.stakes ? ` · ${esc(x.stakes)}` : ''}</small></div></li>`;
+        return `<li>${avatar(x.winner, 'sm')}<div><b>${esc(P(x.winner).name)} won${x.how === 'guess' ? ` in ${x.questions} question${x.questions === 1 ? '' : 's'}` : x.how === 'forfeit' ? ' by forfeit' : ' on a wrong guess'}</b>
+          <small>${m ? `Mystery person: ${esc(m.name)}` : ''}${x.stakes ? ` · ${esc(x.stakes)}` : ''}</small></div><time>${fmt(x.endedAt)}</time></li>`;
       }).join('')}</ul></section>` : ''}
   </div>`;
 }
@@ -423,36 +454,36 @@ function renderLeaders() {
 function renderSettings() {
   const base = location.origin + location.pathname;
   return `<div class="screen">
-    <header class="page-h"><h1>⚙️ Settings</h1></header>
-    <section class="panel">
-      <h3>This phone belongs to</h3>
-      <div class="seg">${PLAYERS.map((p) => `<button class="${p.id === me ? 'on' : ''}" data-act="be" data-id="${p.id}" style="--pc:${p.color}">${p.emoji} ${esc(p.name)}</button>`).join('')}</div>
+    ${largeTitle('Settings')}
+    <p class="group-h">This phone belongs to</p>
+    <section class="group pad"><div class="seg">${PLAYERS.map((p) => `<button class="${p.id === me ? 'on' : ''}" data-act="be" data-id="${p.id}" style="--pc:${p.color}">${avatar(p.id, 'xs')} ${esc(p.name)}</button>`).join('')}</div></section>
+
+    <p class="group-h">Personal links</p>
+    <section class="group">
+      ${PLAYERS.map((p) => `<button class="row-btn" data-act="copy" data-v="${esc(base + '?me=' + p.id)}">${avatar(p.id, 'sm')}<span class="row-text"><b>${esc(p.name)}’s link</b><small>Opens the game signed in as ${esc(p.name)}</small></span><span class="row-action">${I.link} Copy</span></button>`).join('')}
     </section>
-    <section class="panel">
-      <h3>Personal links</h3>
-      <p class="muted">Send each person their own link. It opens the game already signed in as them.</p>
-      ${PLAYERS.map((p) => `<div class="linkrow"><span>${p.emoji} ${esc(p.name)}</span><button class="btn ghost sm" data-act="copy" data-v="${esc(base + '?me=' + p.id)}">Copy link</button></div>`).join('')}
+
+    <p class="group-h">Notifications</p>
+    <section class="group">
+      <button class="row-btn" data-act="notify">${I.bell}<span class="row-text"><b>Turn Alerts</b><small>A pop-up when it’s your turn while the game is open</small></span>${I.chev}</button>
     </section>
-    <section class="panel">
-      <h3>Turn alerts</h3>
-      <p class="muted">Get a pop-up when it’s your turn while the game is open in the background. When the app is fully closed, use the 📣 Nudge button to text each other.</p>
-      <button class="btn ghost" data-act="notify">🔔 Allow alerts</button>
-    </section>
-    <section class="panel">
-      <h3>Add to Home Screen</h3>
-      <p class="muted"><b>iPhone:</b> open in Safari → Share ⬆️ → “Add to Home Screen”.<br><b>Android:</b> Chrome menu ⋮ → “Add to Home screen”.</p>
-    </section>
-    <section class="panel muted small">
-      <p>Mode: <b>${store?.mode === 'online' ? '🟢 Online (Firebase)' : '🧪 Local test mode'}</b></p>
-      <p>Room: <code>${esc(CONFIG.roomCode)}</code></p>
-      <p>Wrong guess: <b>${CONFIG.rules.wrongGuess === 'lose' ? 'loses the game' : 'ends your turn'}</b></p>
+    <p class="group-f">When the app is closed, use Nudge to text each other.</p>
+
+    <p class="group-h">Add to Home Screen</p>
+    <section class="group pad"><p class="body"><b>iPhone:</b> open in Safari, tap Share, then “Add to Home Screen”.</p><p class="body"><b>Android:</b> Chrome menu, then “Add to Home screen”.</p></section>
+
+    <p class="group-h">About</p>
+    <section class="group">
+      <div class="kv"><span>Mode</span><b>${store?.mode === 'online' ? 'Online' : 'Test (this device)'}</b></div>
+      <div class="kv"><span>Wrong guess</span><b>${CONFIG.rules.wrongGuess === 'lose' ? 'Loses the game' : 'Ends your turn'}</b></div>
+      <div class="kv"><span>Room</span><b class="mono">${esc(CONFIG.roomCode)}</b></div>
     </section>
   </div>`;
 }
 
 function nav() {
-  const tab = (v, icon, label) => `<button class="${view === v || (v === 'home' && view === 'game') ? 'on' : ''}" data-act="go" data-view="${v}"><span>${icon}</span>${label}</button>`;
-  return `<nav class="tabs">${tab('home', '🏠', 'Play')}${tab('leaders', '🏆', 'Leaderboard')}${tab('settings', '⚙️', 'Settings')}</nav>`;
+  const tab = (v, icon, label) => `<button class="${view === v || (v === 'home' && view === 'game') ? 'on' : ''}" data-act="go" data-view="${v}">${icon}<span>${label}</span></button>`;
+  return `<nav class="tabs">${tab('home', I.home, 'Play')}${tab('leaders', I.trophy, 'Leaderboard')}${tab('settings', I.gear, 'Settings')}</nav>`;
 }
 
 function render() {
@@ -465,7 +496,7 @@ function render() {
   // theme the whole app in the phone owner's color
   if (me) document.documentElement.style.setProperty('--primary', P(me).color);
   if (!me) { app.innerHTML = renderWho(); return; }
-  if (!state) { app.innerHTML = `<div class="screen center"><div class="logo spin">${LOGO}</div><p class="muted">Shuffling the cards…</p></div>`; return; }
+  if (!state) { app.innerHTML = `<div class="screen center"><div class="app-icon spin">${LOGO}</div><p class="muted">Shuffling the cards…</p></div>`; return; }
   // one-time holiday gift card on each phone
   const gm = holidayOn && HOL.giftMessage;
   if (gm && !modal && !ls.get('gw.gift.' + me)) {
