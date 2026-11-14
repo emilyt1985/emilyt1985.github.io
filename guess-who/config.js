@@ -27,8 +27,8 @@ export const CONFIG = {
   // ---- The two players --------------------------------------
   // phone is optional: if set, "Nudge" opens a text to that number.
   players: [
-    { id: 'mom', name: 'Mom', nickname: 'The Detective', emoji: '🌸', color: '#d9467a', phone: '' },
-    { id: 'dad', name: 'Dad', nickname: 'The Closer',    emoji: '🎣', color: '#2f74c9', phone: '' },
+    { id: 'valerie', name: 'Valerie', nickname: 'The Detective', emoji: '🌸', color: '#d9467a', phone: '' },
+    { id: 'bobby',   name: 'Bobby',   nickname: 'The Closer',    emoji: '🎣', color: '#2f74c9', phone: '' },
   ],
 
   rules: {
@@ -59,8 +59,8 @@ export const CONFIG = {
 
   // Random message shown when each player wins. Write them in their voice!
   winMessages: {
-    mom: ['Mom cracks the case again! 🕵️‍♀️', 'Elementary, my dear Dad.', 'Never doubt Mom.'],
-    dad: ['Dad reels in another win! 🎣', 'The Closer strikes again.', 'Dad: 1, Mystery: 0'],
+    valerie: ['Valerie cracks the case again! 🕵️‍♀️', 'Elementary, my dear Bobby.', 'Never doubt Valerie.'],
+    bobby: ['Bobby reels in another win! 🎣', 'The Closer strikes again.', 'Bobby: 1, Mystery: 0'],
   },
 
   // Banners on the home screen on special days (MM-DD).

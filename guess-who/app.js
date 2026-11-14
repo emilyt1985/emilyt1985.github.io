@@ -21,7 +21,7 @@ const deckOf = (id) => CONFIG.decks.find((d) => d.id === id) || CONFIG.decks[0];
 const person = (game, pid) => deckOf(game.deckId).people.find((p) => p.id === pid) || { id: pid, name: pid };
 const portrait = (p) => (p.photo ? `<img src="${esc(p.photo)}" alt="" loading="lazy">` : faceSVG(p));
 
-// who is holding this phone? (?me=dad in the link sets it)
+// who is holding this phone? (?me=bobby in the link sets it)
 const urlMe = new URLSearchParams(location.search).get('me');
 let me = P(urlMe) ? urlMe : ls.get('gw.me');
 if (P(urlMe)) ls.set('gw.me', urlMe);

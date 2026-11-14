@@ -37,11 +37,11 @@ The game shares its state through Google Firebase (the free "Spark" plan is plen
 5. In `guess-who/config.js`, paste them into `firebase: { ... }` and change `roomCode` to something long and random.
 6. Commit and push. GitHub Pages updates within a minute or two.
 
-Until Firebase is set up, the app runs in **local test mode**: everything works, but only on one device (open two tabs, one `?me=mom` and one `?me=dad`, to try both sides).
+Until Firebase is set up, the app runs in **local test mode**: everything works, but only on one device (open two tabs, one `?me=valerie` and one `?me=bobby`, to try both sides).
 
 ## Get it on your parents' phones
 
-- In the app, go to **Settings → Personal links** and send Mom her link and Dad his. Each link signs them in as the right player.
+- In the app, go to **Settings → Personal links** and send Valerie her link and Bobby his. Each link signs them in as the right player.
 - **iPhone:** open the link in Safari → Share → **Add to Home Screen**.
 - **Android:** open it in Chrome → ⋮ → **Add to Home screen**.
 
