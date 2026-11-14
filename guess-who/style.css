@@ -49,7 +49,7 @@ code { font-size: .85em; background: rgba(0,0,0,.06); padding: 1px 5px; border-r
 /* who are you */
 .who h2 { margin-top: 28px; font-size: 1.2rem; }
 .who-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; max-width: 380px; margin-top: 14px; }
-.who-btn { border: 3px solid var(--pc); background: var(--panel); border-radius: 22px; padding: 18px 8px; display: grid; gap: 2px; cursor: pointer; box-shadow: var(--shadow); }
+.who-btn { justify-items: center; border: 3px solid var(--pc); background: var(--panel); border-radius: 22px; padding: 18px 8px; display: grid; gap: 2px; cursor: pointer; box-shadow: var(--shadow); }
 .who-btn .big { font-size: 44px; }
 .who-btn b { font-size: 1.3rem; color: var(--pc); }
 .who-btn small { color: var(--muted); }
@@ -71,6 +71,8 @@ code { font-size: .85em; background: rgba(0,0,0,.06); padding: 1px 5px; border-r
 .score i { color: var(--muted); font-style: normal; font-size: 1.6rem; }
 
 .av { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: color-mix(in srgb, var(--pc) 22%, transparent); border: 2px solid var(--pc); font-size: 15px; flex: none; vertical-align: middle; }
+.av { overflow: hidden; }
+.av img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .av.xs { width: 22px; height: 22px; font-size: 12px; border-width: 1.5px; }
 .av.sm { width: 34px; height: 34px; font-size: 18px; }
 .av.lg { width: 52px; height: 52px; font-size: 28px; border-width: 3px; }

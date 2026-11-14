@@ -164,7 +164,7 @@ function announce(prev, next) {
 }
 
 // ---------- views ----------
-const avatar = (id, cls = '') => `<span class="av ${cls}" style="--pc:${P(id).color}">${P(id).emoji}</span>`;
+const avatar = (id, cls = '') => `<span class="av ${cls}" style="--pc:${P(id).color}">${P(id).photo ? `<img src="${esc(P(id).photo)}" alt="">` : P(id).emoji}</span>`;
 
 function renderWho() {
   return `<div class="screen center who">
@@ -173,7 +173,7 @@ function renderWho() {
     <h2>Who’s playing on this phone?</h2>
     <div class="who-btns">${PLAYERS.map((p) => `
       <button class="who-btn" data-act="be" data-id="${p.id}" style="--pc:${p.color}">
-        <span class="big">${p.emoji}</span><b>${esc(p.name)}</b><small>${esc(p.nickname)}</small></button>`).join('')}
+        ${avatar(p.id, 'xl')}<b>${esc(p.name)}</b><small>${esc(p.nickname)}</small></button>`).join('')}
     </div></div>`;
 }
 
