@@ -41,9 +41,9 @@ let patchOnly = false; // my own flip: update card classes instead of a full re-
 function startGame(stakes) {
   return store.update((s) => {
     const deck = CONFIG.decks[0];
-    // every family member (has a photo/Memoji) is always dealt; cartoons fill the rest
-    const real = shuffle(deck.people.filter((p) => p.photo).map((p) => p.id)).slice(0, 24);
-    const rest = shuffle(deck.people.filter((p) => !p.photo).map((p) => p.id));
+    // every family member is always dealt; placeholder people fill the rest
+    const real = shuffle(deck.people.filter((p) => p.family).map((p) => p.id)).slice(0, 24);
+    const rest = shuffle(deck.people.filter((p) => !p.family).map((p) => p.id));
     const ids = shuffle([...real, ...rest.slice(0, 24 - real.length)]);
     const [a, b] = PLAYERS.map((p) => p.id);
     const secretA = pick(ids);

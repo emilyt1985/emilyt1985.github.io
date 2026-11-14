@@ -52,7 +52,7 @@ Everything lives in `config.js`:
 | What | Where |
 |---|---|
 | Names, nicknames, emoji, colors, phone numbers | `players` |
-| Family members on the cards | save their Memoji in `guess-who/memoji/`, then add or uncomment their line in `FAMILY` |
+| Family members on the cards | `FAMILY` (described by hair, glasses, caps and so on; see below) |
 | Memory or inside joke shown at the reveal | `fact` on each person |
 | Player avatars (Valerie and Bobby) | `photo:` on each player, currently their Memoji in `guess-who/avatars/` |
 | Family inside-joke questions | `quickQuestions` |
@@ -61,18 +61,22 @@ Everything lives in `config.js`:
 | Anniversary and birthday banners | `specialDates` |
 | Stakes suggestions | `stakesIdeas` |
 
-### Making a Memoji card
+### Adding a family member
 
-1. On an iPhone, open Messages → a conversation → the Memoji (sticker) button → **+**, and style it after the person. Keep the expression neutral and give them their real glasses, hats and hairstyles: those are what players ask about.
-2. Send it as a sticker (to yourself is fine), then press and hold it → **Save**.
-3. Every family member is dealt in every game. Cartoon people fill the remaining spots up to 24.
+Family members are drawn as cartoons from a short description in `FAMILY` in `config.js`, for example:
 
-Memoji are cartoons, so they're fine on a public site. Real photos of family (especially kids) shouldn't go in this public repository.
+```js
+{ name: 'Sadie', skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '' },
+```
+
+All the options (hair colors and styles, glasses, caps, beards, earrings, kids...) are listed at the top of `faces.js`. Everyone in `FAMILY` is dealt in every game; placeholder people fill the rest of the 24 spots.
+
+To use a picture instead of a drawing (a Memoji, say), save it in `guess-who/memoji/` and add `photo: 'memoji/name.webp'` to that person. Cartoons and Memoji are fine on a public site. Real photos of family (especially kids) shouldn't go in this public repository.
 
 ## Files
 
 - `index.html`: page shell (installable as a home-screen app via `manifest.json` and `sw.js`)
 - `app.js`: game rules and screens
 - `store.js`: syncing (Firebase online, localStorage offline)
-- `faces.js`: draws the placeholder cartoon faces
+- `faces.js`: draws the cartoon faces (family and placeholders)
 - `config.js`: everything personal

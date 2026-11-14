@@ -7,24 +7,25 @@
 // ============================================================
 
 // ---- Family (always on the board) -----------------------------
-// Each person is a Memoji: save their sticker as a PNG/WebP in
-// guess-who/memoji/ and add (or uncomment) their line here.
+// Each family member is drawn as a cartoon from their traits (see
+// the list at the top of faces.js: hair, glasses, caps, beards...).
+// To use a picture instead, add  photo: 'memoji/name.webp'  to them.
 // "fact" is revealed at the end of the game when that person was
 // the mystery person: a great spot for a memory or inside joke.
 const FAMILY = [
-  { name: 'Valerie',  photo: 'memoji/valerie.webp',  fact: '' },
-  { name: 'Bobby',    photo: 'memoji/bobby.webp',    fact: '' },
-  // { name: 'Fletcher', photo: 'memoji/fletcher.webp', fact: '' },
-  // { name: 'Sonny',    photo: 'memoji/sonny.webp',    fact: '' },
-  // { name: 'Emily',    photo: 'memoji/emily.webp',    fact: '' },
-  // { name: 'Nick',     photo: 'memoji/nick.webp',     fact: '' },
-  // { name: 'Chelsea',  photo: 'memoji/chelsea.webp',  fact: '' },
-  // { name: 'Bill',     photo: 'memoji/bill.webp',     fact: '' },
-  // { name: 'Aydee',    photo: 'memoji/aydee.webp',    fact: '' },
-  // { name: 'Seth',     photo: 'memoji/seth.webp',     fact: '' },
-  // { name: 'Sadie',    photo: 'memoji/sadie.webp',    fact: '' },
-  // { name: 'Lara',     photo: 'memoji/lara.webp',     fact: '' },
-  // { name: 'Jennifer', photo: 'memoji/jennifer.webp', fact: '' },
+  { name: 'Valerie',  skin: 0, hair: 'strawberry', style: 'bangs', glasses: true, glassesColor: '#d6452f', shirt: 'white', fact: '' },
+  { name: 'Bobby',    skin: 1, hair: 'white', style: 'bald', glasses: true, facial: 'goatee', eyes: 'blue', shirt: 'white', fact: '' },
+  { name: 'Fletcher', kid: true, skin: 0, hair: 'blonde', style: 'tuft', eyes: 'blue', shirt: 'red', fact: '' },
+  { name: 'Sonny',    kid: true, skin: 0, hair: 'blonde', style: 'short', eyes: 'blue', shirt: 'teal', fact: '' },
+  { name: 'Emily',    skin: 0, hair: 'darkbrown', style: 'long', noseRing: true, earrings: true, shirt: 'white', fact: '' },
+  { name: 'Nick',     skin: 1, hair: 'darkbrown', style: 'short', hat: 'cap', hatColor: '#5e6b3e', facial: 'stubble', shirt: 'red', fact: '' },
+  { name: 'Chelsea',  skin: 0, hair: 'brown', style: 'bun', headband: true, shirt: 'maroon', fact: '' },
+  { name: 'Bill',     skin: 1, hair: 'gray', style: 'short', glasses: true, glassesColor: '#8d939a', shirt: 'lightblue', fact: '' },
+  { name: 'Aydee',    skin: 2, hair: 'darkbrown', style: 'bob', glasses: true, earrings: true, shirt: 'navy', fact: '' },
+  { name: 'Seth',     skin: 1, hair: 'darkbrown', style: 'crew', eyes: 'blue', shirt: 'gray', fact: '' },
+  { name: 'Sadie',    skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '' },
+  { name: 'Lara',     skin: 0, hair: 'blonde', style: 'wavy', noseRing: true, shirt: 'red', fact: '' },
+  { name: 'Jennifer', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', shirt: 'blue', fact: '' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
@@ -123,8 +124,8 @@ export const CONFIG = {
 
   // ---- Decks --------------------------------------------------
   // Every game deals 24 cards. Everyone in FAMILY is ALWAYS dealt;
-  // the remaining spots are filled at random with cartoon people.
+  // the remaining spots are filled at random with placeholder people.
   decks: [
-    { id: 'family', name: 'Family', people: [...FAMILY, ...PLACEHOLDERS] },
+    { id: 'family', name: 'Family', people: [...FAMILY.map((p) => ({ ...p, family: true })), ...PLACEHOLDERS] },
   ],
 };
