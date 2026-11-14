@@ -30,6 +30,7 @@ const FAMILY = [
   { name: 'Auntie',    hair: 'gray', style: 'curly', glasses: true, earrings: true, photo: 'memoji/auntie.webp', fact: '' },
   { name: 'Mamaw',     hair: 'brown', style: 'curly', glasses: true, earrings: true, photo: 'memoji/mamaw.webp', fact: '' },
   { name: 'Uncle Don', hair: 'gray', style: 'short', glasses: true, photo: 'memoji/uncle-don.webp', fact: '' },
+  { name: 'Sophie',    photo: 'memoji/sophie.webp', fact: '' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
@@ -106,6 +107,7 @@ export const CONFIG = {
     'Is their shirt red?',
     'Is it a kid?',
     'Is it a real family member?',
+    'Is it a dog?',
   ],
 
   // One-tap trash talk / cheering the other player sees.
