@@ -90,6 +90,7 @@ code { background: var(--fill); padding: 1px 5px; border-radius: 5px; }
 /* ---------- grouped lists ---------- */
 .group { background: var(--panel); border-radius: var(--r); overflow: hidden; }
 .group.pad { padding: 14px 16px; }
+.group + .group { margin-top: 12px; }
 .row-btn { width: 100%; display: flex; align-items: center; gap: 12px; padding: 11px 16px; min-height: 52px; border: 0; background: none; text-align: left; position: relative; }
 .row-btn + .row-btn::before, .kv + .kv::before, .st-row + .st-row::before, .recent li + li::before {
   content: ""; position: absolute; top: 0; left: 16px; right: 0; height: .5px; background: var(--sep); }
@@ -288,6 +289,39 @@ code { background: var(--fill); padding: 1px 5px; border-radius: 5px; }
 .gift p { font-size: 15px; letter-spacing: -.24px; line-height: 1.45; margin: 6px 0; }
 .gift-to { font-weight: 600; }
 .gift-from { font-style: italic; text-align: right; color: var(--muted); }
+
+/* ---------- new-flow bits ---------- */
+.when { margin-left: auto; color: var(--muted); text-transform: none; font-weight: 400; letter-spacing: -.08px; }
+.banner.wait .when { margin-left: 0; }
+.banner + .banner { margin-top: -4px; }
+.banner.flip .ans.big { margin: 2px 0; }
+.btn.wide + .btn.plain.wide { margin-top: 4px; }
+.pass { gap: 10px; }
+.pass .av.xl { width: 120px; height: 120px; margin: 16px 0 8px; }
+.pass .title-xl { font-size: 32px; }
+.pass-btn { max-width: 360px; margin-top: 26px; }
+
+/* ---------- tablets ---------- */
+@media (min-width: 740px) and (min-height: 600px) {
+  .screen { max-width: 680px; }
+  .large-title h1 { font-size: 40px; }
+  .screen.game { max-width: 680px; }
+}
+@media (min-width: 900px) and (min-height: 600px) and (orientation: landscape) {
+  .screen.game { max-width: 1240px; display: grid; grid-template-columns: minmax(300px, 360px) 1fr; grid-template-areas: "banner board" "extras board"; grid-template-rows: auto 1fr;
+    column-gap: 28px; align-items: start; padding-left: 24px; padding-right: 24px; }
+  .g-banner { grid-area: banner; }
+  .g-extras { grid-area: extras; }
+  .g-extras > .group-h:first-child { margin-top: 6px; }
+  .g-board { grid-area: board; position: sticky; top: calc(env(safe-area-inset-top) + 72px); }
+  .board { gap: 10px; }
+  .card .nm { font-size: 13px; }
+  .navbar { padding-left: 24px; padding-right: 24px; }
+}
+/* tablet held sideways: the 4x6 board turns 6x4 so it fits without scrolling */
+@media (min-width: 900px) and (min-height: 600px) and (orientation: landscape) {
+  .board { grid-template-columns: repeat(6, 1fr); max-width: calc(134dvh - 380px); margin: 0 auto; }
+}
 
 /* ===========================================================
    Christmas theme (html.theme-christmas)

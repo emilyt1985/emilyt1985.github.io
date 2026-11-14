@@ -7,32 +7,34 @@
 // ============================================================
 
 // ---- Family (always on the board) -----------------------------
-// Each family member is drawn as a cartoon from their traits (see
-// the list at the top of faces.js: hair, glasses, caps, beards...).
-// To use a picture instead, add  photo: 'memoji/name.webp'  to them.
-// "fact" is revealed at the end of the game when that person was
-// the mystery person: a great spot for a memory or inside joke.
+// photo: their Memoji in guess-who/memoji/
+// tags:  what you can see on their card. These power the one-tap
+//        "flip everyone who doesn't fit" button, so keep them true
+//        to the Memoji. Options: glasses hat facial bald blonde gray
+//        long freckles earrings nosering dog
+// fact:  revealed at the end of a game when they were the mystery
+//        person. A memory or inside joke is perfect.
 const FAMILY = [
-  { name: 'Valerie',  age: 'older', face: 'round', skin: 0, hair: 'strawberry', style: 'bangs', glasses: true, glassesColor: '#d6452f', shirt: 'white', fact: '', photo: 'memoji/valerie.webp' },
-  { name: 'Bobby',    age: 'older', face: 'round', skin: 1, hair: 'white', style: 'bald', glasses: true, facial: 'goatee', eyes: 'blue', shirt: 'white', fact: '', photo: 'memoji/bobby.webp' },
-  { name: 'Fletcher', age: 'baby', skin: 0, hair: 'blonde', style: 'tuft', eyes: 'blue', shirt: 'red', fact: '', photo: 'memoji/fletcher.webp' },
-  { name: 'Sonny',    age: 'kid', skin: 0, hair: 'blonde', style: 'short', eyes: 'blue', smile: 'closed', shirt: 'teal', fact: '', photo: 'memoji/sonny.webp' },
-  { name: 'Emily',    face: 'oval', skin: 0, hair: 'darkbrown', style: 'long', noseRing: true, earrings: true, smile: 'grin', shirt: 'white', fact: '', photo: 'memoji/emily.webp' },
-  { name: 'Nick',     face: 'long', skin: 1, hair: 'darkbrown', style: 'short', hat: 'cap', hatColor: '#5e6b3e', facial: 'stubble', smile: 'closed', shirt: 'red', fact: '', photo: 'memoji/nick.webp' },
-  { name: 'Chelsea',  face: 'round', skin: 0, hair: 'brown', style: 'bun', headband: true, shirt: 'maroon', fact: '', photo: 'memoji/chelsea.webp' },
-  { name: 'Bill',     age: 'older', face: 'long', skin: 1, hair: 'gray', style: 'short', glasses: true, glassesColor: '#8d939a', smile: 'closed', shirt: 'lightblue', collar: 'shirt', fact: '', photo: 'memoji/bill.webp' },
-  { name: 'Aydee',    face: 'oval', skin: 2, hair: 'darkbrown', style: 'bob', glasses: true, earrings: true, smile: 'closed', shirt: 'navy', collar: 'v', fact: '', photo: 'memoji/aydee.webp' },
-  { name: 'Seth',     age: 'teen', face: 'long', skin: 1, hair: 'darkbrown', style: 'crew', eyes: 'blue', brows: 'thick', smile: 'closed', shirt: 'gray', fact: '', photo: 'memoji/seth.webp' },
-  { name: 'Sadie',    age: 'teen', skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '', photo: 'memoji/sadie.webp' },
-  { name: 'Lara',     face: 'oval', skin: 0, hair: 'blonde', style: 'wavy', noseRing: true, lipstick: true, smile: 'closed', shirt: 'red', collar: 'v', fact: '', photo: 'memoji/lara.webp' },
-  { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '', photo: 'memoji/jennifer.webp' },
-  { name: 'Elizabeth', hair: 'blonde', style: 'long', photo: 'memoji/elizabeth.webp', fact: '' },
-  { name: 'Auntie',    hair: 'gray', style: 'curly', glasses: true, earrings: true, photo: 'memoji/auntie.webp', fact: '' },
-  { name: 'Mamaw',     hair: 'brown', style: 'curly', earrings: true, photo: 'memoji/mamaw.webp', fact: '' },
-  { name: 'Uncle Don', hair: 'gray', style: 'short', glasses: true, photo: 'memoji/uncle-don.webp', fact: '' },
-  { name: 'Christine', hair: 'brown', style: 'bangs', glasses: true, photo: 'memoji/christine.webp', fact: '' },
-  { name: 'Sophie',    photo: 'memoji/sophie.webp', fact: '' },
-  { name: 'Baby',      photo: 'memoji/baby.webp', fact: '' },
+  { name: 'Valerie',   photo: 'memoji/valerie.webp',   tags: 'glasses blonde long', fact: '' },
+  { name: 'Bobby',     photo: 'memoji/bobby.webp',     tags: 'glasses bald facial gray', fact: '' },
+  { name: 'Fletcher',  photo: 'memoji/fletcher.webp',  tags: 'blonde', fact: '' },
+  { name: 'Sonny',     photo: 'memoji/sonny.webp',     tags: 'blonde', fact: '' },
+  { name: 'Emily',     photo: 'memoji/emily.webp',     tags: 'long', fact: '' },
+  { name: 'Nick',      photo: 'memoji/nick.webp',      tags: 'facial', fact: '' },
+  { name: 'Chelsea',   photo: 'memoji/chelsea.webp',   tags: 'hat long', fact: '' },
+  { name: 'Bill',      photo: 'memoji/bill.webp',      tags: 'glasses facial', fact: '' },
+  { name: 'Aydee',     photo: 'memoji/aydee.webp',     tags: 'glasses long', fact: '' },
+  { name: 'Seth',      photo: 'memoji/seth.webp',      tags: '', fact: '' },
+  { name: 'Sadie',     photo: 'memoji/sadie.webp',     tags: 'freckles long', fact: '' },
+  { name: 'Lara',      photo: 'memoji/lara.webp',      tags: 'blonde nosering earrings', fact: '' },
+  { name: 'Jennifer',  photo: 'memoji/jennifer.webp',  tags: 'freckles earrings long', fact: '' },
+  { name: 'Elizabeth', photo: 'memoji/elizabeth.webp', tags: 'blonde long', fact: '' },
+  { name: 'Auntie',    photo: 'memoji/auntie.webp',    tags: 'glasses gray earrings', fact: '' },
+  { name: 'Mamaw',     photo: 'memoji/mamaw.webp',     tags: 'earrings', fact: '' },
+  { name: 'Uncle Don', photo: 'memoji/uncle-don.webp', tags: 'glasses gray', fact: '' },
+  { name: 'Christine', photo: 'memoji/christine.webp', tags: 'glasses long', fact: '' },
+  { name: 'Sophie',    photo: 'memoji/sophie.webp',    tags: 'dog', fact: '' },
+  { name: 'Baby',      photo: 'memoji/baby.webp',      tags: 'dog', fact: '' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
@@ -120,19 +122,18 @@ export const CONFIG = {
 
   // Tap-to-ask questions. Add family inside jokes here!
   quickQuestions: [
-    'Do they wear glasses?',
-    'Are they wearing a hat?',
-    'Do they have facial hair?',
-    'Do they have long hair?',
-    'Is their hair blonde?',
-    'Is their hair dark brown or black?',
-    'Are they bald?',
-    'Do they have curly hair?',
-    'Are they wearing earrings?',
-    'Is their shirt red?',
-    'Is it a kid?',
-    'Is it a real family member?',
-    'Is it a dog?',
+    // tag links a question to the card tags above, for one-tap flipping
+    { q: 'Do they wear glasses?', tag: 'glasses' },
+    { q: 'Are they wearing a hat?', tag: 'hat' },
+    { q: 'Do they have a beard or mustache?', tag: 'facial' },
+    { q: 'Are they bald?', tag: 'bald' },
+    { q: 'Is their hair blonde?', tag: 'blonde' },
+    { q: 'Is their hair gray or white?', tag: 'gray' },
+    { q: 'Do they have long hair?', tag: 'long' },
+    { q: 'Do they have freckles?', tag: 'freckles' },
+    { q: 'Are they wearing earrings?', tag: 'earrings' },
+    { q: 'Do they have a nose ring?', tag: 'nosering' },
+    { q: 'Is it a dog?', tag: 'dog' },
   ],
 
   // One-tap trash talk / cheering the other player sees.
