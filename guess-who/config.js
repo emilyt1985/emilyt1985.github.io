@@ -15,15 +15,15 @@
 const FAMILY = [
   { name: 'Valerie',  age: 'older', face: 'round', skin: 0, hair: 'strawberry', style: 'bangs', glasses: true, glassesColor: '#d6452f', shirt: 'white', fact: '' },
   { name: 'Bobby',    age: 'older', face: 'round', skin: 1, hair: 'white', style: 'bald', glasses: true, facial: 'goatee', eyes: 'blue', shirt: 'white', fact: '' },
-  { name: 'Fletcher', age: 'baby', skin: 0, hair: 'blonde', style: 'tuft', eyes: 'blue', shirt: 'red', fact: '' },
+  { name: 'Fletcher', age: 'baby', skin: 0, hair: 'blonde', style: 'tuft', eyes: 'blue', shirt: 'red', fact: '', photo: 'memoji/fletcher.webp' },
   { name: 'Sonny',    age: 'kid', skin: 0, hair: 'blonde', style: 'short', eyes: 'blue', smile: 'closed', shirt: 'teal', fact: '' },
-  { name: 'Emily',    face: 'oval', skin: 0, hair: 'darkbrown', style: 'long', noseRing: true, earrings: true, smile: 'grin', shirt: 'white', fact: '' },
+  { name: 'Emily',    face: 'oval', skin: 0, hair: 'darkbrown', style: 'long', noseRing: true, earrings: true, smile: 'grin', shirt: 'white', fact: '', photo: 'memoji/emily.webp' },
   { name: 'Nick',     face: 'long', skin: 1, hair: 'darkbrown', style: 'short', hat: 'cap', hatColor: '#5e6b3e', facial: 'stubble', smile: 'closed', shirt: 'red', fact: '' },
   { name: 'Chelsea',  face: 'round', skin: 0, hair: 'brown', style: 'bun', headband: true, shirt: 'maroon', fact: '' },
   { name: 'Bill',     age: 'older', face: 'long', skin: 1, hair: 'gray', style: 'short', glasses: true, glassesColor: '#8d939a', smile: 'closed', shirt: 'lightblue', collar: 'shirt', fact: '' },
   { name: 'Aydee',    face: 'oval', skin: 2, hair: 'darkbrown', style: 'bob', glasses: true, earrings: true, smile: 'closed', shirt: 'navy', collar: 'v', fact: '' },
   { name: 'Seth',     age: 'teen', face: 'long', skin: 1, hair: 'darkbrown', style: 'crew', eyes: 'blue', brows: 'thick', smile: 'closed', shirt: 'gray', fact: '' },
-  { name: 'Sadie',    age: 'teen', skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '' },
+  { name: 'Sadie',    age: 'teen', skin: 0, hair: 'lightbrown', style: 'curly', eyes: 'blue', shirt: 'lightblue', fact: '', photo: 'memoji/sadie.webp' },
   { name: 'Lara',     face: 'oval', skin: 0, hair: 'blonde', style: 'wavy', noseRing: true, lipstick: true, smile: 'closed', shirt: 'red', collar: 'v', fact: '' },
   { name: 'Jennifer', face: 'oval', skin: 1, hair: 'lightbrown', style: 'bob', hat: 'cap', hatColor: '#3b4b69', eyes: 'blue', freckles: true, smile: 'closed', shirt: 'blue', fact: '' },
 ];
