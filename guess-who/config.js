@@ -31,6 +31,7 @@ const FAMILY = [
   { name: 'Mamaw',     hair: 'brown', style: 'curly', glasses: true, earrings: true, photo: 'memoji/mamaw.webp', fact: '' },
   { name: 'Uncle Don', hair: 'gray', style: 'short', glasses: true, photo: 'memoji/uncle-don.webp', fact: '' },
   { name: 'Sophie',    photo: 'memoji/sophie.webp', fact: '' },
+  { name: 'Baby',      photo: 'memoji/baby.webp', fact: '' },
 ];
 
 // ---- Cartoon placeholders (fill the empty spots) ---------------
