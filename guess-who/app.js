@@ -430,6 +430,8 @@ function render() {
   const qVal = document.getElementById('q')?.value;
   const openLog = document.querySelector('details.log')?.open;
 
+  // theme the whole app in the phone owner's color
+  if (me) document.documentElement.style.setProperty('--primary', P(me).color);
   if (!me) { app.innerHTML = renderWho(); return; }
   if (!state) { app.innerHTML = `<div class="screen center"><div class="logo spin">❓</div><p class="muted">Shuffling the cards…</p></div>`; return; }
   const body = { home: renderHome, game: renderGame, leaders: renderLeaders, settings: renderSettings }[view]();

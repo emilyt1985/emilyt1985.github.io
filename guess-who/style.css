@@ -19,7 +19,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #1d1724; --panel: #2a2233; --ink: #f4ecfa; --muted: #ad9fbb; --line: #3e3349;
-    --card: #342b3e; --primary: #8f74f0; --shadow: 0 2px 10px rgba(0,0,0,.35); color-scheme: dark;
+    --card: #342b3e; --shadow: 0 2px 10px rgba(0,0,0,.35); color-scheme: dark;
   }
 }
 
@@ -185,6 +185,7 @@ input:focus { outline: none; border-color: var(--primary); }
 .tabs button { border: 0; background: none; padding: 8px 0 10px; display: grid; justify-items: center; font-size: .75rem; font-weight: 700; color: var(--muted); cursor: pointer; }
 .tabs button span { font-size: 22px; filter: grayscale(1); opacity: .7; }
 .tabs button.on { color: var(--primary); }
+.banner.your { background: color-mix(in srgb, var(--primary) 6%, var(--panel)); }
 .tabs button.on span { filter: none; opacity: 1; }
 
 .modal-bg { position: fixed; inset: 0; background: rgba(20, 10, 30, .5); display: grid; place-items: center; padding: 16px; z-index: 20; animation: fade .15s; }
