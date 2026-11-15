@@ -24,7 +24,7 @@ const FAMILY = [
   { name: 'Chelsea',   photo: 'memoji/chelsea.webp',   tags: 'hat long', fact: '' },
   { name: 'Bill',      photo: 'memoji/bill.webp',      tags: 'glasses facial', fact: '' },
   { name: 'Aydee',     photo: 'memoji/aydee.webp',     tags: 'glasses long gap', fact: '' },
-  { name: 'Seth',      photo: 'memoji/seth.webp',      tags: '', fact: '' },
+  { name: 'Seth',      photo: 'memoji/seth.webp',      tags: 'facial', fact: '' },
   { name: 'Sadie',     photo: 'memoji/sadie.webp',     tags: 'freckles long', fact: '' },
   { name: 'Lara',      photo: 'memoji/lara.webp',      tags: 'blonde nosering earrings', fact: '' },
   { name: 'Jennifer',  photo: 'memoji/jennifer.webp',  tags: 'freckles earrings long', fact: '' },
