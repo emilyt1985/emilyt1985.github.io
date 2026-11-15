@@ -73,9 +73,14 @@ All the options (hair colors and styles, glasses, caps, beards, earrings, kids..
 
 To use a picture instead of a drawing (a Memoji, say), save it in `guess-who/memoji/` and add `photo: 'memoji/name.webp'` to that person. Cartoons and Memoji are fine on a public site. Real photos of family (especially kids) shouldn't go in this public repository.
 
+## Thinking of you and family notes
+
+- **Thinking of you:** the home screen has a big "Send a heart" button and quick messages ("Miss you", "Goodnight"). The other person gets a pop-up with the sender's Memoji, plus a "Send One Back" button. Hearts that arrive while the app is closed pop up the next time it's opened. Edit the quick messages in `thinkingOfYou` in `config.js`.
+- **Family notes:** relatives open the family link (`ask.html`), choose "A note", and write to Valerie, Bobby or both. Notes appear on the home screen under "From the family", newest first, with arrows to flip through them. Hide any note from the review page (`review.html`, Notes tab).
+
 ## Family Quiz question box
 
-Relatives send questions for the upcoming Family Quiz game from **ask.html**, no account needed:
+Relatives send notes and questions for the upcoming Family Quiz game from **ask.html**, no account needed:
 
 - **Send this link to the family:** https://emilyt1985.github.io/guess-who/ask.html
 - Each person taps their Memoji (or "Someone else"), picks a kind of question, and writes it:

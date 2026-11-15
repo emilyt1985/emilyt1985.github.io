@@ -146,6 +146,9 @@ export const CONFIG = {
     { q: 'Is it a dog?', tag: 'dog' },
   ],
 
+  // "Thinking of you" quick messages (the big button sends a heart).
+  thinkingOfYou: ['Thinking of you', 'Miss you', 'Love you', 'Good morning ☀️', 'Goodnight 🌙', 'Proud of you', 'Hang in there', 'Eat something!'],
+
   // One-tap trash talk / cheering the other player sees.
   taunts: ['😏', '🤔', '😂', '🔥', '❤️', '🙈', 'Getting warmer…', 'Nice try!', 'You’re going down 😤', 'Lucky guess…'],
 

@@ -30,6 +30,7 @@ let store = null, data = null;
 let lastSent = null;
 
 const TYPES = {
+  note: { icon: '💌', title: 'A note', sub: `Words of love and encouragement. It pops up on their home screen.` },
   me: { icon: '🙋', title: 'About me', sub: `Quiz ${COUPLE} on something about you. You give the right answer.` },
   family: { icon: '👨‍👩‍👧‍👦', title: 'About the family', sub: 'A question about someone else, a trip, a house, a tradition…' },
   couple: { icon: '💞', title: 'About each other', sub: `${COUPLE} each answer about the other. Points if they match. No right answer needed.` },
@@ -47,7 +48,7 @@ function header(title, sub, back) {
 }
 
 function who() {
-  return `${header('Who’s asking?', `Help build a quiz for <b>${esc(COUPLE)}</b>! Send questions about yourself and the family. They’ll answer them in their game, so keep the answers a secret.`)}
+  return `${header('Who’s this from?', `Send <b>${esc(COUPLE)}</b> a note of love and encouragement, or a question for their family quiz. Notes show up on their home screen in the game.`)}
     <div class="who-grid">${FAM.filter((p) => p.name !== A.name && p.name !== B.name).map((p) => `
       <button class="who-tile" data-act="me" data-id="${p.id}">${pic(p)}<span>${esc(p.name)}</span></button>`).join('')}
       <button class="who-tile" data-act="me-other"><span class="ask-av other">＋</span><span>Someone else</span></button>
@@ -56,15 +57,37 @@ function who() {
 
 function pickType() {
   const sent = mine.length;
-  return `${header(`Hi ${esc(me.name)}!`, `What kind of question?${sent ? ` <span class="muted">You’ve sent ${sent} so far. Thank you!</span>` : ''}`)}
-    <section class="group">${Object.entries(TYPES).map(([k, t]) => `
+  const row = ([k, t]) => `
+      <button class="row-btn type-row" data-act="type" data-v="${k}"><span class="type-ico">${t.icon}</span>
+        <span class="row-text"><b>${t.title}</b><small class="wrap">${t.sub}</small></span><span class="chev">›</span></button>`;
+  return `${header(`Hi ${esc(me.name)}!`, `What would you like to send?${sent ? ` <span class="muted">You’ve sent ${sent} so far. Thank you!</span>` : ''}`)}
+    <p class="group-h">Send some love</p>
+    <section class="group">${row(['note', TYPES.note])}</section>
+    <p class="group-h">Family quiz questions</p>
+    <section class="group">${Object.entries(TYPES).filter(([k]) => k !== 'note').map(([k, t]) => `
       <button class="row-btn type-row" data-act="type" data-v="${k}"><span class="type-ico">${t.icon}</span>
         <span class="row-text"><b>${t.title}</b><small class="wrap">${t.sub}</small></span><span class="chev">›</span></button>`).join('')}
     </section>
     <p class="group-f">Not ${esc(me.name)}? <a href="#" data-act="switch">Switch person</a></p>`;
 }
 
+function noteForm() {
+  return `${header('💌 A note', '', 'back')}
+    <form data-form="q">
+      <p class="group-h">Who is it for?</p>
+      <section class="group pad"><div class="seg seg3">
+        <button type="button" class="on" data-act="pick-about" data-v="both">Both</button>
+        <button type="button" data-act="pick-about" data-v="${A.id}">${esc(A.name)}</button>
+        <button type="button" data-act="pick-about" data-v="${B.id}">${esc(B.name)}</button></div></section>
+      <p class="group-h">Your note</p>
+      <section class="group pad"><textarea id="q" class="field" rows="5" maxlength="400" required placeholder="Thinking of you both. Can’t wait to see you…"></textarea></section>
+      <p class="group-f">A memory, an inside joke, a prayer, or just “love you”. Short and sweet is perfect.</p>
+      <button class="btn primary wide send">Send Note</button>
+    </form>`;
+}
+
 function form() {
+  if (type === 'note') return noteForm();
   const t = TYPES[type];
   const isCouple = type === 'couple';
   return `${header(`${t.icon} ${t.title}`, '', 'back')}
@@ -102,8 +125,8 @@ function done() {
   return `<div class="center done">
       <div class="done-check">✓</div>
       <h1 class="title-xl">Sent!</h1>
-      <p class="body">“${esc(lastSent?.q)}”</p>
-      <p class="sub">${esc(COUPLE)} will see it in their game. You’ve sent ${mine.length} question${mine.length === 1 ? '' : 's'}.</p>
+      <p class="body sent-text">“${esc(lastSent?.q)}”</p>
+      <p class="sub">${lastSent?.note ? 'It’ll pop up on their home screen in the game.' : `${esc(COUPLE)} will see it in their family quiz.`} Thank you!</p>
       <button class="btn primary wide" data-act="again">Send Another</button>
     </div>`;
 }
@@ -116,7 +139,7 @@ app.addEventListener('click', (e) => {
   if (a === 'me') { const p = famById(el.dataset.id); me = { id: p.id, name: p.name }; ls.set('gwq.me', me); step = 'type'; render(); }
   if (a === 'me-other') { const n = (prompt('What’s your name?') || '').trim(); if (n) { me = { id: 'guest-' + slug(n), name: n }; ls.set('gwq.me', me); step = 'type'; render(); } }
   if (a === 'switch') { me = null; ls.set('gwq.me', null); step = 'who'; render(); }
-  if (a === 'type') { type = v; about = type === 'couple' ? 'either' : null; cat = null; step = 'form'; render(); scrollTo(0, 0); }
+  if (a === 'type') { type = v; about = type === 'couple' ? 'either' : type === 'note' ? 'both' : null; cat = null; step = 'form'; render(); scrollTo(0, 0); }
   if (a === 'back') { step = 'type'; render(); }
   if (a === 'again') { step = 'type'; render(); scrollTo(0, 0); }
   if (a === 'about') { const on = el.classList.toggle('on'); document.querySelectorAll('.chip.about').forEach((c) => c !== el && c.classList.remove('on')); about = on ? v : null; }
@@ -128,6 +151,16 @@ app.addEventListener('submit', async (e) => {
   e.preventDefault();
   const q = document.getElementById('q').value.trim();
   if (!q) return;
+  if (type === 'note') {
+    const note = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), from: me.id, fromName: me.name, to: about || 'both', text: q, at: Date.now(), hidden: false };
+    const btn = e.target.querySelector('.send'); btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      await store.update((s) => { s.notes = s.notes || []; s.notes.push(note); });
+      mine.push(note.id); ls.set('gwq.mine', mine);
+      lastSent = { q: note.text, note: true }; step = 'done'; render(); scrollTo(0, 0);
+    } catch (err) { console.error(err); btn.disabled = false; btn.textContent = 'Send Note'; alert('Couldn’t send. Check your connection and try again.'); }
+    return;
+  }
   const item = {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
     type, q: /[?.!]$/.test(q) ? q : q + '?',
@@ -151,5 +184,5 @@ app.addEventListener('submit', async (e) => {
 
 (async () => {
   render();
-  store = await connectStore(CONFIG, (d) => { data = d; }, CONFIG.questionsCode, () => ({ v: 1, questions: [] }));
+  store = await connectStore(CONFIG, (d) => { data = d; }, CONFIG.questionsCode, () => ({ v: 1, questions: [], notes: [] }));
 })();

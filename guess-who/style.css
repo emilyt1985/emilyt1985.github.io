@@ -323,6 +323,42 @@ code { background: var(--fill); padding: 1px 5px; border-radius: 5px; }
   .board { grid-template-columns: repeat(6, 1fr); max-width: calc(134dvh - 380px); margin: 0 auto; }
 }
 
+/* ---------- thinking of you ---------- */
+.love-panel .chips { margin-top: 10px; }
+.love-panel .footnote { margin-top: 10px; }
+.love-btn { width: 100%; display: flex; align-items: center; gap: 12px; border: 0; border-radius: 14px; padding: 12px 14px; font-size: 17px; font-weight: 600;
+  background: color-mix(in srgb, #ff2d55 12%, var(--panel)); color: var(--ink); transition: transform .12s var(--ease); text-align: left; }
+.love-btn span:nth-child(2) { flex: 1; }
+.love-btn:active { transform: scale(.97); }
+.love-big { font-size: 30px; line-height: 1; transition: transform .3s var(--ease); }
+.love-btn.sent .love-big, .chip.sent { animation: beat .6s var(--ease); }
+@keyframes beat { 30% { transform: scale(1.45); } 60% { transform: scale(.9); } }
+.love { text-align: center; }
+.love-av { position: relative; display: inline-block; margin: 6px 0 12px; }
+.love-heart { position: absolute; right: -10px; bottom: -6px; font-size: 34px; animation: beat 1.2s var(--ease) infinite; }
+.love h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.love-msg { font-size: 20px; font-weight: 600; color: #e0245e; margin: 4px 0; }
+.love .sub { margin: 6px 0 4px; }
+
+/* ---------- family notes ---------- */
+.group-h .badge { margin-left: 6px; font-size: 11px; padding: 2px 7px; vertical-align: 1px; text-transform: none; }
+.note-card { position: relative; }
+.note-from { display: flex; align-items: center; gap: 10px; }
+.note-from div { display: grid; flex: 1; }
+.note-from b { font-size: 16px; font-weight: 600; }
+.note-from small { font-size: 13px; color: var(--muted); }
+.fam-av { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: var(--pic-bg); font-weight: 700; color: var(--muted); flex: none; }
+.fam-av img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--primary); flex: none; }
+.note-text { font-size: 19px; line-height: 1.4; margin: 12px 2px 4px; white-space: pre-wrap; letter-spacing: -.3px; }
+.note-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; color: var(--muted); font-size: 13px; }
+.note-nav .btn { min-height: 36px; width: 52px; padding: 0; font-size: 22px; }
+.sent-text { white-space: pre-wrap; }
+.big-tabs { margin: 14px 0 8px; }
+.big-tabs button { padding: 10px 6px; }
+.notes-filter { margin: 12px 0 14px; max-width: 260px; }
+.note-body { font-weight: 400; white-space: pre-wrap; }
+
 /* ---------- family question box ---------- */
 .ask { padding-bottom: calc(env(safe-area-inset-bottom) + 40px); }
 .ask .nav-back { margin: 4px 0 -4px; }

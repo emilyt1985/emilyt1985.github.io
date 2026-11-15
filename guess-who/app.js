@@ -69,6 +69,8 @@ function startOpening(kind) {
   opening = kind;
   setTimeout(() => { if (opening === kind) { opening = null; toast('Couldn’t reach the game. Check your connection.'); render(); } }, 15000);
 }
+let fam = { notes: [] };   // family notes (separate document)
+let noteIdx = 0;
 let patchOnly = false; // my own flip: update card classes instead of a full re-render
 
 // ---------- card tags (for one-tap flipping) ----------
@@ -223,6 +225,66 @@ const couchAct = {
   quit: () => store.update((s) => { if (!s.couch) return false; s.couch = null; }),
 };
 
+// ---------- thinking of you ----------
+const pingSeenKey = () => 'gw.pingSeen.' + me;
+function sendPing(text) {
+  return store.update((s) => { s.pings = (s.pings || []).concat({ from: me, text, at: Date.now() }).slice(-60); });
+}
+// Show any hearts that arrived since this phone last looked.
+let loveSince = null; // while the heart pop-up is open: show everything since it opened
+function checkPings() {
+  if (!me || !state || (modal && loveSince == null)) return;
+  const o = opp(me), seen = loveSince ?? ls.get(pingSeenKey(), 0);
+  const fresh = (state.pings || []).filter((p) => p.from === o && p.at > seen);
+  if (!fresh.length) return;
+  if (fresh[fresh.length - 1].at <= ls.get(pingSeenKey(), 0) && loveSince != null) return; // nothing newer
+  if (loveSince == null) loveSince = seen;
+  ls.set(pingSeenKey(), fresh[fresh.length - 1].at);
+  const last = fresh[fresh.length - 1];
+  navigator.vibrate?.([80, 60, 80]);
+  if (document.hidden && 'Notification' in window && Notification.permission === 'granted') {
+    try { new Notification(`${P(o).name} is thinking of you ❤️`, { body: last.text === '❤️' ? '' : last.text, icon: 'icon-192.png', tag: 'gw-ping' }); } catch {}
+  }
+  const words = [...new Set(fresh.map((p) => p.text).filter((t) => t !== '❤️'))].slice(-3);
+  modal = `<div class="love">
+      <div class="love-av">${avatar(o, 'xl')}<span class="love-heart">❤️</span></div>
+      <h2>${esc(P(o).name)} is thinking of you</h2>
+      ${words.map((w) => `<p class="love-msg">“${esc(w)}”</p>`).join('')}
+      <p class="sub">${fresh.length > 1 ? `${fresh.length} hearts · latest ` : ''}${ago(last.at)}</p>
+      <button class="btn primary wide" data-act="ping-back">❤️ Send One Back</button>
+      <button class="btn plain wide" data-act="close">Close</button>
+    </div>`;
+}
+
+// ---------- family notes ----------
+const famPerson = (id) => CONFIG.decks[0].people.find((p) => p.id === id);
+const noteSeenKey = () => 'gw.noteSeen.' + me;
+const myNotes = () => (fam.notes || []).filter((n) => !n.hidden && (n.to === 'both' || n.to === me)).sort((a, b) => b.at - a.at);
+function famAvatar(n) {
+  const p = famPerson(n.from);
+  return `<span class="fam-av">${p?.photo ? `<img src="${esc(p.photo)}" alt="">` : esc((n.fromName || '?').slice(0, 1))}</span>`;
+}
+function notesCard() {
+  const list = myNotes();
+  if (!list.length) return `<p class="group-h">From the family</p>
+    <section class="group pad"><p class="body muted">Notes from the family will show up here. 💌</p></section>`;
+  const seen = ls.get(noteSeenKey(), 0);
+  const unread = list.filter((n) => n.at > seen).length;
+  const i = ((noteIdx % list.length) + list.length) % list.length;
+  const n = list[i];
+  return `<p class="group-h">From the family${unread ? ` <span class="badge">${unread} new</span>` : ''}</p>
+    <section class="group pad note-card">
+      <div class="note-from">${famAvatar(n)}<div><b>${esc(n.fromName)}</b><small>${ago(n.at)}${n.to === 'both' ? '' : ` · for you`}</small></div>${n.at > seen ? '<span class="dot" aria-label="new"></span>' : ''}</div>
+      <p class="note-text">${esc(n.text)}</p>
+      ${list.length > 1 ? `<div class="note-nav"><button class="btn tinted" data-act="note-prev" aria-label="Previous note">‹</button><span>${i + 1} of ${list.length}</span><button class="btn tinted" data-act="note-next" aria-label="Next note">›</button></div>` : ''}
+    </section>`;
+}
+function markNotesSeen() {
+  const list = myNotes(); if (!list.length) return;
+  const i = ((noteIdx % list.length) + list.length) % list.length;
+  if (list[i].at > ls.get(noteSeenKey(), 0)) setTimeout(() => { ls.set(noteSeenKey(), Math.max(ls.get(noteSeenKey(), 0), list[i].at)); }, 1500);
+}
+
 // What does the game need from *me* right now?
 function needsMe(g) {
   if (!g || !me || g.v !== 2 || g.phase !== 'play') return false;
@@ -348,6 +410,15 @@ function renderHome() {
       <div class="score"><b style="color:${a.color}">${r[a.id].wins}</b><i>:</i><b style="color:${b.color}">${r[b.id].wins}</b></div>
       <div class="side">${avatar(b.id, 'lg')}<span>${esc(b.name)}</span></div>
     </section>
+
+    <p class="group-h">Thinking of you</p>
+    <section class="group pad love-panel">
+      <button class="love-btn" data-act="ping" data-v="❤️">${avatar(o, 'md')}<span>Send ${esc(P(o).name)} a heart</span><span class="love-big">❤️</span></button>
+      <div class="chips">${(CONFIG.thinkingOfYou || []).map((t) => `<button class="chip" data-act="ping" data-v="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+      ${(() => { const l = (state.pings || []).filter((p) => p.from === o).pop(); return l ? `<p class="footnote">Last from ${esc(P(o).name)}: ${l.text === '❤️' ? '❤️' : `“${esc(l.text)}”`} · ${ago(l.at)}</p>` : ''; })()}
+    </section>
+
+    ${notesCard()}
 
     ${g && g.phase === 'play' ? `
       <p class="group-h">Game with ${esc(P(o).name)}</p>
@@ -602,7 +673,7 @@ function renderSettings() {
 
     <p class="group-h">Family quiz</p>
     <section class="group">
-      <button class="row-btn" data-act="copy" data-v="${esc(base.replace(/[^/]*$/, '') + 'ask.html')}"><span class="type-ico">💌</span><span class="row-text"><b>Invite the Family</b><small>Copy the link where they send quiz questions</small></span><span class="row-action">${I.link} Copy</span></button>
+      <button class="row-btn" data-act="copy" data-v="${esc(base.replace(/[^/]*$/, '') + 'ask.html')}"><span class="type-ico">💌</span><span class="row-text"><b>Invite the Family</b><small>Copy the link for sending notes and quiz questions</small></span><span class="row-action">${I.link} Copy</span></button>
     </section>
 
     <p class="group-h">Notifications</p>
@@ -648,6 +719,8 @@ function render() {
       <p class="gift-to">${esc(P(me).name)},</p><p>${esc(gm.body)}</p><p class="gift-from">${esc(gm.from)}</p>
       <button class="btn primary wide" data-act="close">Let’s play! 🎄</button></div>`;
   }
+  checkPings();
+  if (view === 'home') markNotesSeen();
   const body = { home: renderHome, game: renderGame, couch: renderCouch, leaders: renderLeaders, settings: renderSettings }[view]();
   app.innerHTML = body + (view === 'couch' && state.couch?.phase === 'pass' ? '' : nav()) + (modal ? `<div class="modal-bg" data-act="close"><div class="modal" role="dialog" aria-modal="true">${modal}</div></div>` : '');
 
@@ -707,6 +780,14 @@ app.addEventListener('click', async (e) => {
     case 'quick': await act.ask(v); break;
     case 'answer': await act.answer(v); toast('Answer sent ✓'); break;
     case 'seen': await act.seen(); break;
+    case 'ping': {
+      el.classList.add('sent'); setTimeout(() => el.classList.remove('sent'), 700);
+      navigator.vibrate?.(30);
+      await sendPing(v); toast(`Sent to ${P(opp(me)).name} ❤️`); break;
+    }
+    case 'ping-back': modal = null; loveSince = null; render(); await sendPing('❤️'); toast(`Sent to ${P(opp(me)).name} ❤️`); break;
+    case 'note-next': noteIdx++; render(); break;
+    case 'note-prev': noteIdx--; render(); break;
     case 'autoflip': {
       const ids = v.split(',');
       document.querySelectorAll('.card').forEach((c) => { if (ids.includes(c.dataset.id)) c.classList.add('down'); });
@@ -748,7 +829,7 @@ app.addEventListener('click', async (e) => {
     case 'forfeit': return confirmModal(`<h3>Give up?</h3><p>${esc(P(opp(me)).name)} gets the win.</p>
       <div class="row"><button class="btn primary" data-act="forfeit-yes">Give Up</button><button class="btn tinted" data-act="close">Keep playing</button></div>`);
     case 'forfeit-yes': modal = null; await act.forfeit(); break;
-    case 'close': modal = null; render(); break;
+    case 'close': modal = null; loveSince = null; render(); break;
     case 'nudge': nudge(); break;
     case 'copy': try { await navigator.clipboard.writeText(v); toast('Link copied!'); } catch { prompt('Copy this link:', v); } break;
     case 'notify':
@@ -792,5 +873,13 @@ app.addEventListener('submit', async (e) => {
     render();
   });
   render();
+  connectStore(CONFIG, (d) => {
+    if (!d) return;
+    const before = new Set((fam.notes || []).map((n) => n.id));
+    const hadData = fam.loaded;
+    fam = Object.assign(d, { loaded: true });
+    if (hadData && me) for (const n of myNotes()) if (!before.has(n.id)) toast(`💌 New note from ${n.fromName}`);
+    if (!patchOnly) render();
+  }, CONFIG.questionsCode, () => ({ v: 1, questions: [], notes: [] }));
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

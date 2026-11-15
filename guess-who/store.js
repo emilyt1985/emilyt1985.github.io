@@ -18,9 +18,9 @@ export async function connectStore(cfg, onChange, docId = cfg.roomCode, empty = 
 
 async function firebaseStore(cfg, onChange, docId, empty) {
   const V = '10.12.2';
-  const { initializeApp } = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
+  const { initializeApp, getApps } = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
   const fs = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`);
-  const app = initializeApp(cfg.firebase);
+  const app = getApps()[0] || initializeApp(cfg.firebase); // one app, several documents
   const db = fs.getFirestore(app);
   const ref = fs.doc(db, 'guesswho', docId);
 

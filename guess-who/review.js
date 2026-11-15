@@ -15,6 +15,8 @@ const TYPE = { me: '🙋 About me', family: '👨‍👩‍👧‍👦 About the
 let store, data = { questions: [] }, filter = 'all';
 
 function render() {
+  const notes = (data.notes || []).slice().reverse();
+  if (filter === 'notes' || (filter === 'hidden-notes')) return renderNotes(notes);
   const qs = (data.questions || []).slice().reverse();
   const shown = qs.filter((q) => filter === 'all' ? !q.hidden : filter === 'hidden' ? q.hidden : q.type === filter && !q.hidden);
   const live = qs.filter((q) => !q.hidden);
@@ -27,6 +29,7 @@ function render() {
       ${['me', 'family', 'couple'].map((t) => `<div><b>${live.filter((q) => q.type === t).length}</b><small>${TYPE[t].slice(2).trim()}</small></div>`).join('')}
     </section>
     ${Object.keys(people).length ? `<p class="group-f">From ${Object.entries(people).sort((a, b) => b[1] - a[1]).map(([n, c]) => `${esc(n)} (${c})`).join(', ')}</p>` : ''}
+    ${tabs()}
     <div class="seg seg5">${[['all', 'All'], ['me', 'Me'], ['family', 'Family'], ['couple', 'Couple'], ['hidden', 'Hidden']].map(([k, l]) =>
       `<button class="${filter === k ? 'on' : ''}" data-act="filter" data-v="${k}">${l}</button>`).join('')}</div>
     ${shown.length ? shown.map((q) => `
@@ -44,11 +47,44 @@ function render() {
   </div>`;
 }
 
+function tabs() {
+  const n = (data.notes || []).filter((x) => !x.hidden).length, q = (data.questions || []).filter((x) => !x.hidden).length;
+  const onNotes = filter === 'notes' || filter === 'hidden-notes';
+  return `<div class="seg big-tabs"><button class="${onNotes ? '' : 'on'}" data-act="filter" data-v="all">Quiz Questions (${q})</button><button class="${onNotes ? 'on' : ''}" data-act="filter" data-v="notes">Notes (${n})</button></div>`;
+}
+
+function renderNotes(notes) {
+  const hiddenView = filter === 'hidden-notes';
+  const shown = notes.filter((x) => (hiddenView ? x.hidden : !x.hidden));
+  const forWho = (t) => (t === 'both' ? `${P[0].name} & ${P[1].name}` : nameOf(t));
+  app.innerHTML = `<div class="screen ask">
+    <header class="large-title"><div><p class="eyebrow">Family Notes · Review</p><h1>Notes</h1></div></header>
+    ${tabs()}
+    <p class="group-f">Notes show up on ${esc(P[0].name)} and ${esc(P[1].name)}’s home screen. Hide anything you’d rather they didn’t see.</p>
+    <div class="seg seg3 notes-filter"><button class="${hiddenView ? '' : 'on'}" data-act="filter" data-v="notes">Showing</button><button class="${hiddenView ? 'on' : ''}" data-act="filter" data-v="hidden-notes">Hidden</button><span></span></div>
+    ${shown.length ? shown.map((n) => `
+      <section class="group q-card ${n.hidden ? 'is-hidden' : ''}">
+        <div class="q-top">${photoOf(n.from) ? `<span class="ask-av xs"><img src="${esc(photoOf(n.from))}" alt=""></span>` : ''}<small><b>${esc(n.fromName)}</b> · for ${esc(forWho(n.to))} · ${new Date(n.at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</small></div>
+        <p class="q-text note-body">${esc(n.text)}</p>
+        <div class="row">${n.hidden
+          ? `<button class="btn tinted" data-act="nshow" data-v="${n.id}">Put Back</button><button class="btn tinted danger" data-act="ndel" data-v="${n.id}">Delete</button>`
+          : `<button class="btn tinted" data-act="nhide" data-v="${n.id}">Hide</button>`}</div>
+      </section>`).join('') : `<p class="sub center-text empty">${hiddenView ? 'Nothing hidden.' : 'No notes yet. Share the family link!'}</p>`}
+  </div>`;
+}
+
 app.addEventListener('click', async (e) => {
   const el = e.target.closest('[data-act]'); if (!el) return;
   const a = el.dataset.act, v = el.dataset.v;
   if (a === 'filter') { filter = v; return render(); }
   if (a === 'del' && !confirm('Delete this question for good?')) return;
+  if (a === 'ndel' && !confirm('Delete this note for good?')) return;
+  if (a.startsWith('n') && a !== 'filter') return store.update((s) => {
+    const i = (s.notes || []).findIndex((x) => x.id === v); if (i < 0) return false;
+    if (a === 'nhide') s.notes[i].hidden = true;
+    if (a === 'nshow') s.notes[i].hidden = false;
+    if (a === 'ndel') s.notes.splice(i, 1);
+  });
   await store.update((s) => {
     const i = (s.questions || []).findIndex((q) => q.id === v); if (i < 0) return false;
     if (a === 'hide') s.questions[i].hidden = true;
@@ -59,5 +95,5 @@ app.addEventListener('click', async (e) => {
 
 (async () => {
   render();
-  store = await connectStore(CONFIG, (d) => { data = d || { questions: [] }; render(); }, CONFIG.questionsCode, () => ({ v: 1, questions: [] }));
+  store = await connectStore(CONFIG, (d) => { data = d || { questions: [], notes: [] }; render(); }, CONFIG.questionsCode, () => ({ v: 1, questions: [], notes: [] }));
 })();
