@@ -64,6 +64,11 @@ let showSecret = false;
 let modal = null;      // { html }
 let connErr = null;
 let lastNeedsMe = null;
+let opening = null;    // 'game' | 'couch': just started one online, waiting for it to arrive
+function startOpening(kind) {
+  opening = kind;
+  setTimeout(() => { if (opening === kind) { opening = null; toast('Couldn’t reach the game. Check your connection.'); render(); } }, 15000);
+}
 let patchOnly = false; // my own flip: update card classes instead of a full re-render
 
 // ---------- card tags (for one-tap flipping) ----------
@@ -390,7 +395,8 @@ function boardHTML(g, flippedList) {
 
 function renderGame() {
   const g = state?.game;
-  if (!g || g.v !== 2) { view = 'home'; return renderHome(); }
+  if (!g || g.v !== 2 || (opening === 'game' && g.phase !== 'play')) { if (opening === 'game') return `<div class="screen center"><div class="app-icon spin">${LOGO}</div><p class="muted">Shuffling the cards…</p></div>`; view = 'home'; return renderHome(); }
+  if (opening === 'game') opening = null;
   const o = opp(me);
   const mySecret = person(g, g.secret[me]);
   const over = g.phase === 'over';
@@ -498,7 +504,8 @@ function renderOver(g) {
 
 function renderCouch() {
   const c = state?.couch;
-  if (!c) { view = 'home'; return renderHome(); }
+  if (!c || (opening === 'couch' && c.phase !== 'pass')) { if (opening === 'couch') return `<div class="screen center"><div class="app-icon spin">${LOGO}</div><p class="muted">Shuffling the cards…</p></div>`; view = 'home'; return renderHome(); }
+  if (opening === 'couch') opening = null;
   const who = c.turn, o = opp(who);
   const quit = `<button class="nav-back" data-act="go" data-view="home">${I.back}<span>Home</span></button>`;
   if (c.phase === 'pass') return `<div class="screen center pass" style="--pc:${P(who).color}">
@@ -690,12 +697,12 @@ app.addEventListener('click', async (e) => {
       const g = state.game;
       if (g && g.v === 2 && g.phase === 'play') return confirmModal(`<h3>Start over?</h3><p>The current game will be thrown out (not counted).</p>
         <div class="row"><button class="btn primary" data-act="new-yes" data-v="${esc(stakes)}">Deal Again</button><button class="btn tinted" data-act="close">Cancel</button></div>`);
-      await startGame(stakes); view = 'game'; showSecret = false; render(); window.scrollTo(0, 0);
+      startOpening('game'); view = 'game'; showSecret = false; render(); await startGame(stakes); render(); window.scrollTo(0, 0);
       toast('Cards dealt! Tap 🔒 to peek at your person.');
       break;
     }
-    case 'new-yes': modal = null; await startGame(v); view = 'game'; render(); break;
-    case 'rematch': await startGame(state.game?.stakes); showSecret = false; render(); window.scrollTo(0, 0); toast('New cards dealt!'); break;
+    case 'new-yes': modal = null; startOpening('game'); view = 'game'; render(); await startGame(v); render(); break;
+    case 'rematch': startOpening('game'); showSecret = false; render(); await startGame(state.game?.stakes); render(); window.scrollTo(0, 0); toast('New cards dealt!'); break;
     case 'secret': showSecret = !showSecret; render(); break;
     case 'quick': await act.ask(v); break;
     case 'answer': await act.answer(v); toast('Answer sent ✓'); break;
@@ -708,10 +715,10 @@ app.addEventListener('click', async (e) => {
       break;
     }
     case 'couch': {
-      if (!state.couch || state.couch.phase === 'over') await couchAct.start(document.getElementById('stakes')?.value.trim());
-      view = 'couch'; showSecret = false; guessMode = false; render(); window.scrollTo(0, 0); break;
+      view = 'couch';
+      if (!state.couch || state.couch.phase === 'over') { startOpening('couch'); render(); await couchAct.start(document.getElementById('stakes')?.value.trim()); } showSecret = false; guessMode = false; render(); window.scrollTo(0, 0); break;
     }
-    case 'couch-new': await couchAct.start(state.couch?.stakes); showSecret = false; render(); window.scrollTo(0, 0); break;
+    case 'couch-new': startOpening('couch'); render(); await couchAct.start(state.couch?.stakes); showSecret = false; render(); window.scrollTo(0, 0); break;
     case 'couch-ready': showSecret = false; await couchAct.ready(); window.scrollTo(0, 0); break;
     case 'couch-pass': showSecret = false; guessMode = false; await couchAct.pass(); window.scrollTo(0, 0); break;
     case 'couch-quit': return confirmModal(`<h3>End this game?</h3><p>It won’t count on the leaderboard.</p>

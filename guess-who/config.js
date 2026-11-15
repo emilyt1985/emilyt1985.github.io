@@ -74,11 +74,11 @@ export const CONFIG = {
   subtitle: 'Family Edition',
 
   // Both phones must use the same room code. Make it hard to guess.
-  roomCode: 'family-room-change-me-7k2q',
+  roomCode: 'room-m3z6ue4cyzngrdm32z9e',
 
   // The family question box (ask.html) uses its own code, so relatives
   // who get that link can't reach your parents' game. Make it long too.
-  questionsCode: 'family-questions-change-me-4mx8',
+  questionsCode: 'questions-9nl1n20jf80duowkd0b5',
 
   // ---- Holiday theme -----------------------------------------
   // on: true (always), 'auto' (Nov 20 - Jan 6 only) or false (off).
@@ -106,13 +106,14 @@ export const CONFIG = {
   // ---- Online play (two phones, two places) -----------------
   // Paste your Firebase web config here (see guess-who/README.md).
   // Leave as null to run in "local test mode" (one device only).
-  firebase: null,
-  // firebase: {
-  //   apiKey: '...',
-  //   authDomain: '...firebaseapp.com',
-  //   projectId: '...',
-  //   appId: '...',
-  // },
+  firebase: {
+    apiKey: 'AIzaSyDbRVE44PflvarRjYjW47nd-pjvcr3VzUw',
+    authDomain: 'family-guess-who.firebaseapp.com',
+    projectId: 'family-guess-who',
+    storageBucket: 'family-guess-who.firebasestorage.app',
+    messagingSenderId: '243812175885',
+    appId: '1:243812175885:web:303e3461aa8e2b86690544',
+  },
 
   // ---- The two players --------------------------------------
   // phone is optional: if set, "Nudge" opens a text to that number.
