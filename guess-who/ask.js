@@ -278,3 +278,6 @@ app.addEventListener('submit', async (e) => {
   mediaStore(CONFIG).then((m) => { mstore = m; });
   store = await connectStore(CONFIG, (d) => { data = d; }, CONFIG.questionsCode, () => ({ v: 1, questions: [], notes: [] }));
 })();
+
+// Same offline helper as the game, so this page also picks up updates right away.
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((r) => r.update()).catch(() => {});
