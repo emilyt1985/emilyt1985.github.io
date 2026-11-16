@@ -914,5 +914,5 @@ app.addEventListener('submit', async (e) => {
     if (hadData && me) for (const n of myNotes()) if (!before.has(n.id)) toast(`💌 New note from ${n.fromName}`);
     if (!patchOnly) render();
   }, CONFIG.questionsCode, () => ({ v: 1, questions: [], notes: [] }));
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((r) => r.update()).catch(() => {});
 })();
