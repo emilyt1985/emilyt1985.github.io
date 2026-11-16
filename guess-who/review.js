@@ -1,7 +1,7 @@
 // Review page for the family question box (for you, not your parents:
 // it shows the answers). Hide anything you don't want in the quiz.
 import { CONFIG } from './config.js';
-import { connectStore } from './store.js';
+import { connectStore, mediaStore } from './store.js';
 
 const app = document.getElementById('app');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -12,6 +12,13 @@ const nameOf = (id) => FAM.find((p) => p.id === id)?.name || P.find((p) => p.id 
 const photoOf = (id) => FAM.find((p) => p.id === id)?.photo;
 const TYPE = { me: '🙋 About me', family: '👨‍👩‍👧‍👦 About the family', couple: '💞 About each other' };
 
+let mstore = null;
+const media = {};
+function mediaSrc(id) {
+  if (media[id] && media[id] !== '…') return media[id];
+  if (!media[id] && mstore) { media[id] = '…'; mstore.get(id).then((d) => { media[id] = d || 'missing'; render(); }).catch(() => { media[id] = 'missing'; render(); }); }
+  return null;
+}
 let store, data = { questions: [] }, filter = 'all';
 
 function render() {
@@ -65,7 +72,9 @@ function renderNotes(notes) {
     ${shown.length ? shown.map((n) => `
       <section class="group q-card ${n.hidden ? 'is-hidden' : ''}">
         <div class="q-top">${photoOf(n.from) ? `<span class="ask-av xs"><img src="${esc(photoOf(n.from))}" alt=""></span>` : ''}<small><b>${esc(n.fromName)}</b> · for ${esc(forWho(n.to))} · ${new Date(n.at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</small></div>
-        <p class="q-text note-body">${esc(n.text)}</p>
+        ${n.text ? `<p class="q-text note-body">${esc(n.text)}</p>` : ''}
+        ${n.photo ? ((src) => src && src !== 'missing' ? `<img class="rv-photo" src="${src}" alt="">` : `<p class="sub">${src === 'missing' ? 'Photo unavailable' : 'Loading photo…'}</p>`)(mediaSrc(n.photo)) : ''}
+        ${n.voice ? ((src) => src && src !== 'missing' ? `<audio class="rv-audio" controls preload="none" src="${src}"></audio>` : `<p class="sub">${src === 'missing' ? 'Voice note unavailable' : 'Loading voice note…'}</p>`)(mediaSrc(n.voice.id)) : ''}
         <div class="row">${n.hidden
           ? `<button class="btn tinted" data-act="nshow" data-v="${n.id}">Put Back</button><button class="btn tinted danger" data-act="ndel" data-v="${n.id}">Delete</button>`
           : `<button class="btn tinted" data-act="nhide" data-v="${n.id}">Hide</button>`}</div>
@@ -95,5 +104,6 @@ app.addEventListener('click', async (e) => {
 
 (async () => {
   render();
+  mediaStore(CONFIG).then((m) => { mstore = m; render(); });
   store = await connectStore(CONFIG, (d) => { data = d || { questions: [], notes: [] }; render(); }, CONFIG.questionsCode, () => ({ v: 1, questions: [], notes: [] }));
 })();

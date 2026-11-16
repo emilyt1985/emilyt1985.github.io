@@ -76,7 +76,7 @@ To use a picture instead of a drawing (a Memoji, say), save it in `guess-who/mem
 ## Thinking of you and family notes
 
 - **Thinking of you:** the home screen has a big "Send a heart" button and quick messages ("Miss you", "Goodnight"). The other person gets a pop-up with the sender's Memoji, plus a "Send One Back" button. Hearts that arrive while the app is closed pop up the next time it's opened. Edit the quick messages in `thinkingOfYou` in `config.js`.
-- **Family notes:** relatives open the family link (`ask.html`), choose "A note", and write to Valerie, Bobby or both. Notes appear on the home screen under "From the family", newest first, with arrows to flip through them. Hide any note from the review page (`review.html`, Notes tab).
+- **Family notes:** relatives open the family link (`ask.html`), choose "A note", and write to Valerie, Bobby or both. Notes appear on the home screen under "From the family", newest first, with arrows to flip through them. A note can include a photo (shrunk to a phone-friendly size) and a voice note up to a minute long; each is stored as its own small entry in Firestore, so no paid Firebase file storage is needed. Hide any note from the review page (`review.html`, Notes tab).
 
 ## Family Quiz question box
 

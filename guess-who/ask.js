@@ -2,7 +2,7 @@
 // Valerie and Bobby's quiz. Writes to its own document (questionsCode),
 // separate from the game.
 import { CONFIG } from './config.js';
-import { connectStore } from './store.js';
+import { connectStore, mediaStore } from './store.js';
 
 const app = document.getElementById('app');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -28,6 +28,70 @@ let type = null;                       // me | family | couple
 let mine = ls.get('gwq.mine', []);     // ids I've sent
 let store = null, data = null;
 let lastSent = null;
+let mstore = null;
+let photoData = null;                  // resized JPEG data URL
+let voice = null;                      // { data, dur, url }
+let rec = null;                        // { mr, stream, start, timer }
+const MAX_SEC = 60;
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const fmtDur = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+
+// ---- photos: shrink to fit comfortably in one database entry ----
+async function shrinkPhoto(file) {
+  const url = URL.createObjectURL(file);
+  const img = await new Promise((ok, bad) => { const i = new Image(); i.onload = () => ok(i); i.onerror = bad; i.src = url; });
+  let max = 1280, q = 0.82, out = '';
+  for (let tries = 0; tries < 6; tries++) {
+    const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    out = c.toDataURL('image/jpeg', q);
+    if (out.length < 520000) break;
+    max = Math.round(max * 0.8); q = Math.max(0.6, q - 0.06);
+  }
+  URL.revokeObjectURL(url);
+  return out;
+}
+
+// ---- voice: record up to a minute ----
+async function startRec() {
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) return alert('This phone’s browser can’t record audio. Try Safari or Chrome.');
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+  catch { return alert('To record, allow microphone access when your phone asks.'); }
+  const type = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm'].find((t) => MediaRecorder.isTypeSupported?.(t)) || '';
+  const mr = new MediaRecorder(stream, type ? { mimeType: type, audioBitsPerSecond: 32000 } : { audioBitsPerSecond: 32000 });
+  const chunks = [];
+  mr.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  mr.onstop = () => {
+    stream.getTracks().forEach((t) => t.stop());
+    const dur = Math.min(MAX_SEC, (Date.now() - rec.start) / 1000);
+    clearInterval(rec.timer); rec = null;
+    const blob = new Blob(chunks, { type: mr.mimeType || type || 'audio/mp4' });
+    if (blob.size > 560000) { alert('That recording is too long. Please keep it under a minute.'); return updateMedia(); }
+    const fr = new FileReader();
+    fr.onload = () => { voice = { data: fr.result, dur, url: URL.createObjectURL(blob) }; updateMedia(); };
+    fr.readAsDataURL(blob);
+  };
+  rec = { mr, stream, start: Date.now(), timer: setInterval(() => {
+    const t = (Date.now() - rec.start) / 1000;
+    const el = document.getElementById('rec-time'); if (el) el.textContent = fmtDur(t);
+    if (t >= MAX_SEC) rec.mr.stop();
+  }, 250) };
+  mr.start();
+  updateMedia();
+}
+
+function mediaPreview() {
+  return `${photoData ? `<div class="prev-photo"><img src="${photoData}" alt="Your photo"><button type="button" class="rm" data-act="rm-photo" aria-label="Remove photo">✕</button></div>` : ''}
+    ${rec ? `<div class="rec-live"><span class="rec-dot"></span>Recording <span id="rec-time">0:00</span><button type="button" class="btn tinted" data-act="rec">Stop</button></div>` : ''}
+    ${voice ? `<div class="prev-voice"><audio controls src="${voice.url}"></audio><button type="button" class="rm inline" data-act="rm-voice" aria-label="Remove voice note">✕</button></div>` : ''}`;
+}
+function updateMedia() {
+  const box = document.getElementById('media-prev'); if (box) box.innerHTML = mediaPreview();
+  const r = document.querySelector('[data-act=rec].rec-btn'); if (r) { r.textContent = rec ? '⏹ Stop' : voice ? '🎙️ Re-record' : '🎙️ Voice'; r.classList.toggle('on', !!rec); }
+  const ph = document.querySelector('.photo-btn span'); if (ph) ph.textContent = photoData ? 'Change' : 'Photo';
+}
 
 const TYPES = {
   note: { icon: '💌', title: 'A note', sub: `Words of love and encouragement. It pops up on their home screen.` },
@@ -80,8 +144,17 @@ function noteForm() {
         <button type="button" data-act="pick-about" data-v="${A.id}">${esc(A.name)}</button>
         <button type="button" data-act="pick-about" data-v="${B.id}">${esc(B.name)}</button></div></section>
       <p class="group-h">Your note</p>
-      <section class="group pad"><textarea id="q" class="field" rows="5" maxlength="400" required placeholder="Thinking of you both. Can’t wait to see you…"></textarea></section>
+      <section class="group pad"><textarea id="q" class="field" rows="5" maxlength="400" placeholder="Thinking of you both. Can’t wait to see you…"></textarea></section>
       <p class="group-f">A memory, an inside joke, a prayer, or just “love you”. Short and sweet is perfect.</p>
+      <p class="group-h">Add a photo or voice note (optional)</p>
+      <section class="group pad">
+        <div class="media-btns">
+          <label class="btn tinted photo-btn">📷 <span>${photoData ? 'Change' : 'Photo'}</span><input type="file" id="photo" accept="image/*" hidden></label>
+          <button type="button" class="btn tinted rec-btn" data-act="rec">${voice ? '🎙️ Re-record' : '🎙️ Voice'}</button>
+        </div>
+        <div id="media-prev">${mediaPreview()}</div>
+      </section>
+      <p class="group-f">Voice notes can be up to a minute.</p>
       <button class="btn primary wide send">Send Note</button>
     </form>`;
 }
@@ -144,23 +217,41 @@ app.addEventListener('click', (e) => {
   if (a === 'again') { step = 'type'; render(); scrollTo(0, 0); }
   if (a === 'about') { const on = el.classList.toggle('on'); document.querySelectorAll('.chip.about').forEach((c) => c !== el && c.classList.remove('on')); about = on ? v : null; }
   if (a === 'pick-about') { document.querySelectorAll('[data-act=pick-about]').forEach((c) => c.classList.toggle('on', c === el)); about = v; }
+  if (a === 'rec') { if (rec) rec.mr.stop(); else startRec(); }
+  if (a === 'rm-photo') { photoData = null; const f = document.getElementById('photo'); if (f) f.value = ''; updateMedia(); }
+  if (a === 'rm-voice') { voice = null; updateMedia(); }
+  if (a === 'back' || a === 'again') { if (rec) rec.mr.stop(); }
   if (a === 'cat') { const on = el.classList.toggle('on'); document.querySelectorAll('.chip.cat').forEach((c) => c !== el && c.classList.remove('on')); cat = on ? v : null; }
+});
+
+app.addEventListener('change', async (e) => {
+  if (e.target.id !== 'photo' || !e.target.files[0]) return;
+  const btn = document.querySelector('.photo-btn span'); if (btn) btn.textContent = 'Loading…';
+  try { photoData = await shrinkPhoto(e.target.files[0]); }
+  catch { alert('Couldn’t open that photo. Try a different one.'); }
+  updateMedia();
 });
 
 app.addEventListener('submit', async (e) => {
   e.preventDefault();
   const q = document.getElementById('q').value.trim();
-  if (!q) return;
   if (type === 'note') {
-    const note = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), from: me.id, fromName: me.name, to: about || 'both', text: q, at: Date.now(), hidden: false };
+    if (rec) return alert('Tap Stop to finish your recording first.');
+    if (!q && !photoData && !voice) return alert('Write a note, or add a photo or voice note.');
+    const note = { id: newId(), from: me.id, fromName: me.name, to: about || 'both', text: q, at: Date.now(), hidden: false };
     const btn = e.target.querySelector('.send'); btn.disabled = true; btn.textContent = 'Sending…';
     try {
+      if (photoData) { const id = newId(); await mstore.put(id, photoData); note.photo = id; }
+      if (voice) { const id = newId(); await mstore.put(id, voice.data); note.voice = { id, dur: Math.round(voice.dur) }; }
       await store.update((s) => { s.notes = s.notes || []; s.notes.push(note); });
       mine.push(note.id); ls.set('gwq.mine', mine);
-      lastSent = { q: note.text, note: true }; step = 'done'; render(); scrollTo(0, 0);
+      lastSent = { q: note.text || [note.photo && '📷 A photo', note.voice && '🎙️ A voice note'].filter(Boolean).join(' and '), note: true };
+      photoData = null; voice = null;
+      step = 'done'; render(); scrollTo(0, 0);
     } catch (err) { console.error(err); btn.disabled = false; btn.textContent = 'Send Note'; alert('Couldn’t send. Check your connection and try again.'); }
     return;
   }
+  if (!q) return;
   const item = {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
     type, q: /[?.!]$/.test(q) ? q : q + '?',
@@ -184,5 +275,6 @@ app.addEventListener('submit', async (e) => {
 
 (async () => {
   render();
+  mediaStore(CONFIG).then((m) => { mstore = m; });
   store = await connectStore(CONFIG, (d) => { data = d; }, CONFIG.questionsCode, () => ({ v: 1, questions: [], notes: [] }));
 })();

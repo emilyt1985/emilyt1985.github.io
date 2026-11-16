@@ -1,6 +1,6 @@
 import { CONFIG } from './config.js';
 import { faceSVG } from './faces.js';
-import { connectStore } from './store.js';
+import { connectStore, mediaStore } from './store.js';
 
 // ---------- holiday theme ----------
 const HOL = CONFIG.holiday;
@@ -71,6 +71,20 @@ function startOpening(kind) {
 }
 let fam = { notes: [] };   // family notes (separate document)
 let noteIdx = 0;
+let mstore = null;
+const media = {};          // id -> data URL ('…' while loading, 'missing' if gone)
+const player = new Audio();
+let playing = null;
+player.onended = () => { playing = null; render(); };
+const fmtDur = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+function mediaSrc(id) {
+  if (media[id] && media[id] !== '…') return media[id];
+  if (!media[id] && mstore) {
+    media[id] = '…';
+    mstore.get(id).then((d) => { media[id] = d || 'missing'; render(); }).catch(() => { media[id] = 'missing'; render(); });
+  }
+  return null;
+}
 let patchOnly = false; // my own flip: update card classes instead of a full re-render
 
 // ---------- card tags (for one-tap flipping) ----------
@@ -275,7 +289,12 @@ function notesCard() {
   return `<p class="group-h">From the family${unread ? ` <span class="badge">${unread} new</span>` : ''}</p>
     <section class="group pad note-card">
       <div class="note-from">${famAvatar(n)}<div><b>${esc(n.fromName)}</b><small>${ago(n.at)}${n.to === 'both' ? '' : ` · for you`}</small></div>${n.at > seen ? '<span class="dot" aria-label="new"></span>' : ''}</div>
-      <p class="note-text">${esc(n.text)}</p>
+      ${n.text ? `<p class="note-text">${esc(n.text)}</p>` : ''}
+      ${n.photo ? ((src) => src && src !== 'missing'
+        ? `<button class="note-photo" data-act="photo-full" data-v="${n.photo}" aria-label="Photo from ${esc(n.fromName)}, tap to enlarge"><img src="${src}" alt=""></button>`
+        : `<div class="note-photo loading">${src === 'missing' ? 'Photo unavailable' : 'Loading photo…'}</div>`)(mediaSrc(n.photo)) : ''}
+      ${n.voice ? `<button class="voice-btn ${playing === n.voice.id ? 'on' : ''}" data-act="play-voice" data-v="${n.voice.id}">
+          <span class="vplay">${playing === n.voice.id ? '❚❚' : '▶'}</span><span class="vlabel">Voice note from ${esc(n.fromName)}</span><span class="vdur">${fmtDur(n.voice.dur || 0)}</span></button>` : ''}
       ${list.length > 1 ? `<div class="note-nav"><button class="btn tinted" data-act="note-prev" aria-label="Previous note">‹</button><span>${i + 1} of ${list.length}</span><button class="btn tinted" data-act="note-next" aria-label="Next note">›</button></div>` : ''}
     </section>`;
 }
@@ -786,6 +805,19 @@ app.addEventListener('click', async (e) => {
       await sendPing(v); toast(`Sent to ${P(opp(me)).name} ❤️`); break;
     }
     case 'ping-back': modal = null; loveSince = null; render(); await sendPing('❤️'); toast(`Sent to ${P(opp(me)).name} ❤️`); break;
+    case 'play-voice': {
+      if (playing === v) { player.pause(); playing = null; render(); break; }
+      let src = media[v] && media[v] !== '…' ? media[v] : null;
+      if (!src && mstore) { el.querySelector('.vlabel').textContent = 'Loading…'; src = await mstore.get(v).catch(() => null); media[v] = src || 'missing'; }
+      if (!src || src === 'missing') { toast('Couldn’t load that voice note.'); render(); break; }
+      player.src = src;
+      try { await player.play(); playing = v; } catch { toast('Couldn’t play that voice note.'); }
+      render(); break;
+    }
+    case 'photo-full': {
+      const src = media[v]; if (!src || src === '…' || src === 'missing') break;
+      return confirmModal(`<img class="full-photo" src="${src}" alt=""><button class="btn tinted wide" data-act="close">Close</button>`);
+    }
     case 'note-next': noteIdx++; render(); break;
     case 'note-prev': noteIdx--; render(); break;
     case 'autoflip': {
@@ -873,6 +905,7 @@ app.addEventListener('submit', async (e) => {
     render();
   });
   render();
+  mediaStore(CONFIG).then((m) => { mstore = m; render(); });
   connectStore(CONFIG, (d) => {
     if (!d) return;
     const before = new Set((fam.notes || []).map((n) => n.id));

@@ -63,3 +63,27 @@ function localStore(cfg, onChange, docId, empty) {
     },
   };
 }
+
+// Photos and voice notes for family notes. Each is its own small document
+// (`<questionsCode>-m-<id>`, under the same security rule), kept under
+// Firestore's 1 MB per-document limit by shrinking photos and capping
+// recordings. Without Firebase they live in this browser's localStorage.
+export async function mediaStore(cfg) {
+  const key = (id) => `${cfg.questionsCode}-m-${id}`;
+  if (cfg.firebase && cfg.firebase.apiKey) {
+    try {
+      const V = '10.12.2';
+      const { initializeApp, getApps } = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
+      const fs = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`);
+      const db = fs.getFirestore(getApps()[0] || initializeApp(cfg.firebase));
+      return {
+        async put(id, data) { await fs.setDoc(fs.doc(db, 'guesswho', key(id)), { data, at: Date.now() }); },
+        async get(id) { const s = await fs.getDoc(fs.doc(db, 'guesswho', key(id))); return s.exists() ? s.data().data : null; },
+      };
+    } catch (e) { console.error('Media storage unavailable, using this device only', e); }
+  }
+  return {
+    async put(id, data) { localStorage.setItem('gw.media.' + key(id), data); },
+    async get(id) { return localStorage.getItem('gw.media.' + key(id)); },
+  };
+}

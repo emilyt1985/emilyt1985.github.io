@@ -359,6 +359,34 @@ code { background: var(--fill); padding: 1px 5px; border-radius: 5px; }
 .notes-filter { margin: 12px 0 14px; max-width: 260px; }
 .note-body { font-weight: 400; white-space: pre-wrap; }
 
+/* ---------- photos and voice notes ---------- */
+.media-btns { display: flex; gap: 10px; }
+.media-btns .btn { flex: 1; min-height: 46px; cursor: pointer; }
+.rec-btn.on { background: var(--no); color: #fff; }
+.prev-photo { position: relative; margin-top: 12px; }
+.prev-photo img { width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; display: block; }
+.rm { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(0, 0, 0, .55); color: #fff; font-size: 15px; }
+.rm.inline { position: static; flex: none; }
+.rec-live { display: flex; align-items: center; gap: 10px; margin-top: 12px; color: var(--no); font-weight: 600; font-variant-numeric: tabular-nums; }
+.rec-live .btn { margin-left: auto; min-height: 36px; padding: 0 16px; }
+.rec-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--no); animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+.prev-voice { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.prev-voice audio { flex: 1; min-width: 0; height: 40px; }
+.note-photo { display: block; width: 100%; border: 0; padding: 0; margin: 12px 0 2px; border-radius: 14px; overflow: hidden; background: var(--fill); }
+.note-photo img { width: 100%; max-height: 360px; object-fit: cover; display: block; }
+.note-photo.loading { height: 160px; display: grid; place-items: center; color: var(--muted); font-size: 14px; }
+.voice-btn { width: 100%; display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 10px 14px 10px 10px; border: 0; border-radius: 999px; background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--ink); font-size: 15px; text-align: left; }
+.vplay { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: #fff; font-size: 13px; flex: none; }
+.vlabel { flex: 1; font-weight: 600; }
+.vdur { color: var(--muted); font-variant-numeric: tabular-nums; }
+.voice-btn.on .vplay { animation: beat 1.2s var(--ease) infinite; }
+.full-photo { width: 100%; border-radius: 12px; display: block; margin-bottom: 4px; }
+.modal:has(.full-photo) { max-width: min(600px, 100%); padding: 10px 10px 4px; background: var(--panel); }
+.modal:has(.full-photo) .full-photo { max-height: 75dvh; object-fit: contain; background: #000; }
+.rv-photo { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; margin: 8px 0 4px; display: block; }
+.rv-audio { width: 100%; margin: 8px 0 2px; }
+
 /* ---------- family question box ---------- */
 .ask { padding-bottom: calc(env(safe-area-inset-bottom) + 40px); }
 .ask .nav-back { margin: 4px 0 -4px; }
