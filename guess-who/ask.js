@@ -3,6 +3,7 @@
 // separate from the game.
 import { CONFIG } from './config.js';
 import { connectStore, mediaStore } from './store.js';
+import { I } from './icons.js';
 
 const app = document.getElementById('app');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -16,7 +17,7 @@ const [A, B] = CONFIG.players;
 const COUPLE = `${A.name} & ${B.name}`;
 const FAM = CONFIG.decks[0].people.filter((p) => p.family && !/\bdog\b/.test(p.tags || '')).map((p) => ({ ...p, id: p.id || slug(p.name) }));
 const famById = (id) => FAM.find((p) => p.id === id);
-const pic = (p, cls = '') => `<span class="ask-av ${cls}">${p?.photo ? `<img src="${esc(p.photo)}" alt="">` : '🙂'}</span>`;
+const pic = (p, cls = '') => `<span class="ask-av ${cls}">${p?.photo ? `<img src="${esc(p.photo)}" alt="">` : esc(p?.name?.[0] || '')}</span>`;
 const CATS = ['Grandkids', 'Way Back When', 'Food', 'Holidays', 'Travel', 'Pets', 'Just for Fun'];
 
 const HOL = CONFIG.holiday;
@@ -83,31 +84,32 @@ async function startRec() {
 }
 
 function mediaPreview() {
-  return `${photoData ? `<div class="prev-photo"><img src="${photoData}" alt="Your photo"><button type="button" class="rm" data-act="rm-photo" aria-label="Remove photo">✕</button></div>` : ''}
-    ${rec ? `<div class="rec-live"><span class="rec-dot"></span>Recording <span id="rec-time">0:00</span><button type="button" class="btn tinted" data-act="rec">Stop</button></div>` : ''}
-    ${voice ? `<div class="prev-voice"><audio controls src="${voice.url}"></audio><button type="button" class="rm inline" data-act="rm-voice" aria-label="Remove voice note">✕</button></div>` : ''}`;
+  return `${photoData ? `<div class="prev-photo"><img src="${photoData}" alt="Your photo"><button type="button" class="rm" data-act="rm-photo" aria-label="Remove photo">${I.close}</button></div>` : ''}
+    ${rec ? `<div class="rec-live"><span class="rec-dot"></span>Recording <span id="rec-time">0:00</span><button type="button" class="btn secondary" data-act="rec">${I.stop}Stop</button></div>` : ''}
+    ${voice ? `<div class="prev-voice"><audio controls src="${voice.url}"></audio><button type="button" class="rm inline" data-act="rm-voice" aria-label="Remove voice note">${I.close}</button></div>` : ''}`;
 }
+const recLabel = () => rec ? `${I.stop}Stop` : voice ? `${I.mic}Record Again` : `${I.mic}Voice Note`;
 function updateMedia() {
   const box = document.getElementById('media-prev'); if (box) box.innerHTML = mediaPreview();
-  const r = document.querySelector('[data-act=rec].rec-btn'); if (r) { r.textContent = rec ? '⏹ Stop' : voice ? '🎙️ Re-record' : '🎙️ Voice'; r.classList.toggle('on', !!rec); }
-  const ph = document.querySelector('.photo-btn span'); if (ph) ph.textContent = photoData ? 'Change' : 'Photo';
+  const r = document.querySelector('[data-act=rec].rec-btn'); if (r) { r.innerHTML = recLabel(); r.classList.toggle('on', !!rec); }
+  const ph = document.querySelector('.photo-btn span'); if (ph) ph.textContent = photoData ? 'Change Photo' : 'Photo';
 }
 
 const TYPES = {
-  note: { icon: '💌', title: 'A note', sub: `Words of love and encouragement. It pops up on their home screen.` },
-  me: { icon: '🙋', title: 'About me', sub: `Quiz ${COUPLE} on something about you. You give the right answer.` },
-  family: { icon: '👨‍👩‍👧‍👦', title: 'About the family', sub: 'A question about someone else, a trip, a house, a tradition…' },
-  couple: { icon: '💞', title: 'About each other', sub: `${COUPLE} each answer about the other. Points if they match. No right answer needed.` },
+  note: { icon: I.note, title: 'A note', sub: `Words of love and encouragement. It pops up on their home screen.` },
+  me: { icon: I.me, title: 'About me', sub: `Quiz ${COUPLE} on something about you. You give the right answer.` },
+  family: { icon: I.family, title: 'About the family', sub: 'A question about someone else, a trip, a house, a tradition…' },
+  couple: { icon: I.couple, title: 'About each other', sub: `${COUPLE} each answer about the other. Points if they match. No right answer needed.` },
 };
 
 function render() {
-  app.innerHTML = `<div class="screen ask">${{ who, type: pickType, form, done }[step]()}</div>`;
+  app.innerHTML = `<div class="screen fam">${{ who, type: pickType, form, done }[step]()}</div>`;
   if (step === 'form') document.getElementById('q')?.focus();
 }
 
 function header(title, sub, back) {
-  return `${back ? `<button class="nav-back" data-act="${back}">‹ <span>Back</span></button>` : ''}
-    <header class="large-title"><div><p class="eyebrow">${esc(CONFIG.appTitle)} · Family Quiz</p><h1>${title}</h1></div></header>
+  return `${back ? `<button class="nav-back" data-act="${back}">${I.back}<span>Back</span></button>` : ''}
+    <header class="large-title"><div><p class="eyebrow">${esc(CONFIG.appTitle)} · Family Page</p><h1>${title}</h1></div></header>
     ${sub ? `<p class="body intro">${sub}</p>` : ''}`;
 }
 
@@ -115,7 +117,7 @@ function who() {
   return `${header('Who’s this from?', `Send <b>${esc(COUPLE)}</b> a note of love and encouragement, or a question for their family quiz. Notes show up on their home screen in the game.`)}
     <div class="who-grid">${FAM.filter((p) => p.name !== A.name && p.name !== B.name).map((p) => `
       <button class="who-tile" data-act="me" data-id="${p.id}">${pic(p)}<span>${esc(p.name)}</span></button>`).join('')}
-      <button class="who-tile" data-act="me-other"><span class="ask-av other">＋</span><span>Someone else</span></button>
+      <button class="who-tile" data-act="me-other"><span class="ask-av other">${I.plus}</span><span>Someone else</span></button>
     </div>`;
 }
 
@@ -123,34 +125,32 @@ function pickType() {
   const sent = mine.length;
   const row = ([k, t]) => `
       <button class="row-btn type-row" data-act="type" data-v="${k}"><span class="type-ico">${t.icon}</span>
-        <span class="row-text"><b>${t.title}</b><small class="wrap">${t.sub}</small></span><span class="chev">›</span></button>`;
-  return `${header(`Hi ${esc(me.name)}!`, `What would you like to send?${sent ? ` <span class="muted">You’ve sent ${sent} so far. Thank you!</span>` : ''}`)}
+        <span class="row-text"><b>${t.title}</b><small class="wrap">${t.sub}</small></span>${I.chev}</button>`;
+  return `${header(`Hi, ${esc(me.name)}`, `What would you like to send?${sent ? ` <span class="muted">You’ve sent ${sent} so far. Thank you.</span>` : ''}`)}
     <p class="group-h">Send some love</p>
     <section class="group">${row(['note', TYPES.note])}</section>
     <p class="group-h">Family quiz questions</p>
-    <section class="group">${Object.entries(TYPES).filter(([k]) => k !== 'note').map(([k, t]) => `
-      <button class="row-btn type-row" data-act="type" data-v="${k}"><span class="type-ico">${t.icon}</span>
-        <span class="row-text"><b>${t.title}</b><small class="wrap">${t.sub}</small></span><span class="chev">›</span></button>`).join('')}
+    <section class="group">${Object.entries(TYPES).filter(([k]) => k !== 'note').map(row).join('')}
     </section>
     <p class="group-f">Not ${esc(me.name)}? <a href="#" data-act="switch">Switch person</a></p>`;
 }
 
 function noteForm() {
-  return `${header('💌 A note', '', 'back')}
+  return `${header('A note', '', 'back')}
     <form data-form="q">
       <p class="group-h">Who is it for?</p>
       <section class="group pad"><div class="seg seg3">
         <button type="button" class="on" data-act="pick-about" data-v="both">Both</button>
-        <button type="button" data-act="pick-about" data-v="${A.id}">${esc(A.name)}</button>
-        <button type="button" data-act="pick-about" data-v="${B.id}">${esc(B.name)}</button></div></section>
+        <button type="button" data-act="pick-about" data-v="${A.id}" style="--pc:var(--c-${A.id})">${esc(A.name)}</button>
+        <button type="button" data-act="pick-about" data-v="${B.id}" style="--pc:var(--c-${B.id})">${esc(B.name)}</button></div></section>
       <p class="group-h">Your note</p>
       <section class="group pad"><textarea id="q" class="field" rows="5" maxlength="400" placeholder="Thinking of you both. Can’t wait to see you…"></textarea></section>
       <p class="group-f">A memory, an inside joke, a prayer, or just “love you”. Short and sweet is perfect.</p>
       <p class="group-h">Add a photo or voice note (optional)</p>
       <section class="group pad">
         <div class="media-btns">
-          <label class="btn tinted photo-btn">📷 <span>${photoData ? 'Change' : 'Photo'}</span><input type="file" id="photo" accept="image/*" hidden></label>
-          <button type="button" class="btn tinted rec-btn" data-act="rec">${voice ? '🎙️ Re-record' : '🎙️ Voice'}</button>
+          <label class="btn secondary photo-btn">${I.camera}<span>${photoData ? 'Change Photo' : 'Photo'}</span><input type="file" id="photo" accept="image/*" hidden></label>
+          <button type="button" class="btn secondary rec-btn" data-act="rec">${recLabel()}</button>
         </div>
         <div id="media-prev">${mediaPreview()}</div>
       </section>
@@ -163,7 +163,7 @@ function form() {
   if (type === 'note') return noteForm();
   const t = TYPES[type];
   const isCouple = type === 'couple';
-  return `${header(`${t.icon} ${t.title}`, '', 'back')}
+  return `${header(t.title, '', 'back')}
     <form data-form="q">
       <p class="group-h">The question</p>
       <section class="group pad">
@@ -173,8 +173,8 @@ function form() {
         ${isCouple ? `<label class="lbl top">Who is it about?</label>
           <div class="seg seg3">
             <button type="button" class="on" data-act="pick-about" data-v="either">Either</button>
-            <button type="button" data-act="pick-about" data-v="${A.id}">${esc(A.name)}</button>
-            <button type="button" data-act="pick-about" data-v="${B.id}">${esc(B.name)}</button></div>` : ''}
+            <button type="button" data-act="pick-about" data-v="${A.id}" style="--pc:var(--c-${A.id})">${esc(A.name)}</button>
+            <button type="button" data-act="pick-about" data-v="${B.id}" style="--pc:var(--c-${B.id})">${esc(B.name)}</button></div>` : ''}
       </section>
       ${isCouple ? `<p class="group-f">They each answer on their own phone, then see if they match.</p>` : `
       <p class="group-h">The right answer</p>
@@ -185,7 +185,7 @@ function form() {
         <input class="field wrong" maxlength="80" placeholder="Wrong answer 2 (optional)">
         <input class="field wrong" maxlength="80" placeholder="Wrong answer 3 (optional)">
       </section>
-      <p class="group-f">They’ll pick from all of these, shuffled. Make the wrong ones believable!</p>`}
+      <p class="group-f">They’ll pick from all of these, shuffled. Make the wrong ones believable.</p>`}
       <p class="group-h">Category</p>
       <section class="group pad"><div class="chips wrap-chips">${CATS.map((c, i) => `<button type="button" class="chip cat ${i === 0 && type !== 'couple' ? '' : ''}" data-act="cat" data-v="${c}">${c}</button>`).join('')}</div></section>
       <p class="group-h">A note for the reveal (optional)</p>
@@ -196,10 +196,10 @@ function form() {
 
 function done() {
   return `<div class="center done">
-      <div class="done-check">✓</div>
-      <h1 class="title-xl">Sent!</h1>
+      <div class="done-check">${I.check}</div>
+      ${'' /* one exclamation per screen, and only for a win */}<h1 class="title-xl">Sent</h1>
       <p class="body sent-text">“${esc(lastSent?.q)}”</p>
-      <p class="sub">${lastSent?.note ? 'It’ll pop up on their home screen in the game.' : `${esc(COUPLE)} will see it in their family quiz.`} Thank you!</p>
+      <p class="sub">${lastSent?.note ? 'It’ll pop up on their home screen in the game.' : `${esc(COUPLE)} will see it in their family quiz.`} Thank you.</p>
       <button class="btn primary wide" data-act="again">Send Another</button>
     </div>`;
 }
@@ -245,10 +245,10 @@ app.addEventListener('submit', async (e) => {
       if (voice) { const id = newId(); await mstore.put(id, voice.data); note.voice = { id, dur: Math.round(voice.dur) }; }
       await store.update((s) => { s.notes = s.notes || []; s.notes.push(note); });
       mine.push(note.id); ls.set('gwq.mine', mine);
-      lastSent = { q: note.text || [note.photo && '📷 A photo', note.voice && '🎙️ A voice note'].filter(Boolean).join(' and '), note: true };
+      lastSent = { q: note.text || [note.photo && 'A photo', note.voice && 'a voice note'].filter(Boolean).join(' and ').replace(/^a/, 'A'), note: true };
       photoData = null; voice = null;
       step = 'done'; render(); scrollTo(0, 0);
-    } catch (err) { console.error(err); btn.disabled = false; btn.textContent = 'Send Note'; alert('Couldn’t send. Check your connection and try again.'); }
+    } catch (err) { console.error(err); btn.disabled = false; btn.textContent = 'Send Note'; alert('Couldn’t reach the album. Check your Wi-Fi, then try again.'); }
     return;
   }
   if (!q) return;
@@ -269,7 +269,7 @@ app.addEventListener('submit', async (e) => {
     lastSent = item; step = 'done'; render(); scrollTo(0, 0);
   } catch (err) {
     console.error(err); btn.disabled = false; btn.textContent = 'Send Question';
-    alert('Couldn’t send. Check your connection and try again.');
+    alert('Couldn’t reach the album. Check your Wi-Fi, then try again.');
   }
 });
 

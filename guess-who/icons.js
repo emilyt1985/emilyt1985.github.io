@@ -1,0 +1,38 @@
+// Shared "inked in the margin" icon set (BRAND.md §7), used by the game and the family pages.
+// "Inked in the margin" icons: 24pt grid, 2.25 stroke, round caps, one flat fill.
+export const ic = (body, cls = '') => `<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+export const I = {
+  album: ic('<path class="f-paper" d="M5 4.5h12.5A1.5 1.5 0 0 1 19 6v13.5H6.5A1.5 1.5 0 0 1 5 18Z"/><path d="M5 17.5A1.5 1.5 0 0 1 6.5 16H19"/><rect class="f-print" x="9" y="7.5" width="6.5" height="5" stroke-width="1.6"/>'),
+  rosette: ic('<path class="f-primary" stroke-width="1.9" d="M8.5 13.5 6.5 21l3-1.6 1.6 2.4 1-6.3M15.5 13.5l2 7.5-3-1.6-1.6 2.4-1-6.3"/><circle class="f-reward" cx="12" cy="9.5" r="6"/><circle class="f-paper" cx="12" cy="9.5" r="2.6" stroke-width="1.6"/>'),
+  pencil: ic('<path class="f-paper" d="M4.5 19.5l1-4.2L15.8 5a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.7 18.5Z"/><path d="M14 6.8l3.2 3.2"/>'),
+  back: ic('<path d="M14.5 5.5 8 12l6.5 6.5"/>'),
+  chev: ic('<path d="m9.5 6 6 6-6 6"/>'),
+  lock: ic('<rect class="f-paper" x="5.5" y="10.5" width="13" height="9.5" rx="1.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><path d="M12 14.5v2" stroke-width="2.5"/>'),
+  bell: ic('<path class="f-paper" d="M6.5 16.5V11a5.5 5.5 0 0 1 11 0v5.5l1.5 1.5H5Z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/>'),
+  target: ic('<circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="4.4"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/>'),
+  turn: ic('<rect class="f-print" x="4" y="5" width="10" height="13" rx="1" transform="rotate(-8 9 11.5)"/><path class="f-paper" d="M11 7.5h7.5a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1Z"/><path d="M12.5 11h4.5M12.5 14h4.5M12.5 17h3" stroke-width="1.6"/>'),
+  couch: ic('<path class="f-paper" d="M4 11.5a2 2 0 0 1 2 2V15h12v-1.5a2 2 0 1 1 3 1.7V19H3v-3.8a2 2 0 0 1 1-3.7Z"/><path d="M6 11.5V9a2.5 2.5 0 0 1 2.5-2.5h7A2.5 2.5 0 0 1 18 9v2.5M5 19v1.5M19 19v1.5"/>'),
+  link: ic('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'),
+  heart: ic('<path class="f-primary" d="M12 20.5s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.8c0 5.5-7.5 10.1-7.5 10.1Z"/><path class="hl" d="M8.2 9.4c.6-.9 1.4-1.2 2.2-1.1" stroke-width="1.6"/>', 'hero-heart'),
+  check: ic('<path d="M5 12.6l4.2 4.1L19 7.2" stroke-width="2.75"/>'),
+  cross: ic('<path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke-width="2.75"/>'),
+  maybe: ic('<path d="M9.2 9.2a2.9 2.9 0 1 1 3.9 2.7c-.7.3-1.1.9-1.1 1.6v.5" stroke-width="2.5"/><circle cx="12" cy="17.6" r=".6" fill="currentColor" stroke-width="1.6"/>'),
+  warn: ic('<path class="f-paper" d="M12 4 21 19.5H3Z"/><path d="M12 10v4.5" stroke-width="2.5"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>'),
+  gift: ic('<rect class="f-primary" x="4" y="10" width="16" height="10" rx="1"/><rect class="f-paper" x="3" y="7" width="18" height="4" rx="1"/><path d="M12 7v13M12 7c-1.5-3.5-5.5-3.5-5-1 .3 1.2 2.5 1 5 1Zm0 0c1.5-3.5 5.5-3.5 5-1-.3 1.2-2.5 1-5 1Z"/>'),
+  play: ic('<path class="f-print" d="M8.5 6v12l9.5-6Z"/>'),
+  pause: ic('<path d="M9 6.5v11M15 6.5v11" stroke-width="3"/>'),
+  camera: ic('<path class="f-paper" d="M4 8.5h3.5L9 6h6l1.5 2.5H20v10.5H4Z"/><circle class="f-print" cx="12" cy="13.5" r="3.4"/>'),
+  sound: ic('<path class="f-paper" d="M4.5 9.5h3l4.5-4v13l-4.5-4h-3Z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>'),
+  close: ic('<path d="M7 7l10 10M17 7 7 17"/>'),
+  // family pages (ask.html, review.html)
+  note: ic('<rect class="f-print" x="3.5" y="6" width="17" height="12.5" rx="1"/><path d="m4 6.8 8 6.2 8-6.2"/><path class="f-primary" stroke-width="1.6" d="M12 18.2s-2.6-1.5-2.6-3.3a1.4 1.4 0 0 1 2.6-.8 1.4 1.4 0 0 1 2.6.8c0 1.8-2.6 3.3-2.6 3.3Z"/>'),
+  me: ic('<circle class="f-paper" cx="12" cy="8" r="3.6"/><path class="f-paper" d="M5 20.5a7 7 0 0 1 14 0Z"/>'),
+  family: ic('<circle class="f-paper" cx="8" cy="8.5" r="2.8"/><circle class="f-paper" cx="16.5" cy="9.5" r="2.3"/><path class="f-paper" d="M2.8 20a5.2 5.2 0 0 1 10.4 0Z"/><path class="f-print" d="M12.3 20a4.2 4.2 0 0 1 8.4 0Z"/>'),
+  couple: ic('<path class="f-primary" d="M9 18.5s-5.5-3.3-5.5-7.3a3.1 3.1 0 0 1 5.5-2 3.1 3.1 0 0 1 5.5 2c0 4-5.5 7.3-5.5 7.3Z"/><path class="f-paper" d="M16 15.8s3.2-2 4.2-4.3a2.3 2.3 0 0 0-4-2.1"/>'),
+  mic: ic('<rect class="f-paper" x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.8 11.5a6.2 6.2 0 0 0 12.4 0M12 17.7v3M9 20.7h6"/>'),
+  stop: ic('<rect x="7" y="7" width="10" height="10" rx="1" fill="currentColor"/>'),
+  plus: ic('<path d="M12 5.5v13M5.5 12h13" stroke-width="2.75"/>'),
+  eye: ic('<path class="f-print" d="M2.8 12S6 6 12 6s9.2 6 9.2 6-3.2 6-9.2 6-9.2-6-9.2-6Z"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/>'),
+  eyeOff: ic('<path d="M2.8 12S6 6 12 6s9.2 6 9.2 6-3.2 6-9.2 6-9.2-6-9.2-6Z"/><path d="M4.5 19.5l15-15"/>'),
+  trash: ic('<path class="f-paper" d="M6.5 7.5h11l-1 12.5h-9Z"/><path d="M4.5 7.5h15M9.5 7.5V5h5v2.5M10.5 11v5.5M13.5 11v5.5" />'),
+};

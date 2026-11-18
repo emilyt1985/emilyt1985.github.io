@@ -2,6 +2,7 @@
 // it shows the answers). Hide anything you don't want in the quiz.
 import { CONFIG } from './config.js';
 import { connectStore, mediaStore } from './store.js';
+import { I } from './icons.js';
 
 const app = document.getElementById('app');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -10,7 +11,8 @@ const FAM = CONFIG.decks[0].people.filter((p) => p.family).map((p) => ({ ...p, i
 const P = CONFIG.players;
 const nameOf = (id) => FAM.find((p) => p.id === id)?.name || P.find((p) => p.id === id)?.name || (id === 'either' ? 'either of them' : id);
 const photoOf = (id) => FAM.find((p) => p.id === id)?.photo;
-const TYPE = { me: '🙋 About me', family: '👨‍👩‍👧‍👦 About the family', couple: '💞 About each other' };
+const TYPE = { me: 'About me', family: 'About the family', couple: 'About each other' };
+const TICO = { me: I.me, family: I.family, couple: I.couple };
 
 let mstore = null;
 const media = {};
@@ -29,11 +31,11 @@ function render() {
   const live = qs.filter((q) => !q.hidden);
   const people = {};
   live.forEach((q) => { people[q.fromName] = (people[q.fromName] || 0) + 1; });
-  app.innerHTML = `<div class="screen ask">
+  app.innerHTML = `<div class="screen fam">
     <header class="large-title"><div><p class="eyebrow">Family Quiz · Review</p><h1>Questions</h1></div></header>
-    <div class="callout note"><b>Just for you.</b> This page shows the answers, so don’t share it with ${esc(P[0].name)} or ${esc(P[1].name)}.</div>
-    <section class="scorecard stats3">
-      ${['me', 'family', 'couple'].map((t) => `<div><b>${live.filter((q) => q.type === t).length}</b><small>${TYPE[t].slice(2).trim()}</small></div>`).join('')}
+    <div class="note-slip print-surface is-warning">${I.lock}<p><b>Just for you.</b> This page shows the answers, so don’t share it with ${esc(P[0].name)} or ${esc(P[1].name)}.</p></div>
+    <section class="group stats3">
+      ${['me', 'family', 'couple'].map((t) => `<div>${TICO[t]}<b>${live.filter((q) => q.type === t).length}</b><small>${TYPE[t]}</small></div>`).join('')}
     </section>
     ${Object.keys(people).length ? `<p class="group-f">From ${Object.entries(people).sort((a, b) => b[1] - a[1]).map(([n, c]) => `${esc(n)} (${c})`).join(', ')}</p>` : ''}
     ${tabs()}
@@ -45,12 +47,12 @@ function render() {
           <small><b>${esc(q.fromName)}</b> · ${TYPE[q.type]}${q.cat ? ` · ${esc(q.cat)}` : ''}${q.type !== 'me' && q.about ? ` · about ${esc(nameOf(q.about))}` : ''}</small></div>
         <p class="q-text">${esc(q.q)}</p>
         ${q.type === 'couple' ? '<p class="sub">They answer about each other. No answer key.</p>' : `
-          <ul class="q-opts"><li class="right">✓ ${esc(q.answer)}</li>${q.wrong.map((w) => `<li>✗ ${esc(w)}</li>`).join('')}</ul>`}
+          <ul class="q-opts"><li class="right">${I.check}${esc(q.answer)}</li>${q.wrong.map((w) => `<li>${I.cross}${esc(w)}</li>`).join('')}</ul>`}
         ${q.note ? `<p class="sub">Reveal note: “${esc(q.note)}”</p>` : ''}
         <div class="row">${q.hidden
-          ? `<button class="btn tinted" data-act="show" data-v="${q.id}">Put Back</button><button class="btn tinted danger" data-act="del" data-v="${q.id}">Delete</button>`
-          : `<button class="btn tinted" data-act="hide" data-v="${q.id}">Hide</button>`}</div>
-      </section>`).join('') : `<p class="sub center-text empty">${filter === 'hidden' ? 'Nothing hidden.' : 'No questions yet. Share the family link to get started!'}</p>`}
+          ? `<button class="btn secondary" data-act="show" data-v="${q.id}">${I.eye}Put Back</button><button class="btn secondary danger" data-act="del" data-v="${q.id}">${I.trash}Delete</button>`
+          : `<button class="btn secondary" data-act="hide" data-v="${q.id}">${I.eyeOff}Hide</button>`}</div>
+      </section>`).join('') : `<div class="empty-state empty">${I.album}<p class="body">${filter === 'hidden' ? 'Nothing hidden.' : 'No questions yet. Share the family link and they’ll show up here.'}</p></div>`}
   </div>`;
 }
 
@@ -64,7 +66,7 @@ function renderNotes(notes) {
   const hiddenView = filter === 'hidden-notes';
   const shown = notes.filter((x) => (hiddenView ? x.hidden : !x.hidden));
   const forWho = (t) => (t === 'both' ? `${P[0].name} & ${P[1].name}` : nameOf(t));
-  app.innerHTML = `<div class="screen ask">
+  app.innerHTML = `<div class="screen fam">
     <header class="large-title"><div><p class="eyebrow">Family Notes · Review</p><h1>Notes</h1></div></header>
     ${tabs()}
     <p class="group-f">Notes show up on ${esc(P[0].name)} and ${esc(P[1].name)}’s home screen. Hide anything you’d rather they didn’t see.</p>
@@ -76,9 +78,9 @@ function renderNotes(notes) {
         ${n.photo ? ((src) => src && src !== 'missing' ? `<img class="rv-photo" src="${src}" alt="">` : `<p class="sub">${src === 'missing' ? 'Photo unavailable' : 'Loading photo…'}</p>`)(mediaSrc(n.photo)) : ''}
         ${n.voice ? ((src) => src && src !== 'missing' ? `<audio class="rv-audio" controls preload="none" src="${src}"></audio>` : `<p class="sub">${src === 'missing' ? 'Voice note unavailable' : 'Loading voice note…'}</p>`)(mediaSrc(n.voice.id)) : ''}
         <div class="row">${n.hidden
-          ? `<button class="btn tinted" data-act="nshow" data-v="${n.id}">Put Back</button><button class="btn tinted danger" data-act="ndel" data-v="${n.id}">Delete</button>`
-          : `<button class="btn tinted" data-act="nhide" data-v="${n.id}">Hide</button>`}</div>
-      </section>`).join('') : `<p class="sub center-text empty">${hiddenView ? 'Nothing hidden.' : 'No notes yet. Share the family link!'}</p>`}
+          ? `<button class="btn secondary" data-act="nshow" data-v="${n.id}">${I.eye}Put Back</button><button class="btn secondary danger" data-act="ndel" data-v="${n.id}">${I.trash}Delete</button>`
+          : `<button class="btn secondary" data-act="nhide" data-v="${n.id}">${I.eyeOff}Hide</button>`}</div>
+      </section>`).join('') : `<div class="empty-state empty">${I.note}<p class="body">${hiddenView ? 'Nothing hidden.' : 'No notes yet. Share the family link and they’ll show up here.'}</p></div>`}
   </div>`;
 }
 
