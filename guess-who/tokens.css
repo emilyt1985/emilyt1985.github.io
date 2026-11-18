@@ -1,0 +1,114 @@
+/* ============================================================
+   tokens.css: the ONLY place raw values live (see BRAND.md).
+   style.css references these custom properties and nothing else.
+   ============================================================ */
+
+@font-face { font-family: 'Fraunces'; src: url(fonts/fraunces.woff2) format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url(fonts/source-sans-3.woff2) format('woff2'); font-weight: 200 900; font-display: swap; }
+
+:root {
+  /* ---- 3. color: core ---- */
+  --c-primary: #B4451F;        /* Hutch Orange */
+  --c-primary-deep: #963818;   /* Hutch Orange Deep (pressed) */
+  --c-secondary: #56652A;      /* Avocado */
+  --c-page: #F6EEDD;           /* Album Page */
+  --c-kraft: #E8D9BC;          /* Kraft */
+  --c-print: #FFFBF2;          /* Print White */
+  --c-ink: #2A1F18;            /* Album Ink */
+  --c-ink-soft: #6B5A4A;       /* Faded Ink */
+  /* neutrals */
+  --c-cover: #3A2A1F;          /* Cover Brown */
+  --c-tape: #2B2B2E;           /* Dymo Tape */
+  --c-paper-shadow: #CDB892;   /* Shadow Paper */
+  --c-rule: #D9C7A6;           /* Rule */
+  --c-photo-back: #F1E6CF;     /* behind a Memoji inside a print (Album Page, one step warmer) */
+  /* players */
+  --c-valerie: #A8436A;        /* Rose Print */
+  --c-bobby: #2F5F93;          /* Denim */
+  /* feedback */
+  --c-success: #3E7A4C;        /* Garden */
+  --c-warning: #9A6B0E;        /* Mustard */
+  --c-danger: #9C2F2A;         /* Brick */
+  --c-reward: #8A6212;         /* Gold Leaf */
+
+  /* ---- 4. type ---- */
+  --f-display: 'Fraunces', Georgia, serif;
+  --f-ui: 'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
+  --fs-label: 14px;   --lh-label: 1.2;   --tr-label: 0.08em;
+  --fs-caption: 15px; --lh-caption: 1.35;
+  --fs-body: 17px;    --lh-body: 1.4;
+  --fs-button: 19px;  --lh-button: 1.1;  --tr-button: 0.01em;
+  --fs-heading: 24px; --lh-heading: 1.15; --tr-heading: -0.01em;
+  --fs-title: 32px;   --lh-title: 1.05;  --tr-title: -0.02em;
+  --fs-hero: 48px;    --lh-hero: 1;      --tr-hero: -0.03em;
+  --fw-regular: 400; --fw-semibold: 600; --fw-bold: 700; --fw-display: 700; --fw-title: 800; --fw-hero: 900;
+  --soft: 'SOFT' 100, 'WONK' 0;
+  --soft-wonk: 'SOFT' 100, 'WONK' 1;
+
+  /* ---- 5. shape ---- */
+  --radius: 4px;
+  --radius-tape: 2px;
+  --corner: 14px;                     /* photo-corner leg */
+  --line: 2px solid var(--c-cover);   /* buttons, inputs, modals */
+  --line-soft: 1px solid var(--c-rule); /* cards, list rows */
+  --depth: 0 3px 0 var(--c-paper-shadow);       /* layered paper */
+  --depth-pressed: 0 1px 0 var(--c-paper-shadow);
+  --depth-button: 0 3px 0 var(--c-cover);
+  --depth-button-pressed: 0 1px 0 var(--c-cover);
+  --depth-modal: 0 6px 0 var(--c-cover);
+  --scrim: rgba(42, 31, 24, 0.55);
+  --hair: 1px; --rule-2: 2px;  /* 1pt rule, 2pt rule */
+  --press-y: 2px;               /* how far a pressed button sinks */
+  --faded: 0.55; --disabled: 0.4;    /* Album Ink at 55% behind modals */
+
+  /* ---- 6. spacing (4pt grid) ---- */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+  --touch: 48px;          /* minimum target */
+  --button-h: 56px;       /* primary button height */
+  --button-max: 360px;    /* tablet: buttons never grow wider */
+  --tabbar-h: 64px;
+  --av-xs: 24px; --av-sm: 32px; --av-md: 48px; --av-lg: 64px; --av-xl: 96px; --av-hero: 160px;
+  --ring: 3px;            /* avatar ring in the player's color */
+  --corner-sm: 10px;      /* photo corners on the small board prints */
+  --print-border: 6px;    /* white border of a board print */
+  --wordmark-tilt: -2deg; --print-tilt: -4deg;
+  --z-hud: 7; --z-dock: 8; --z-tabs: 10; --z-modal: 20; --z-toast: 30;
+
+  /* ---- 8. motion ---- */
+  --t-micro: 100ms; --t-standard: 220ms; --t-celebrate: 600ms;
+  --e-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --e-settle: cubic-bezier(0.22, 1.12, 0.36, 1);
+  --e-press: cubic-bezier(0.4, 0, 0.6, 1);
+  --press-scale: 0.96;
+}
+
+/* tablet type scale (768pt and wider) */
+@media (min-width: 768px) {
+  :root {
+    --fs-label: 16px; --fs-caption: 17px; --fs-body: 19px; --fs-button: 21px;
+    --fs-heading: 28px; --fs-title: 40px; --fs-hero: 64px;
+    --corner: 18px; --corner-sm: 12px; --print-border: 8px;
+    --av-lg: 80px; --av-xl: 128px;
+  }
+}
+
+/* dark mode: the album closed (BRAND.md §3) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-page: #3A2A1F;          /* Cover Brown as the page */
+    --c-kraft: #4A3829;         /* dark panel */
+    --c-ink: #F6EEDD;           /* Album Page as ink */
+    --c-ink-soft: #CDBBA0;
+    --c-rule: #5C4835;
+    --c-paper-shadow: #221810;
+    --c-cover: #1E150F;
+  }
+  /* prints keep their light paper and dark ink */
+  .print-surface, .btn.secondary, .btn.tinted, .chip, .secret-btn, .love-btn, .voice-btn, .field, .seg button, .switch, .rm, .who-tile, .group, .stakes, .callout {
+    --c-ink: #2A1F18; --c-ink-soft: #6B5A4A; --c-rule: #D9C7A6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-micro: 0ms; --t-standard: 0ms; --t-celebrate: 0ms; --press-scale: 1; }
+}

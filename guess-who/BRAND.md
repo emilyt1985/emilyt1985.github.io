@@ -4,7 +4,7 @@ Every UI decision in `guess-who/` traces back to this file. If a value isn't
 in here, it doesn't ship. Colors, type, spacing, radii and motion live in one
 tokens file (`tokens.css`), and nothing else hard-codes them.
 
-> **Status:** draft for approval. No screens have changed yet.
+> **Status:** approved. Fonts are self-hosted in `fonts/` (both SIL Open Font License).
 
 ---
 
@@ -223,6 +223,12 @@ sides; the bottom bar sits above the home indicator.
 - **Tablet:** the board on the right two-thirds; the turn panel on the left
   third with its primary action at the lower left, where the left thumb rests.
 
+**Breakpoints** (CSS can't read these from tokens, so they live here):
+360pt (iPhone SE and smaller: tighter side padding), 430pt (narrow phones:
+the in-game back button shows its arrow only), 500pt tall (a phone held
+sideways), 700pt wide in landscape (turn panel moves beside the album),
+768pt (tablet type scale), 1000pt × 700pt (large tablet sideways).
+
 **Touch targets:** minimum **48×48pt** (the stricter of the iOS and Android
 rules), with **8pt** between targets. Primary buttons are 56pt tall.
 
@@ -315,8 +321,8 @@ except reward:
 | Error | Dull wooden knock |
 | Reward (win, heart) | Three-note music-box chime, 600ms |
 
-Sound is **on** by default with a toggle in Settings, and follows the phone's
-silent switch.
+Sound is **off** by default (approved). Players turn it on in The Back Pages,
+and it follows the phone's silent switch.
 
 **Haptics**
 

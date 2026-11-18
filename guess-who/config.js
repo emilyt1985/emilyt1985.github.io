@@ -70,8 +70,8 @@ const PLACEHOLDERS = [
 ];
 
 export const CONFIG = {
-  appTitle: 'Guess Who?',
-  subtitle: 'Family Edition',
+  appTitle: 'Who’s That?',
+  subtitle: 'A Family Album Game',
 
   // Both phones must use the same room code. Make it hard to guess.
   roomCode: 'room-m3z6ue4cyzngrdm32z9e',
@@ -86,7 +86,7 @@ export const CONFIG = {
   holiday: {
     on: true,
     theme: 'christmas',
-    subtitle: 'Christmas Edition',
+    subtitle: 'The Christmas Album',
     logo: '🎄',
     confetti: ['❄️', '🎁', '⭐️', '🎄', '❄️', '🔔', '🎁', '⭐️'],
     // Shown once on each phone the first time it's opened.
@@ -98,8 +98,8 @@ export const CONFIG = {
     stakesIdeas: ['Loser wraps the presents', 'Winner gets the first cookie', 'Loser makes the hot cocoa', 'Winner picks the Christmas movie', 'Loser does the dishes after dinner'],
     taunts: ['🎄', '🎅', '❄️', '😏', '🤔', '😂', 'Ho ho NO 🎅', 'Someone’s on the naughty list…', 'Getting warmer… like cocoa ☕️', 'Lucky guess, Scrooge'],
     winMessages: {
-      valerie: ['Valerie sleighs it again! 🛷', 'All I want for Christmas is… another win. 🎄', 'Valerie: 1, Bobby: coal.'],
-      bobby: ['Bobby sleighs it! 🛷', 'Ho ho ho, the Closer strikes again! 🎅', 'Bobby unwraps another win. 🎁'],
+      valerie: ['Valerie sleighs it again.', 'All she wanted for Christmas was this win.', 'Valerie gets the cookie. Bobby gets coal.'],
+      bobby: ['Bobby sleighs it.', 'The Closer closes, even at Christmas.', 'Bobby unwraps another win.'],
     },
   },
 
@@ -157,8 +157,8 @@ export const CONFIG = {
 
   // Random message shown when each player wins. Write them in their voice!
   winMessages: {
-    valerie: ['Valerie cracks the case again! 🕵️‍♀️', 'Elementary, my dear Bobby.', 'Never doubt Valerie.'],
-    bobby: ['Bobby reels in another win! 🎣', 'The Closer strikes again.', 'Bobby: 1, Mystery: 0'],
+    valerie: ['Valerie cracks the case again.', 'Elementary, my dear Bobby.', 'Never doubt Valerie.'],
+    bobby: ['Bobby reels in another one.', 'The Closer closes again.', 'Bobby: 1. Mystery: 0.'],
   },
 
   // Banners on the home screen on special days (MM-DD).
