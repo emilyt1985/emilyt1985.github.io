@@ -104,7 +104,7 @@
     --c-cover: #1E150F;
   }
   /* prints keep their light paper and dark ink */
-  .print-surface, .btn.secondary, .btn.tinted, .chip, .secret-btn, .love-btn, .voice-btn, .field, .seg button, .switch, .rm, .who-tile, .group, .stakes, .callout {
+  .print-surface, .btn.secondary, .chip, .secret-btn, .love-btn, .voice-btn, .field, .seg button, .switch, .rm, .who-tile, .group, .stakes {
     --c-ink: #2A1F18; --c-ink-soft: #6B5A4A; --c-rule: #D9C7A6;
   }
 }
